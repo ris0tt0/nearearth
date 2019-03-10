@@ -6,12 +6,16 @@ import App from './App';
 import store from './store';
 import * as serviceWorker from './serviceWorker';
 import Logger from 'js-logger';
-import { fetchNEOLookup, fetchNEOBrowse } from './actions';
+import { fetchNEOLookup, fetchNEOBrowse, fetchNEOFeed } from './actions';
 
 Logger.useDefaults();
 
 // store.dispatch(fetchNEOLookup(3542519));
-store.dispatch(fetchNEOBrowse());
+// store.dispatch(fetchNEOBrowse());
+const start = new Date('2015-09-07');
+const end = new Date('2015-09-08');
+
+store.dispatch(fetchNEOFeed(start,end));
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
