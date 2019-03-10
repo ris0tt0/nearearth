@@ -10,8 +10,9 @@ import { fetchNEOLookup, fetchNEOBrowse, fetchNEOFeed } from './actions';
 
 Logger.useDefaults();
 
-// store.dispatch(fetchNEOLookup(3542519));
-// store.dispatch(fetchNEOBrowse());
+store.dispatch(fetchNEOLookup('3542519'));
+store.dispatch(fetchNEOBrowse());
+
 const start = new Date('2015-09-07');
 const end = new Date('2015-09-08');
 

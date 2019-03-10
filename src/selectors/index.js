@@ -52,3 +52,58 @@ export const neoFeedNearEarthObjects = createSelector([getNeoFeed,neoFeedRespons
 
 		return {};
 	});
+
+
+	/**
+ * The NEO BROWSE response object.
+ */
+export const neoBrowseResponse = createSelector(getNeoBrowse,browse =>
+	{
+		if(browse.result && browse.entities.response && browse.entities.response[browse.result])
+		{
+			return {...browse.entities.response[browse.result]};
+		}
+
+		return {};
+	});
+
+	//near_earth_objects
+/**
+ * The NEO BROWSE RESPONSE object near earth objects  list.
+ */
+export const neoBrowseNearEarthObjectsList = createSelector([getNeoBrowse,neoBrowseResponse],
+	(browse, response) =>
+	{
+		if( browse.result)
+		{
+			return response.near_earth_objects.map(id => browse.entities.near_earth_objects[id])
+		}
+
+		return [];
+	});
+
+/**
+ * The NEO BROWSE RESPONSE object Links data.
+ */
+export const neoBrowseLinks = createSelector([getNeoBrowse,neoBrowseResponse],
+	(browse,response) =>
+	{
+		if( browse.result)
+		{
+			return browse.entities.links[response.links];
+		}
+
+		return {};
+	});
+
+export const neoBrowsePage = createSelector([getNeoBrowse,neoBrowseResponse],
+	(browse,response) =>
+	{
+		if( browse.result)
+		{
+			return browse.entities.page[response.page];
+		}
+
+		return {};
+	});
+	//page

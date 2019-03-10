@@ -12,6 +12,13 @@ const mapStateToProps = state =>
 	return {neo,links};
 }
 
-const NeoFeedContainer = connect(mapStateToProps)(NeoFeed);
+const mapDispatchToProps = dispatch =>
+{
+	return {
+		onSelectId: id => Logger.info(id)
+	}
+}
+
+const NeoFeedContainer = connect(mapStateToProps,mapDispatchToProps)(NeoFeed);
 
 export default NeoFeedContainer;
