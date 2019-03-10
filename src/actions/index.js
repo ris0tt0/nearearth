@@ -1,3 +1,4 @@
+import { normalize, schema } from 'normalizr';
 import {getNasaApiKey} from '../utils';
 import Logger from 'js-logger'
 import { 
@@ -56,60 +57,62 @@ export function fetchNEOFeed(startDate,endDate)
 		payload:isFetching,
 	};
 }
-export function recieveNEOLookup(json){
+
+export function recieveNEOLookup(data){
+	// Logger.info('recieveNEOLookup');
+	// Logger.info(data);
 	return{
 		type:RECIEVE_NEO_LOOKUP,
-		payload:json,
+		payload:data,
 	}
 }
 
 /**
- * 
- * {
- * 	{"links":{"self":"https://api.nasa.gov/neo/rest/v1/neo/3542519?api_key=DEMO_KEY"},
- * 	"id":"3542519",
- * 	"neo_reference_id":"3542519",
- * 	"name":"(2010 PK9)",
- * 	"designation":"2010 PK9",
- * 	"nasa_jpl_url":"http://ssd.jpl.nasa.gov/sbdb.cgi?sstr=3542519",
- * 	"absolute_magnitude_h":21.8,
- * 	"estimated_diameter":{
- * 		"kilometers":{
- * 			"estimated_diameter_min":0.1160259082,
- * 			"estimated_diameter_max":0.2594418179
- * 		},
- * 		"meters":{
- * 			"estimated_diameter_min":116.0259082094,
- * 			"estimated_diameter_max":259.4418179074
- * 		},
- * 		"miles":{
- * 			"estimated_diameter_min":0.0720951346,
- * 			"estimated_diameter_max":0.1612096218
- * 		},
- * 		"feet":{
- * 			"estimated_diameter_min":380.6624406898,
- * 			"estimated_diameter_max":851.1870938635
- * 		}
- * 	},
- * 	"is_potentially_hazardous_asteroid":true,
- * 	"close_approach_data":
- * 		[
- * 			{
- * 				"close_approach_date":"1900-06-01",
- * 				"epoch_date_close_approach":-2195913600000,
- * 				"relative_velocity":{
- * 					"kilometers_per_second":"30.9416868629",
- * 					"kilometers_per_hour":"111390.072706571",
- * 					"miles_per_hour":"69213.4593437024"
- * 				},
- * 				"miss_distance":{
- * 					"astronomical":"0.0445187883",
- * 					"lunar":"17.3178081512",
- * 					"kilometers":"6659916",
- * 					"miles":"4138279.75"
- * 				},
- * 				"orbiting_body":"Merc"
- * 			}
+	{
+		{"links":{"self":"https://api.nasa.gov/neo/rest/v1/neo/3542519?api_key=DEMO_KEY"},
+		"id":"3542519",
+		"neo_reference_id":"3542519",
+		"name":"(2010 PK9)",
+		"designation":"2010 PK9",
+		"nasa_jpl_url":"http://ssd.jpl.nasa.gov/sbdb.cgi?sstr=3542519",
+		"absolute_magnitude_h":21.8,
+		"estimated_diameter":{
+			"kilometers":{
+				"estimated_diameter_min":0.1160259082,
+				"estimated_diameter_max":0.2594418179
+			},
+			"meters":{
+				"estimated_diameter_min":116.0259082094,
+				"estimated_diameter_max":259.4418179074
+			},
+			"miles":{
+				"estimated_diameter_min":0.0720951346,
+				"estimated_diameter_max":0.1612096218
+			},
+			"feet":{
+				"estimated_diameter_min":380.6624406898,
+				"estimated_diameter_max":851.1870938635
+			}
+		},
+		"is_potentially_hazardous_asteroid":true,
+		"close_approach_data":
+			[
+				{
+					"close_approach_date":"1900-06-01",
+					"epoch_date_close_approach":-2195913600000,
+					"relative_velocity":{
+						"kilometers_per_second":"30.9416868629",
+						"kilometers_per_hour":"111390.072706571",
+						"miles_per_hour":"69213.4593437024"
+					},
+					"miss_distance":{
+						"astronomical":"0.0445187883",
+						"lunar":"17.3178081512",
+						"kilometers":"6659916",
+						"miles":"4138279.75"
+					},
+					"orbiting_body":"Merc"
+				}
 			 ],
 			 "orbital_data":{
 				 "orbit_id":"18",
@@ -153,8 +156,25 @@ export function fetchNEOLookup(spkId)
 		return fetch(`https://api.nasa.gov/neo/rest/v1/neo/${spkId}?api_key=${apiKey}`)
 		.then( response => response.json(), error => Logger.error(error) )
 		.then( json => {
+			
+			const miss_distance = new schema.Entity('miss_distance',{},{idAttribute:obj => `${obj.lunar}+${obj.miles}`});
+			const relative_velocity = new schema.Entity('relative_velocity',{},{idAttribute:obj => `${obj.kilometers_per_hour}+${obj.kilometers_per_second}+${obj.miles_per_hour}`});
+			const close_approach_data = new schema.Entity('close_approach_data',{miss_distance,relative_velocity},{idAttribute:obj => `${obj.epoch_date_close_approach}+${obj.close_approach_date}`});
 
-			dispatch(recieveNEOLookup(json));
+			const orbit_class = new schema.Entity('orbit_class',{},{idAttribute:obj=>obj.orbit_class_range});
+			const orbital_data = new schema.Entity('orbital_data',{orbit_class},{idAttribute:obj => `${obj.aphelion_distance}+${obj.perihelion_distance}`});
+			const links = new schema.Entity('links',{},{idAttribute:obj => obj.self});
+			
+			const feet = new schema.Entity('feet',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}`});
+			const kilometers = new schema.Entity('kilometers',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}`});
+			const meters = new schema.Entity('meters',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}`});
+			const miles = new schema.Entity('miles',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}`});
+			const estimated_diameter = new schema.Entity('estimated_diameter',{feet,kilometers,meters,miles},{idAttribute:obj=>`${obj}Id`});
+			
+			const mySchema = new schema.Entity('response',{close_approach_data:[close_approach_data],orbital_data,links,estimated_diameter});
+			const data = normalize(json,mySchema);
+
+			dispatch(recieveNEOLookup(data));
 			dispatch(requestNEOLookup(false));
 		});
 	}

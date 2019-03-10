@@ -1,18 +1,19 @@
 import {combineReducers} from 'redux';
 import Logger from 'js-logger';
-// import { } from '../actions/ActionTypes';
+import { RECIEVE_NEO_LOOKUP } from '../actions/ActionTypes';
 
-function variable(state = '', action)
+function neoLookup(state = {},action)
 {
-	switch(action.type)
-	{
-		case "dfd":
-			return action.payloadl
+	switch(action.type){
+		case RECIEVE_NEO_LOOKUP:
+			return action.payload;
 		default:
 			return state;
-	}
+		}
 }
 
-const janeo = combineReducers({variable});
+const janeo = combineReducers({
+	neoLookup
+});
 
 export default janeo;
