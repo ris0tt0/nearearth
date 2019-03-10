@@ -6,11 +6,12 @@ import App from './App';
 import store from './store';
 import * as serviceWorker from './serviceWorker';
 import Logger from 'js-logger';
-import { fetchNEOLookup } from './actions';
+import { fetchNEOLookup, fetchNEOBrowse } from './actions';
 
 Logger.useDefaults();
 
-store.dispatch(fetchNEOLookup(3542519));
+// store.dispatch(fetchNEOLookup(3542519));
+store.dispatch(fetchNEOBrowse());
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
