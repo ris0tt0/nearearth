@@ -178,19 +178,19 @@ export function fetchNEOLookup(spkId)
 		.then( response => response.json(), error => Logger.error(error) )
 		.then( json => {
 			
-			const miss_distance = new schema.Entity('miss_distance',{},{idAttribute:obj => `${obj.lunar}+${obj.miles}`});
-			const relative_velocity = new schema.Entity('relative_velocity',{},{idAttribute:obj => `${obj.kilometers_per_hour}+${obj.kilometers_per_second}+${obj.miles_per_hour}`});
-			const close_approach_data = new schema.Entity('close_approach_data',{miss_distance,relative_velocity},{idAttribute:obj => `${obj.epoch_date_close_approach}+${obj.close_approach_date}`});
+			const miss_distance = new schema.Entity('miss_distance',{},{idAttribute:obj => `${obj.lunar}+${obj.miles}id`});
+			const relative_velocity = new schema.Entity('relative_velocity',{},{idAttribute:obj => `${obj.kilometers_per_hour}+${obj.kilometers_per_second}+${obj.miles_per_hour}id`});
+			const close_approach_data = new schema.Entity('close_approach_data',{miss_distance,relative_velocity},{idAttribute:obj => `${obj.epoch_date_close_approach}+${obj.close_approach_date}id`});
 
-			const orbit_class = new schema.Entity('orbit_class',{},{idAttribute:obj=>obj.orbit_class_range});
-			const orbital_data = new schema.Entity('orbital_data',{orbit_class},{idAttribute:obj => `${obj.aphelion_distance}+${obj.perihelion_distance}`});
-			const links = new schema.Entity('links',{},{idAttribute:obj => obj.self});
+			const orbit_class = new schema.Entity('orbit_class',{},{idAttribute:obj=>`${obj.orbit_class_range}id`});
+			const orbital_data = new schema.Entity('orbital_data',{orbit_class},{idAttribute:obj => `${obj.aphelion_distance}+${obj.perihelion_distance}id`});
+			const links = new schema.Entity('links',{},{idAttribute:obj => `${obj.self}id`});
 			
-			const feet = new schema.Entity('feet',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}`});
-			const kilometers = new schema.Entity('kilometers',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}`});
-			const meters = new schema.Entity('meters',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}`});
-			const miles = new schema.Entity('miles',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}`});
-			const estimated_diameter = new schema.Entity('estimated_diameter',{feet,kilometers,meters,miles},{idAttribute:obj=>`${obj}Id`});
+			const feet = new schema.Entity('feet',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
+			const kilometers = new schema.Entity('kilometers',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
+			const meters = new schema.Entity('meters',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
+			const miles = new schema.Entity('miles',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
+			const estimated_diameter = new schema.Entity('estimated_diameter',{feet,kilometers,meters,miles},{idAttribute:obj=>`${obj}id`});
 			
 			const mySchema = new schema.Entity('response',{close_approach_data:[close_approach_data],orbital_data,links,estimated_diameter});
 			const data = normalize(json,mySchema);
@@ -232,24 +232,24 @@ export function fetchNEOBrowse()
 		.then( json => {
 			// Logger.info(json);
 
-			const links = new schema.Entity('links',{},{idAttribute:obj => `${obj.self}Id`});
-			const page = new schema.Entity('page',{},{idAttribute:obj => `${obj.number}+${obj.size}+${obj.total_elements}+${obj.total_pages}`});
+			const links = new schema.Entity('links',{},{idAttribute:obj => `${obj.self}id`});
+			const page = new schema.Entity('page',{},{idAttribute:obj => `${obj.number}+${obj.size}+${obj.total_elements}+${obj.total_pages}id`});
 
-			const miss_distance = new schema.Entity('miss_distance',{},{idAttribute:obj => `${obj.astronomical}+${obj.kilometers}+${obj.lunar}+${obj.miles}`});
-			const relative_velocity = new schema.Entity('relative_velocity',{},{idAttribute:obj => `${obj.kilometers_per_hour}+${obj.kilometers_per_second}+${obj.miles_per_hour}`});
-			const close_approach_data = new schema.Entity('close_approach_data',{miss_distance,relative_velocity},{idAttribute:obj => `${obj.epoch_date_close_approach}+${obj.close_approach_date}`});
+			const miss_distance = new schema.Entity('miss_distance',{},{idAttribute:obj => `${obj.astronomical}+${obj.kilometers}+${obj.lunar}+${obj.miles}id`});
+			const relative_velocity = new schema.Entity('relative_velocity',{},{idAttribute:obj => `${obj.kilometers_per_hour}+${obj.kilometers_per_second}+${obj.miles_per_hour}id`});
+			const close_approach_data = new schema.Entity('close_approach_data',{miss_distance,relative_velocity},{idAttribute:obj => `${obj.epoch_date_close_approach}+${obj.close_approach_date}id`});
 			
-			const feet = new schema.Entity('feet',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}`});
-			const kilometers = new schema.Entity('kilometers',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}`});
-			const meters = new schema.Entity('meters',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}`});
-			const miles = new schema.Entity('miles',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}`});
+			const feet = new schema.Entity('feet',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
+			const kilometers = new schema.Entity('kilometers',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
+			const meters = new schema.Entity('meters',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
+			const miles = new schema.Entity('miles',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
 
-			const estimated_diameter = new schema.Entity('estimated_diameter',{feet,kilometers,meters,miles},{idAttribute:obj => `${obj.feet.estimated_diameter_max}`});
+			const estimated_diameter = new schema.Entity('estimated_diameter',{feet,kilometers,meters,miles},{idAttribute:obj => `${obj.feet.estimated_diameter_max}id`});
 
-			const orbit_class = new schema.Entity('orbit_class',{},{idAttribute:obj => `${obj.orbit_class_description}+${obj.orbit_class_range}+${obj.orbit_class_type}`})
-			const orbital_data = new schema.Entity('orbital_data',{orbit_class},{idAttribute:obj => `${obj.mean_anomaly}+${obj.mean_motion}`});
-			const near_earth_objects = new schema.Entity('near_earth_objects',{links,orbital_data,estimated_diameter,close_approach_data:[close_approach_data]},{idAttribute:obj => `${obj.designation}Id`});
-			const mySchema = new schema.Entity('response',{near_earth_objects:[near_earth_objects],links,page},{idAttribute:obj => `${obj}Id`});
+			const orbit_class = new schema.Entity('orbit_class',{},{idAttribute:obj => `${obj.orbit_class_description}+${obj.orbit_class_range}+${obj.orbit_class_type}id`})
+			const orbital_data = new schema.Entity('orbital_data',{orbit_class},{idAttribute:obj => `${obj.mean_anomaly}+${obj.mean_motion}id`});
+			const near_earth_objects = new schema.Entity('near_earth_objects',{links,orbital_data,estimated_diameter,close_approach_data:[close_approach_data]},{idAttribute:obj => `${obj.designation}id`});
+			const mySchema = new schema.Entity('response',{near_earth_objects:[near_earth_objects],links,page},{idAttribute:obj => `${obj}id`});
 			const data = normalize(json,mySchema);
 
 			// Logger.info(data);
