@@ -4,10 +4,10 @@ import Logger from 'js-logger';
 
 function headerone(title,items)
 {
-	const divs = items.map(item => <div>name: {item.name} id:{item.id}</div>);
+	const divs = items.map((item,index) => <div key={index}>name: {item.name} id:{item.id}</div>);
 
 	return(
-		<div>
+		<div key={title}>
 			<h1>{title}</h1>
 			{divs}
 		</div>
