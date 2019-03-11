@@ -36,8 +36,7 @@ NeoLookup.propTypes = {
 		is_sentry_object:PropTypes.bool.isRequired,
 		name:PropTypes.string.isRequired,
 		nasa_jpl_url:PropTypes.string.isRequired,
-		neo_reference_id:PropTypes.string.isRequired,
-	})
+		neo_reference_id:PropTypes.string.isRequired,}).isRequired,
 }
 
 export {NeoLookup}

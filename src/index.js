@@ -14,7 +14,7 @@ store.dispatch(fetchNEOLookup('3542519'));
 store.dispatch(fetchNEOBrowse());
 
 const start = new Date('2015-09-07');
-const end = new Date('2015-09-08');
+const end = new Date('2015-09-14');
 
 store.dispatch(fetchNEOFeed(start,end));
 

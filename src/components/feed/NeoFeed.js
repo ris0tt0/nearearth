@@ -14,7 +14,7 @@ function headerone(title,items)
 	);
 }
 
-function NeoFeed({links,neo}) {
+function NeoFeed({links,neo,onSelectId}) {
 
 	const h1 = Object.entries(neo).map( entry => headerone(entry[0],entry[1]));
 
@@ -26,7 +26,7 @@ function NeoFeed({links,neo}) {
 }
 
 NeoFeed.propTypes = {
-
+	onSelectId:PropTypes.func.isRequired,
 }
 
 export {NeoFeed}
