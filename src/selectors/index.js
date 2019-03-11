@@ -54,7 +54,7 @@ export const neoFeedNearEarthObjects = createSelector([getNeoFeed,neoFeedRespons
 	});
 
 
-	/**
+/**
  * The NEO BROWSE response object.
  */
 export const neoBrowseResponse = createSelector(getNeoBrowse,browse =>
@@ -67,7 +67,6 @@ export const neoBrowseResponse = createSelector(getNeoBrowse,browse =>
 		return {};
 	});
 
-	//near_earth_objects
 /**
  * The NEO BROWSE RESPONSE object near earth objects  list.
  */
@@ -90,20 +89,75 @@ export const neoBrowseLinks = createSelector([getNeoBrowse,neoBrowseResponse],
 	{
 		if( browse.result)
 		{
-			return browse.entities.links[response.links];
+			return {...browse.entities.links[response.links]};
 		}
 
 		return {};
 	});
 
+/**
+ * The NEO BROWSE RESPONSE page object
+ */
 export const neoBrowsePage = createSelector([getNeoBrowse,neoBrowseResponse],
 	(browse,response) =>
 	{
 		if( browse.result)
 		{
-			return browse.entities.page[response.page];
+			return {...browse.entities.page[response.page]};
 		}
 
 		return {};
 	});
-	//page
+
+export const neoLookupResponse = createSelector(getNeoLookup,
+	lookup =>
+	{
+		if( lookup.result)
+		{
+			return {...lookup.entities.response[lookup.result]};
+		}
+
+		return {};
+	});
+// links
+export const neoLookupLinks = createSelector([getNeoLookup,neoLookupResponse],
+	(lookup, response) =>
+	{
+		if(lookup.result)
+		{
+			return {...lookup.entities.links[response.links]};
+		}
+		return {};
+	});
+// close_approach_data
+export const neoLookupCloseApproachDataList = createSelector([getNeoLookup,neoLookupResponse],
+	(lookup, response) =>
+	{
+		if(lookup.result)
+		{
+			return response.close_approach_data.map( id => lookup.entities.close_approach_data[id] );
+		}
+		return [];
+	});
+// estimated_diameter
+export const neoLookupEstimatedDiameter = createSelector([getNeoLookup,neoLookupResponse],
+	(lookup,response) =>
+	{
+		if(lookup.result)
+		{
+			return {...lookup.entities.estimated_diameter[response.estimated_diameter]}
+		}
+
+		return {};
+	});
+// orbital_data
+export const neoLookupOrbitalData = createSelector([getNeoLookup,neoLookupResponse],
+	(lookup,response) =>
+	{
+		if(lookup.result)
+		{
+			return {...lookup.entities.orbital_data[response.orbital_data]};
+		}
+
+		return {};
+	});

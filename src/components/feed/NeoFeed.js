@@ -16,10 +16,6 @@ function headerone(title,items)
 
 function NeoFeed({links,neo}) {
 
-	Logger.info(`NeoFeed`);
-	Logger.info(links);
-	Logger.info(neo);
-
 	const h1 = Object.entries(neo).map( entry => headerone(entry[0],entry[1]));
 
 	return (
