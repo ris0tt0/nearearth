@@ -9,10 +9,6 @@ const mapStateToProps = state =>
 	const links = neoBrowseLinks(state);
 	const page = neoBrowsePage(state);
 
-	Logger.info(neos);
-	Logger.info(links);
-	Logger.info(page);
-
 	return {neos,links,page};
 }
 

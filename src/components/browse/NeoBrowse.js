@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 function NeoBrowse({neos,links,page}) {
 
+	if(!links.self) return <div></div>;
+	
 	const n = neos.map((item,index) => (
 		<div key={index}>name:{item.name} designation:{item.designation} neo ref id: {item.neo_reference_id} HAZARD:{item.is_potentially_hazardous_asteroid ? 'true' : 'false'}</div>
 		))
@@ -49,7 +51,7 @@ NeoBrowse.propTypes = {
 	links:PropTypes.shape({
 		self:PropTypes.string.isRequired,
 		next:PropTypes.string,
-		previous:PropTypes.string,
+		prev:PropTypes.string,
 	}).isRequired,
 }
 

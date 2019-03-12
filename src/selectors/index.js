@@ -4,7 +4,10 @@ import Logger from 'js-logger';
 function getNeoFeed(state){ return state.neoFeed; }
 function getNeoBrowse(state){ return state.neoBrowse; }
 function getNeoLookup(state){ return state.neoLookup; }
+function getIsFetchingFeed(state){return state.isFetchingFeed; }
 
+export const neoFeedIsFetching = createSelector(getIsFetchingFeed,
+	isFetching => isFetching);
 /**
  * The NEO FEED response object.
  */

@@ -6,7 +6,7 @@ function NeoLookup({close_approach_data,links,estimate_diameter,orbital_data,res
 
 	return (
 		<div>
-			<div>NeoLookup</div>
+			<h1>NeoLookup</h1>
 			<span>absolute magnitude h:{response.absolute_magnitude_h}</span>
 			<br />
 			<span>designation:{response.designation}</span>

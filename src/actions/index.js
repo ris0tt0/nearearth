@@ -62,7 +62,7 @@ export function fetchNEOFeed(startDate,endDate)
 			// Logger.info(data);
 
 			dispatch(recieveNEOFeed(data));
-			dispatch(requestNEOFeed(true));
+			dispatch(requestNEOFeed(false));
 		});
 	}
 }
