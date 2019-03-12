@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import Logger from 'js-logger';
-import { RECIEVE_NEO_LOOKUP, RECIEVE_NEO_BROWSE, RECIEVE_NEO_FEED, REQUEST_NEO_FEED } from '../actions/ActionTypes';
+import { RECIEVE_NEO_LOOKUP, RECIEVE_NEO_BROWSE, RECIEVE_NEO_FEED, REQUEST_NEO_FEED, REQUEST_NEO_BROWSE, REQUEST_NEO_LOOKUP } from '../actions/ActionTypes';
 
 function neoLookup(state = {},action)
 {
@@ -45,8 +45,34 @@ function isFetchingFeed(state = true, action)
 	}
 }
 
+function isFetchingBrowse(state = true, action)
+{
+	switch(action.type)
+	{
+		case REQUEST_NEO_BROWSE:
+			return action.payload;
+		default:
+			return state;
+	}
+}
+
+function isFetchingLookup(state = true, action)
+{
+	switch(action.type)
+	{
+		case REQUEST_NEO_LOOKUP:
+			return action.payload;
+		default:
+			return state;
+	}
+}
+
 const janeo = combineReducers({
+	//Flags for api call.
 	isFetchingFeed,
+	isFetchingBrowse,
+	isFetchingLookup,
+	// api results normalized
 	neoFeed,
 	neoBrowse,
 	neoLookup,

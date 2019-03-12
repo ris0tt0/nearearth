@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function NeoLookup({close_approach_data,links,estimate_diameter,orbital_data,response}) {
+function NeoLookup({isFetching,close_approach_data,links,estimate_diameter,orbital_data,response}) {
 	if(!response.id) return <div></div>;
+	if(isFetching) return <div>loading lookup</div>;
 
 	return (
 		<div>
@@ -28,6 +29,7 @@ function NeoLookup({close_approach_data,links,estimate_diameter,orbital_data,res
 }
 
 NeoLookup.propTypes = {
+	isFetching:PropTypes.bool.isRequired,
 	response:PropTypes.shape({
 		absolute_magnitude_h:PropTypes.number.isRequired,
 		designation:PropTypes.string.isRequired,
