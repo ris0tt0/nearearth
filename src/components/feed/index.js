@@ -2,25 +2,28 @@ import {connect} from 'react-redux';
 
 import Logger from 'js-logger'
 import {NeoFeed} from './NeoFeed';
-import { neoFeedLinks, neoFeedNearEarthObjects, neoFeedIsFetching } from '../../selectors';
+import { fetchNEOFeed, dateNeoFeed, fetchNEOLookup} from '../../actions/'
+import { neoFeedLinks, neoFeedNearEarthObjects, neoFeedIsFetching, neoFeedDate } from '../../selectors';
 
 const mapStateToProps = state =>
 {
 	const links = neoFeedLinks(state);
 	const neo = neoFeedNearEarthObjects(state);
 	const isFetching = neoFeedIsFetching(state);
+	const date = neoFeedDate(state);
 
-	Logger.info('index-NeoFeed');
-	Logger.info(links);
-	Logger.info(neo);
-
-	return {neo,links,isFetching};
+	return {neo,links,isFetching,date};
 }
 
 const mapDispatchToProps = dispatch =>
 {
 	return {
-		onSelectId: id => Logger.info(id)
+		onSelectId: id => dispatch(fetchNEOLookup(id)),
+		onDateChange: date => 
+		{
+			dispatch(dateNeoFeed(date))
+			dispatch(fetchNEOFeed(date));
+		},
 	}
 }
 

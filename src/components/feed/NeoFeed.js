@@ -1,10 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Logger from 'js-logger';
+import DatePicker from 'react-datepicker';
 
-function headerone(title,items)
+import 'react-datepicker/dist/react-datepicker.css';
+
+function headerone(title,items,onSelectId)
 {
-	const divs = items.map((item,index) => <div key={index}>name: {item.name} id:{item.id}</div>);
+	const divs = items.map((item,index) => 
+	{
+		return <div key={index}>name: {item.name} id:<button onClick={e =>
+			{
+				e.stopPropagation();
+				onSelectId(item.id);
+			}}>{item.id}</button></div>
+	});
 
 	return(
 		<div key={title}>
@@ -14,16 +24,20 @@ function headerone(title,items)
 	);
 }
 
-function NeoFeed({links,neo,isFetching,onSelectId}) {
+function NeoFeed({links,neo,isFetching,onSelectId,date,onDateChange}) {
 
 	// if(!links.self) return <div></div>;
 	if( isFetching ) return <div>loading</div>;
 
-	const h1 = Object.entries(neo).map( entry => headerone(entry[0],entry[1]));
+	const h1 = Object.entries(neo).map( entry => headerone(entry[0],entry[1],onSelectId));
 	const l = <div>PREV: {links.prev} SELF: {links.self} NEXT:{links.next}</div>
 	return (
 		<div>
 			<h1>NeoFeed</h1>
+			<DatePicker 
+				onChange={onDateChange}
+				selected={date}
+			/>
 			{l}
 			{h1}
 		</div>

@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function NeoBrowse({neos,links,page,isFetching}) {
+function NeoBrowse({neos,links,page,onSelectId,isFetching}) {
 
 	if(!links.self) return <div></div>;
 	if( isFetching) return <div>Loading browse</div>
 	
 	const n = neos.map((item,index) => (
-		<div key={index}>name:{item.name} designation:{item.designation} neo ref id: {item.neo_reference_id} HAZARD:{item.is_potentially_hazardous_asteroid ? 'true' : 'false'}</div>
+		<div key={index}>name:{item.name} designation:{item.designation} neo ref id:<button onClick={e=>{e.stopPropagation();onSelectId(item.neo_reference_id)}}>{item.neo_reference_id}</button>  HAZARD:{item.is_potentially_hazardous_asteroid ? 'true' : 'false'}</div>
 		))
 	const l = <div>self: {links.self}</div>
 	const p = (
@@ -34,6 +34,7 @@ function NeoBrowse({neos,links,page,isFetching}) {
 }
 
 NeoBrowse.propTypes = {
+	onSelectId:PropTypes.func.isRequired,
 	isFetching:PropTypes.bool.isRequired,
 	neos:PropTypes.arrayOf(PropTypes.shape({
 		absolute_magnitude_h:PropTypes.number.isRequired,

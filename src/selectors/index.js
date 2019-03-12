@@ -7,6 +7,7 @@ function getNeoLookup(state){ return state.neoLookup; }
 function getIsFetchingFeed(state){return state.isFetchingFeed; }
 function getIsFetchingLookup(state){return state.isFetchingLookup; }
 function getIsFetchingBrowse(state){return state.isFetchingBrowse; }
+function getNeoFeedDate(state){return state.neoFeedDate; }
 
 /**
  * API status while waiting for call to complete.
@@ -18,6 +19,9 @@ export const neoBrowseIsFetching = createSelector(getIsFetchingBrowse,
 export const neoLookupIsFetching = createSelector(getIsFetchingLookup,
 	isFetching => isFetching);
 
+
+export const neoFeedDate = createSelector(getNeoFeedDate,
+	date => date);
 /**
  * The NEO FEED response object.
  */

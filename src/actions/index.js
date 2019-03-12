@@ -4,6 +4,7 @@ import Logger from 'js-logger'
 import { 
 	REQUEST_NEO_FEED,
 	RECIEVE_NEO_FEED,
+	DATE_NEO_FEED,
 	REQUEST_NEO_LOOKUP,
 	RECIEVE_NEO_LOOKUP,
 	REQUEST_NEO_BROWSE,
@@ -29,6 +30,19 @@ export function recieveNEOFeed(data){
 	}
 }
 
+export function dateNeoFeed(date)
+{
+	return{
+		type:DATE_NEO_FEED,
+		payload:date,
+	}
+}
+
+export function fetchDateNeoFeed()
+{
+
+}
+
 export function fetchNEOFeed(startDate,endDate)
 {
 	return (dispatch,getState) =>
@@ -37,7 +51,7 @@ export function fetchNEOFeed(startDate,endDate)
 
 		const apiKey = getNasaApiKey();
 		const formattedStart = formatDateForNasaApi(startDate);
-		const formattedEnd = formatDateForNasaApi(endDate);
+		const formattedEnd = formatDateForNasaApi(startDate);
 
 		return fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${formattedStart}&end_date=${formattedEnd}&api_key=${apiKey}`)
 		.then( response => response.json(), error => Logger.error(error) )

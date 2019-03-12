@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import Logger from 'js-logger'
 import {NeoBrowse} from './NeoBrowse';
+import {fetchNEOLookup} from '../../actions/'
 import { neoBrowseNearEarthObjectsList, neoBrowseLinks, neoBrowsePage, neoBrowseIsFetching } from '../../selectors';
 
 const mapStateToProps = state =>
@@ -16,7 +17,7 @@ const mapStateToProps = state =>
 const mapDispatchToProps = dispatch =>
 {
 	return {
-		onSelectId: id => Logger.info(id)
+		onSelectId: id => dispatch(fetchNEOLookup(id))
 	}
 }
 
