@@ -1,12 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
+import CloseApproachData from './CloseApproachDataContainer';
+import EstimatedDiameter from './EstimatedDiameterContainer';
+import OrbitialData from './OrbitialDataContainer';
 
-function NeoLookup({isFetching,close_approach_data,links,estimate_diameter,orbital_data,response}) {
+function NeoLookup({isFetching,links,estimate_diameter,response}) {
 	if(!response.id) return <div></div>;
 	if(isFetching) return <div>loading lookup</div>;
 
 	return (
-		<div>
+		<div className='NeoLookup'>
 			<h1>NeoLookup</h1>
 			<span>absolute magnitude h:{response.absolute_magnitude_h}</span>
 			<br />
@@ -24,6 +27,9 @@ function NeoLookup({isFetching,close_approach_data,links,estimate_diameter,orbit
 			<br />
 			<span>neo reference id:{response.neo_reference_id}</span>
 			<br />
+			<OrbitialData />
+			<CloseApproachData />
+			<EstimatedDiameter />
 		</div>
 	)
 }
@@ -39,7 +45,7 @@ NeoLookup.propTypes = {
 		name:PropTypes.string.isRequired,
 		nasa_jpl_url:PropTypes.string.isRequired,
 		neo_reference_id:PropTypes.string.isRequired,}).isRequired,
-}
+}	
 
 export {NeoLookup}
 

@@ -152,7 +152,14 @@ export const neoLookupCloseApproachDataList = createSelector([getNeoLookup,neoLo
 	{
 		if(lookup.result)
 		{
-			return response.close_approach_data.map( id => lookup.entities.close_approach_data[id] );
+			return response.close_approach_data.map( id => 
+				{
+					const data = lookup.entities.close_approach_data[id];
+					const relative_velocity = {...lookup.entities.relative_velocity[data.relative_velocity]};
+					const miss_distance = {...lookup.entities.miss_distance[data.miss_distance]};
+
+					return {...data,relative_velocity,miss_distance};
+				} );
 		}
 		return [];
 	});
@@ -162,7 +169,13 @@ export const neoLookupEstimatedDiameter = createSelector([getNeoLookup,neoLookup
 	{
 		if(lookup.result)
 		{
-			return {...lookup.entities.estimated_diameter[response.estimated_diameter]}
+			const estimated_diameter = lookup.entities.estimated_diameter[response.estimated_diameter];
+			const feet = {...lookup.entities.feet[estimated_diameter.feet]};
+			const kilometers = {...lookup.entities.kilometers[estimated_diameter.kilometers]};
+			const meters = {...lookup.entities.meters[estimated_diameter.meters]};
+			const miles = {...lookup.entities.miles[estimated_diameter.miles]};
+			
+			return {feet,kilometers,meters,miles}
 		}
 
 		return {};
