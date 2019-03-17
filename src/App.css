@@ -2,25 +2,31 @@
   text-align: center;
 }
 
-.NeoLookup
+.ResponseData
 {
-	border-color: aquamarine;
+	/* border-color: aquamarine;
 	border-width: 1px;
-	border-style: solid;
+	border-style: solid; */
+	
+	font-size: 75%;
+	text-align: left;
 }
-.NeoLookup__title
+.ResponseData__item
 {
-	border-color: red;
-	border-width: 1px;
-	border-style: solid;
+	margin: 4px;
 }
-.NeoLookup__data
+.ResponseData__title
 {
-	border-color: royalblue;
+	/* border-color: red;
 	border-width: 1px;
-	border-style: solid;
+	border-style: solid; */
 }
-
+.ResponseData__data
+{
+	/* border-color: royalblue;
+	border-width: 1px;
+	border-style: solid; */
+}
 
 .CloseApproachData
 {
@@ -34,7 +40,7 @@
 	border-color: purple;
 	border-width: 1px;
 	border-style: solid;
-	font-size: 55%;
+	font-size: 75%;
 }
 .OrbitialData
 {

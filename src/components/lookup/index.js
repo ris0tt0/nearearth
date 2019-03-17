@@ -5,11 +5,10 @@ import { neoLookupLinks, neoLookupResponse, neoLookupIsFetching } from '../../se
 
 const mapStateToProps = state =>
 {
-	const response = neoLookupResponse(state);
 	const links = neoLookupLinks(state);
 	const isFetching = neoLookupIsFetching(state);
 
-	return {response,isFetching,links};
+	return {isFetching,links};
 }
 
 const mapDispatchToProps = dispatch =>

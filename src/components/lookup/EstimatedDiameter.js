@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 function EstimatedDiameter({feet,kilometers,meters,miles}) {
 	return (
 		<table className='EstimatedDiameter'>
-		<caption>estimated diameter</caption>
+		<caption><b>Estimated Diameter</b></caption>
 		<thead>
 			<tr>
 				<th scope="col"></th>
