@@ -4,28 +4,28 @@ import CloseApproachData from './CloseApproachDataContainer';
 import EstimatedDiameter from './EstimatedDiameterContainer';
 import OrbitialData from './OrbitialDataContainer';
 
-function NeoLookup({isFetching,links,estimate_diameter,response}) {
+function NeoLookup({isFetching,links,response}) {
 	if(!response.id) return <div></div>;
 	if(isFetching) return <div>loading lookup</div>;
 
 	return (
 		<div className='NeoLookup'>
 			<h1>NeoLookup</h1>
-			<span>absolute magnitude h:{response.absolute_magnitude_h}</span>
+			<span className='NeoLookup__title'>absolute magnitude h:</span><span className='NeoLookup__data'>{response.absolute_magnitude_h}</span>
 			<br />
-			<span>designation:{response.designation}</span>
+			<span className='NeoLookup__title'>designation:</span><span className='NeoLookup__data'>{response.designation}</span>
 			<br />
-			<span>id:{response.id}</span>
+			<span className='NeoLookup__title'>id:</span><span className='NeoLookup__data'>{response.id}</span>
 			<br />
-			<span>is potentially hazardous asteroid:{response.is_potentially_hazardous_asteroid ? 'true' : 'false'}</span>
+			<span className='NeoLookup__title'>is potentially hazardous asteroid:</span><span className='NeoLookup__data'>{response.is_potentially_hazardous_asteroid ? 'true' : 'false'}</span>
 			<br />
-			<span>is sentry object:{response.is_sentry_object ? 'true' : 'false'}</span>
+			<span className='NeoLookup__title'>is sentry object:</span><span className='NeoLookup__data'>{response.is_sentry_object ? 'true' : 'false'}</span>
 			<br />
-			<span>name:{response.name}</span>
+			<span className='NeoLookup__title'>name:</span><span className='NeoLookup__data'>{response.name}</span>
 			<br />
-			<span>nasa jpl url:{response.nasa_jpl_url}</span>
+			<span className='NeoLookup__title'>nasa jpl url:</span><span className='NeoLookup__data'>{response.nasa_jpl_url}</span>
 			<br />
-			<span>neo reference id:{response.neo_reference_id}</span>
+			<span className='NeoLookup__title'>neo reference id:</span><span className='NeoLookup__data'>{response.neo_reference_id}</span>
 			<br />
 			<OrbitialData />
 			<CloseApproachData />

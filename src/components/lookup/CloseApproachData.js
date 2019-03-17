@@ -3,30 +3,45 @@ import PropTypes from 'prop-types';
 import Logger from 'js-logger';
 
 function CloseApproachData({data}) {
-	const datas = data.map((item,index) =>
+	const rows = data.map((item,index) =>
 	{
-		return (<div key={index}>
-			<span>close approach date: {item.close_approach_date}</span>
-			<span>epoch date close approach: {item.epoch_date_close_approach}</span>
-			<span>orbiting body: {item.orbiting_body}</span>
-			<br />
-			<span>relative velocity:</span><br />
-			<span>kilometers per hour:{item.relative_velocity.kilometers_per_hour}</span>
-			<span>kilometers per second:{item.relative_velocity.kilometers_per_second}</span>
-			<span>miles per hour:{item.relative_velocity.miles_per_hour}</span>
-			<br/>
-			<span>miss distance</span>< br/>
-			<span>astronomical: {item.miss_distance.astronomical}</span>
-			<span>lunar{item.miss_distance.lunar}</span>
-			<span>kilometers{item.miss_distance.kilometers}</span>
-			<span>miles:{item.miss_distance.miles}</span>
-		</div>)
+		const d = new Date(item.epoch_date_close_approach);
+		// Logger.info(d.toString());
+
+		return (
+		<tr key={index}>
+			{/* <td>{item.close_approach_date}</td> */}
+			{/* <td>{item.epoch_date_close_approach}</td> */}
+			<td>{d.toString()}</td>
+			<td>{item.orbiting_body}</td>
+			<td>{item.relative_velocity.kilometers_per_hour}</td>
+			<td>{item.relative_velocity.kilometers_per_second}</td>
+			<td>{item.relative_velocity.miles_per_hour}</td>
+			<td>{item.miss_distance.astronomical}</td>
+			<td>{item.miss_distance.lunar}</td>
+			<td>{item.miss_distance.kilometers}</td>
+			<td>{item.miss_distance.miles}</td>
+		</tr>)
 	});
 
 	return (
-		<div className='CloseApproachData'>
-			{datas}		
-		</div>
+	<table className='CloseApproachData'>
+		<caption><b>close approach data</b></caption>
+		<thead>
+		<tr>
+			<th scope="col">close approach date</th>
+			<th scope="col">orbiting body</th>
+			<th scope="col">kilometers per hour</th>
+			<th scope="col">kilometers per second</th>
+			<th scope="col">miles per hour</th>
+			<th scope="col">astronomical</th>
+			<th scope="col">lunar</th>
+			<th scope="col">kilometers</th>
+			<th scope="col">miles</th>
+		</tr>
+		</thead>
+		<tbody>{rows}</tbody>
+	</table>
 	)
 }
 

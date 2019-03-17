@@ -4,51 +4,52 @@ import PropTypes from 'prop-types'
 function OrbitialData({orbitialData}) {
 	return (
 		<div className='OrbitialData'>
-			<span>aphelion_distance:{orbitialData.aphelion_distance}</span>
+		`<h3>Orbitial Data</h3>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>aphelion distance: </b><span className='OrbitialData__data'>{orbitialData.aphelion_distance}</span></span>
 			<br />
-			<span>ascending node longitude:{orbitialData.ascending_node_longitude}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>ascending node longitude: </b><span className='OrbitialData__data'>{orbitialData.ascending_node_longitude}</span></span>
 			<br />
-			<span>data arc in day:{orbitialData.data_arc_in_days}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>data arc in day: </b><span className='OrbitialData__data'>{orbitialData.data_arc_in_days}</span></span>
 			<br />
-			<span>eccentricity:{orbitialData.eccentricity}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>eccentricity: </b><span className='OrbitialData__data'>{orbitialData.eccentricity}</span></span>
 			<br />
-			<span>epoch osculation:{orbitialData.epoch_osculation}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>epoch osculation: </b><span className='OrbitialData__data'>{orbitialData.epoch_osculation}</span></span>
 			<br />
-			<span>equinox:{orbitialData.equinox}</span>
-			<br/>
-			<span>first observation date:{orbitialData.first_observation_date}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>equinox: </b><span className='OrbitialData__data'>{orbitialData.equinox}</span></span>
 			<br />
-			<span>inclination:{orbitialData.inclination}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>first observation date: </b><span className='OrbitialData__data'>{orbitialData.first_observation_date}</span></span>
 			<br />
-			<span>jupiter tisserand invariant:{orbitialData.jupiter_tisserand_invariant}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>inclination: </b><span className='OrbitialData__data'>{orbitialData.inclination}</span></span>
 			<br />
-			<span>last observation date:{orbitialData.last_observation_date}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>jupiter tisserand invariant: </b><span className='OrbitialData__data'>{orbitialData.jupiter_tisserand_invariant}</span></span>
 			<br />
-			<span>mean anomaly:{orbitialData.mean_anomaly}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>last observation date: </b><span className='OrbitialData__data'>{orbitialData.last_observation_date}</span></span>
 			<br />
-			<span>mean motion:{orbitialData.mean_motion}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>mean anomaly: </b><span className='OrbitialData__data'>{orbitialData.mean_anomaly}</span></span>
 			<br />
-			<span>minimum orbit intersection:{orbitialData.minimum_orbit_intersection}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>mean motion: </b><span className='OrbitialData__data'>{orbitialData.mean_motion}</span></span>
 			<br />
-			<span>oservations used:{orbitialData.observations_used}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>minimum orbit intersection: </b><span className='OrbitialData__data'>{orbitialData.minimum_orbit_intersection}</span></span>
 			<br />
-			<span>orbit class:{orbitialData.orbit_class}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>oservations used: </b><span className='OrbitialData__data'>{orbitialData.observations_used}</span></span>
 			<br />
-			<span>orbit determination date:{orbitialData.orbit_determination_date}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>orbit class: </b><span className='OrbitialData__data'>{orbitialData.orbit_class}</span></span>
 			<br />
-			<span>orbit id:{orbitialData.orbit_id}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>orbit determination date: </b><span className='OrbitialData__data'>{orbitialData.orbit_determination_date}</span></span>
 			<br />
-			<span>orbit uncertanity:{orbitialData.orbit_uncertainty}</span>
-			<br/>
-			<span>orbitial perioid:{orbitialData.orbital_period}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>orbit id: </b><span className='OrbitialData__data'>{orbitialData.orbit_id}</span></span>
 			<br />
-			<span>perihelion argument:{orbitialData.perihelion_argument}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>orbit uncertanity: </b><span className='OrbitialData__data'>{orbitialData.orbit_uncertainty}</span></span>
 			<br />
-			<span>perihelion distance:{orbitialData.perihelion_distance}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>orbitial perioid: </b><span className='OrbitialData__data'>{orbitialData.orbital_period}</span></span>
 			<br />
-			<span>perhelion time:{orbitialData.perihelion_time}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>perihelion argument: </b><span className='OrbitialData__data'>{orbitialData.perihelion_argument}</span></span>
 			<br />
-			<span>semi major axis:{orbitialData.semi_major_axis}</span>
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>perihelion distance: </b><span className='OrbitialData__data'>{orbitialData.perihelion_distance}</span></span>
+			<br />
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>perhelion time: </b><span className='OrbitialData__data'>{orbitialData.perihelion_time}</span></span>
+			<br />
+			<span className='OrbitialData__item'><b className='OrbitialData__title'>semi major axis: </b><span className='OrbitialData__data'>{orbitialData.semi_major_axis}</span></span>
 		</div>
 	)
 }

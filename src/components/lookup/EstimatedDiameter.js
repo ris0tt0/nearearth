@@ -3,28 +3,38 @@ import PropTypes from 'prop-types'
 
 function EstimatedDiameter({feet,kilometers,meters,miles}) {
 	return (
-		<div className='EstimatedDiameter'>
-			<br />
-			<span>Feet:</span>
-			<br />
-			<span>min:{feet.estimated_diameter_min}</span>
-			<span>max:{feet.estimated_diameter_max}</span>
-			<br />
-			<span>kilometers:</span>
-			<br />
-			<span>min:{kilometers.estimated_diameter_min}</span>
-			<span>max:{kilometers.estimated_diameter_max}</span>
-			<br />
-			<span>meters:</span>
-			<br />
-			<span>min:{meters.estimated_diameter_min}</span>
-			<span>max:{meters.estimated_diameter_max}</span>
-			<br />
-			<span>miles:</span>
-			<br />
-			<span>min:{miles.estimated_diameter_min}</span>
-			<span>max:{miles.estimated_diameter_max}</span>
-		</div>
+		<table className='EstimatedDiameter'>
+		<caption>estimated diameter</caption>
+		<thead>
+			<tr>
+				<th scope="col"></th>
+				<th scope="col">min</th>
+				<th scope="col">max</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr key='feet'>
+				<th scope="col">feet</th>
+				<td>{feet.estimated_diameter_min}</td>
+				<td>{feet.estimated_diameter_max}</td>
+			</tr>
+			<tr key='kilo'>
+				<th scope="col">kilometers</th>
+				<td>{kilometers.estimated_diameter_min}</td>
+				<td>{kilometers.estimated_diameter_max}</td>
+			</tr>
+			<tr key='meters'>
+				<th scope="col">meters</th>
+				<td>{meters.estimated_diameter_min}</td>
+				<td>{meters.estimated_diameter_max}</td>
+			</tr>
+			<tr key='miles'>
+				<th scope="col">miles</th>
+				<td>{miles.estimated_diameter_min}</td>
+				<td>{miles.estimated_diameter_max}</td>
+			</tr>
+		</tbody>
+		</table>
 	)
 }
 

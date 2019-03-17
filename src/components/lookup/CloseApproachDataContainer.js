@@ -5,7 +5,7 @@ import { CloseApproachData } from './CloseApproachData';
 
 const mapStateToProps = state =>
 {
-	const data = [...neoLookupCloseApproachDataList(state)];
+	const data = neoLookupCloseApproachDataList(state);
 	
 	return {data};
 };
