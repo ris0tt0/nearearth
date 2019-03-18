@@ -8,11 +8,16 @@ function CloseApproachData({data}) {
 		const d = new Date(item.epoch_date_close_approach);
 		// Logger.info(d.toString());
 
+		const longdate = new Intl.DateTimeFormat(
+			'en-US',
+			{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+				.format(d);
+
 		return (
 		<tr key={index}>
 			{/* <td>{item.close_approach_date}</td> */}
 			{/* <td>{item.epoch_date_close_approach}</td> */}
-			<td>{d.toString()}</td>
+			<td>{longdate}</td>
 			<td>{item.orbiting_body}</td>
 			<td>{item.relative_velocity.kilometers_per_hour}</td>
 			<td>{item.relative_velocity.kilometers_per_second}</td>

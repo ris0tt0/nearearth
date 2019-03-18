@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 function OrbitialData({orbitialData}) {
 	return (
 		<div className='OrbitialData'>
-		`<h3>Orbitial Data</h3>
+			<h3>Orbitial Data</h3>
 			<span className='OrbitialData__item'><b className='OrbitialData__title'>aphelion distance: </b><span className='OrbitialData__data'>{orbitialData.aphelion_distance}</span></span>
 			<br />
 			<span className='OrbitialData__item'><b className='OrbitialData__title'>ascending node longitude: </b><span className='OrbitialData__data'>{orbitialData.ascending_node_longitude}</span></span>
