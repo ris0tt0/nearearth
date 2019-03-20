@@ -3,11 +3,14 @@ import {getNasaApiKey, formatDateForNasaApi} from '../utils';
 import Logger from 'js-logger'
 import { 
 	REQUEST_NEO_FEED,
+	REQUEST_ERROR_NEO_FEED,
 	RECIEVE_NEO_FEED,
 	DATE_NEO_FEED,
 	REQUEST_NEO_LOOKUP,
+	REQUEST_ERROR_NEO_LOOKUP,
 	RECIEVE_NEO_LOOKUP,
 	REQUEST_NEO_BROWSE,
+	REQUEST_ERROR_NEO_BROWSE,
 	RECIEVE_NEO_BROWSE,
  } from './ActionTypes';
 
@@ -27,6 +30,14 @@ export function recieveNEOFeed(data){
 	return{
 		type:RECIEVE_NEO_FEED,
 		payload:data,
+	}
+}
+
+export function requestErrorNEOFeed(error)
+{
+	return {
+		type:REQUEST_ERROR_NEO_FEED,
+		payload:error,
 	}
 }
 
@@ -55,12 +66,12 @@ export function fetchNEOFeed(startDate,endDate,linkApiUrl)
 
 		const url = linkApiUrl ? linkApiUrl : `https://api.nasa.gov/neo/rest/v1/feed?start_date=${formattedStart}&end_date=${formattedEnd}&api_key=${apiKey}`;
 
-
 		return fetch(url)
-		.then( response => response.json(), error => Logger.error(error) )
+		.then( response => response.json(), error => dispatch(requestErrorNEOFeed(error)) )
 		.then( json => {
 
-			// Logger.info(json);
+			// if(json)
+			Logger.info(json);
 
 			const links = new schema.Entity('links',{},{idAttribute:obj => `${obj.self}id`});
 			const miss_distance = new schema.Entity('miss_distance',{},{idAttribute:obj => `${obj.astronomical}+${obj.kilometers}+${obj.lunar}+${obj.miles}id`});
@@ -94,6 +105,13 @@ export function fetchNEOFeed(startDate,endDate,linkApiUrl)
 		type:REQUEST_NEO_LOOKUP,
 		payload:isFetching,
 	};
+}
+
+export function requestErrorNEOLookup(error){
+	return{
+		type:REQUEST_ERROR_NEO_LOOKUP,
+		payload:error,
+	}
 }
 
 export function recieveNEOLookup(data){
@@ -192,7 +210,7 @@ export function fetchNEOLookup(spkId)
 		const apiKey = getNasaApiKey();
 
 		return fetch(`https://api.nasa.gov/neo/rest/v1/neo/${spkId}?api_key=${apiKey}`)
-		.then( response => response.json(), error => Logger.error(error) )
+		.then( response => response.json(), error => dispatch(requestErrorNEOLookup(error)) )
 		.then( json => {
 			
 			const miss_distance = new schema.Entity('miss_distance',{},{idAttribute:obj => `${obj.lunar}+${obj.miles}id`});
@@ -229,6 +247,14 @@ export function requestNEOBrowse(isFetching){
 		payload:isFetching,
 	};
 }
+
+export function requestErrorNEOBrowse(error){
+	return {
+		type:REQUEST_ERROR_NEO_BROWSE,
+		payload:error,
+	}
+}
+
 export function recieveNEOBrowse(data){
 	return{
 		type:RECIEVE_NEO_BROWSE,
@@ -251,7 +277,7 @@ export function fetchNEOBrowse(apiLink)
 		const url = apiLink ? apiLink : `https://api.nasa.gov/neo/rest/v1/neo/browse/?api_key=${apiKey}`;
 
 		return fetch(url)
-		.then( response => response.json(), error => Logger.error(error) )
+		.then( response => response.json(), error => dispatch(requestErrorNEOBrowse(error)) )
 		.then( json => {
 			// Logger.info(json);
 
