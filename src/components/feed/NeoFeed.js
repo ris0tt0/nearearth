@@ -2,44 +2,62 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Logger from 'js-logger';
 import DatePicker from 'react-datepicker';
-
 import 'react-datepicker/dist/react-datepicker.css';
 
-function headerone(title,items,onSelectId)
+function createneotable(neos,onSelectId)
 {
-	const divs = items.map((item,index) => 
-	{
-		return <div key={index}>name: {item.name} id:<button onClick={e =>
-			{
-				e.stopPropagation();
-				onSelectId(item.id);
-			}}>{item.id}</button></div>
-	});
+	const neotablerows = neos.map((item,index) => (
+		<tr key={index}>
+			<td>{item.absolute_magnitude_h}</td>
+			<td>{item.is_potentially_hazardous_asteroid ? <b>true</b> : 'false'}</td>
+			<td>{item.is_sentry_object ? <b>true</b> : 'false'}</td>
+			<td>{item.name}</td>
+			<td><a href={item.nasa_jpl_url}>{item.nasa_jpl_url}</a></td>
+			<td><button onClick={() => onSelectId(item.neo_reference_id)}>{item.neo_reference_id}</button></td>
+		</tr>
+	));
 
-	return(
-		<div key={title}>
-			<h2>{title}</h2>
-			{divs}
-		</div>
+	const neotable = (
+		<table>
+			<tr>
+				<th>Absolute magnitude h</th>
+				<th>is potentially hazardous asteroid</th>
+				<th>Is sentry object</th>
+				<th>Name</th>
+				<th>Nasa jpl url</th>
+				<th>NEO reference id</th>
+			</tr>
+			{neotablerows}
+		</table>
+	);
+
+	return neotable;
+}
+function neotable(title,neos,onSelectId)
+{
+	const neotable = createneotable(neos,onSelectId);
+
+	return (
+	<div><h1>{title}</h1>{neotable}</div>
 	);
 }
 
+
 function NeoFeed({links,neo,isFetching,onSelectId,date,onDateChange,onLinkApi}) {
 
-	// if(!links.self) return <div></div>;
 	if( isFetching ) return <div>loading</div>;
 
-	const h1 = Object.entries(neo).map( entry => headerone(entry[0],entry[1],onSelectId));
+	const neotables = Object.entries(neo).map( entry => neotable(entry[0],entry[1],onSelectId));
 	const l = <div><button onClick={() => onLinkApi(links.prev)}>PREV</button><button onClick={() => onLinkApi(links.next)}>NEXT</button></div>
 	return (
-		<div>
+		<div className='NeoFeed'>
 			<h1>NeoFeed</h1>
 			<DatePicker 
 				onChange={onDateChange}
 				selected={date}
 			/>
 			{l}
-			{h1}
+			{neotables}
 		</div>
 	)
 }

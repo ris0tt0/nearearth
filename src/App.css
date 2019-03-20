@@ -80,6 +80,34 @@
 	border-style: solid; */
 }
 
+.NeoFeed
+{
+	border-color: lightblue;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.NeoFeed table
+{
+	border-color: blue;
+	border-width: 1px;
+	border-style: solid;
+	font-size: 65%;
+	/* border-collapse: collapse; */
+}
+.NeoFeed table th
+{
+	border-color: black;
+	border-width: 1px;
+	border-style: solid;
+}
+.NeoFeed table td
+{
+	border-color: black;
+	border-width: 1px;
+	border-style: solid;
+}
+
 .NeoBrowse
 {
 	border-color: lightblue;
