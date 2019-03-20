@@ -33,7 +33,7 @@
 	border-color: blue;
 	border-width: 1px;
 	border-style: solid;
-	font-size: 55%;
+	font-size: 65%;
 }
 .EstimatedDiameter
 {
@@ -44,9 +44,9 @@
 }
 .OrbitialData
 {
-	border-color: pink;
+	/* border-color: pink;
 	border-width: 1px;
-	border-style: solid;
+	border-style: solid; */
 	font-size: 75%;
 	text-align: left;
 }
@@ -78,4 +78,58 @@
 	/* border-color: pink;
 	border-width: 1px;
 	border-style: solid; */
+}
+
+.NeoBrowse
+{
+	border-color: lightblue;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.NeoBrowse table
+{
+	border-color: blue;
+	border-width: 1px;
+	border-style: solid;
+	font-size: 65%;
+	/* border-collapse: collapse; */
+}
+.NeoBrowse table th
+{
+	border-color: black;
+	border-width: 1px;
+	border-style: solid;
+}
+.NeoBrowse table td
+{
+	border-color: black;
+	border-width: 1px;
+	border-style: solid;
+}
+
+
+.NeoBrowse__details
+{
+	border-color: lightgoldenrodyellow;
+	border-width: 1px;
+	border-style: solid;
+	text-align: left;
+	padding: 10px;
+}
+
+.NeoBrowse__links
+{
+	border-color: lightseagreen;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.NeoBrowse__item
+{
+	border-color: lightseagreen;
+	border-width: 1px;
+	border-style: solid;
+
+	text-align: left;
 }

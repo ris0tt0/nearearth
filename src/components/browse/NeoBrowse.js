@@ -1,17 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function NeoBrowse({neos,links,page,onSelectId,isFetching}) {
+function NeoBrowse({neos,links,page,onSelectId,isFetching,onLinkApi}) {
 
 	if(!links.self) return <div></div>;
 	if( isFetching) return <div>Loading browse</div>
 	
-	const n = neos.map((item,index) => (
-		<div key={index}>name:{item.name} designation:{item.designation} neo ref id:<button onClick={e=>{e.stopPropagation();onSelectId(item.neo_reference_id)}}>{item.neo_reference_id}</button>  HAZARD:{item.is_potentially_hazardous_asteroid ? 'true' : 'false'}</div>
-		))
-	const l = <div>self: {links.self}</div>
-	const p = (
-			<div>
+	const linkselement = <div className='NeoBrowse__links'>{links.prev ? <button onClick={() => onLinkApi(links.prev)}>PREV</button> : '' } {links.next ? <button onClick={() => onLinkApi(links.next)}>NEXT</button> : ''}</div>
+
+	const detailselement = (
+			<div className='NeoBrowse__details'>
 				<span>number: {page.number}</span>
 				<br />
 				<span>size: {page.size}</span>
@@ -22,15 +20,39 @@ function NeoBrowse({neos,links,page,onSelectId,isFetching}) {
 				<br />
 			</div>)
 	
+	const neotablerows = neos.map((item,index) => (
+		<tr key={index}>
+			<td>{item.absolute_magnitude_h}</td>
+			<td>{item.designation}</td>
+			<td>{item.is_potentially_hazardous_asteroid ? <b>true</b> : 'false'}</td>
+			<td>{item.is_sentry_object ? <b>true</b> : 'false'}</td>
+			<td>{item.name}</td>
+			<td><a href={item.nasa_jpl_url}>{item.nasa_jpl_url}</a></td>
+			<td><button onClick={() => onSelectId(item.neo_reference_id)}>{item.neo_reference_id}</button></td>
+		</tr>
+	));
+
+	const neotable = (
+		<table>
+			<tr>
+				<th>Absolute magnitude h</th>
+				<th>Designation</th>
+				<th>is potentially hazardous asteroid</th>
+				<th>Is sentry object</th>
+				<th>Name</th>
+				<th>Nasa jpl url</th>
+				<th>NEO reference id</th>
+			</tr>
+			{neotablerows}
+		</table>);
+
 	return (
-		<div>
-			<h2>NeoBrowse</h2>
-			{l}
-			{p}
-			<div>List of Near Earch Objects:</div>
-			{n}
+		<div className='NeoBrowse'>
+			{linkselement}
+			{detailselement}
+			{neotable}
 		</div>
-	)
+	);
 }
 
 NeoBrowse.propTypes = {

@@ -24,13 +24,13 @@ function headerone(title,items,onSelectId)
 	);
 }
 
-function NeoFeed({links,neo,isFetching,onSelectId,date,onDateChange}) {
+function NeoFeed({links,neo,isFetching,onSelectId,date,onDateChange,onLinkApi}) {
 
 	// if(!links.self) return <div></div>;
 	if( isFetching ) return <div>loading</div>;
 
 	const h1 = Object.entries(neo).map( entry => headerone(entry[0],entry[1],onSelectId));
-	const l = <div>PREV: {links.prev} SELF: {links.self} NEXT:{links.next}</div>
+	const l = <div><button onClick={() => onLinkApi(links.prev)}>PREV</button><button onClick={() => onLinkApi(links.next)}>NEXT</button></div>
 	return (
 		<div>
 			<h1>NeoFeed</h1>
@@ -45,6 +45,7 @@ function NeoFeed({links,neo,isFetching,onSelectId,date,onDateChange}) {
 }
 
 NeoFeed.propTypes = {
+	onLinkApi:PropTypes.func.isRequired,
 	onSelectId:PropTypes.func.isRequired,
 	// object of arrays of Near Earth Object
 	neo:PropTypes.objectOf(PropTypes.arrayOf(PropTypes.shape({

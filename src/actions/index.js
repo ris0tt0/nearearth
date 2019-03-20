@@ -38,12 +38,12 @@ export function dateNeoFeed(date)
 	}
 }
 
-export function fetchDateNeoFeed()
+export function fetchLinkNeoFeed(linkApiUrl)
 {
-
+	return fetchNEOFeed(null,null,linkApiUrl);
 }
 
-export function fetchNEOFeed(startDate,endDate)
+export function fetchNEOFeed(startDate,endDate,linkApiUrl)
 {
 	return (dispatch,getState) =>
 	{
@@ -53,7 +53,10 @@ export function fetchNEOFeed(startDate,endDate)
 		const formattedStart = formatDateForNasaApi(startDate);
 		const formattedEnd = formatDateForNasaApi( endDate ? endDate : startDate);
 
-		return fetch(`https://api.nasa.gov/neo/rest/v1/feed?start_date=${formattedStart}&end_date=${formattedEnd}&api_key=${apiKey}`)
+		const url = linkApiUrl ? linkApiUrl : `https://api.nasa.gov/neo/rest/v1/feed?start_date=${formattedStart}&end_date=${formattedEnd}&api_key=${apiKey}`;
+
+
+		return fetch(url)
 		.then( response => response.json(), error => Logger.error(error) )
 		.then( json => {
 
@@ -233,15 +236,21 @@ export function recieveNEOBrowse(data){
 	}
 }
 
-export function fetchNEOBrowse()
+export function fetchLinkNEOBrowse(apiLink)
+{
+	return fetchNEOBrowse(apiLink);
+}
+
+export function fetchNEOBrowse(apiLink)
 {
 	return (dispatch,getState) =>
 	{
 		dispatch(requestNEOBrowse(true));
 
 		const apiKey = getNasaApiKey();
+		const url = apiLink ? apiLink : `https://api.nasa.gov/neo/rest/v1/neo/browse/?api_key=${apiKey}`;
 
-		return fetch(`https://api.nasa.gov/neo/rest/v1/neo/browse/?api_key=${apiKey}`)
+		return fetch(url)
 		.then( response => response.json(), error => Logger.error(error) )
 		.then( json => {
 			// Logger.info(json);
