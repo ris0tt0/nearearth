@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import {string,number,func,bool,arrayOf,shape} from 'prop-types';
 
 function NeoBrowse({neos,links,page,onSelectId,isFetching,onLinkApi}) {
 
@@ -56,27 +56,27 @@ function NeoBrowse({neos,links,page,onSelectId,isFetching,onLinkApi}) {
 }
 
 NeoBrowse.propTypes = {
-	onSelectId:PropTypes.func.isRequired,
-	isFetching:PropTypes.bool.isRequired,
-	neos:PropTypes.arrayOf(PropTypes.shape({
-		absolute_magnitude_h:PropTypes.number.isRequired,
-		designation:PropTypes.string.isRequired,
-		is_potentially_hazardous_asteroid:PropTypes.bool.isRequired,
-		is_sentry_object:PropTypes.bool.isRequired,
-		name:PropTypes.string.isRequired,
-		nasa_jpl_url:PropTypes.string.isRequired,
-		neo_reference_id:PropTypes.string.isRequired,
+	onSelectId:func.isRequired,
+	isFetching:bool.isRequired,
+	neos:arrayOf(shape({
+		absolute_magnitude_h:number.isRequired,
+		designation:string.isRequired,
+		is_potentially_hazardous_asteroid:bool.isRequired,
+		is_sentry_object:bool.isRequired,
+		name:string.isRequired,
+		nasa_jpl_url:string.isRequired,
+		neo_reference_id:string.isRequired,
 	})).isRequired,
-	page:PropTypes.shape({
-		number:PropTypes.number.isRequired,
-		size:PropTypes.number.isRequired,
-		total_elements:PropTypes.number.isRequired,
-		total_pages:PropTypes.number.isRequired,
+	page:shape({
+		number:number.isRequired,
+		size:number.isRequired,
+		total_elements:number.isRequired,
+		total_pages:number.isRequired,
 	}).isRequired,
-	links:PropTypes.shape({
-		self:PropTypes.string.isRequired,
-		next:PropTypes.string,
-		prev:PropTypes.string,
+	links:shape({
+		self:string.isRequired,
+		next:string,
+		prev:string,
 	}).isRequired,
 }
 
