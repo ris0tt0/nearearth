@@ -30,23 +30,25 @@ function CloseApproachData({data}) {
 	});
 
 	return (
-	<table className='CloseApproachData'>
-		<caption><b>close approach data</b></caption>
-		<thead>
-		<tr>
-			<th scope="col">close approach date</th>
-			<th scope="col">orbiting body</th>
-			<th scope="col">kilometers per hour</th>
-			<th scope="col">kilometers per second</th>
-			<th scope="col">miles per hour</th>
-			<th scope="col">astronomical</th>
-			<th scope="col">lunar</th>
-			<th scope="col">kilometers</th>
-			<th scope="col">miles</th>
-		</tr>
-		</thead>
-		<tbody>{rows}</tbody>
-	</table>
+	<div className='CloseApproachData'>
+		<table>
+			<caption><b>Close Approach Data</b></caption>
+			<thead>
+			<tr>
+				<th scope="col">close approach date</th>
+				<th scope="col">orbiting body</th>
+				<th scope="col">kilometers per hour</th>
+				<th scope="col">kilometers per second</th>
+				<th scope="col">miles per hour</th>
+				<th scope="col">astronomical</th>
+				<th scope="col">lunar</th>
+				<th scope="col">kilometers</th>
+				<th scope="col">miles</th>
+			</tr>
+			</thead>
+			<tbody>{rows}</tbody>
+		</table>
+	</div>
 	)
 }
 

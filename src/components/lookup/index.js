@@ -1,13 +1,13 @@
 import {connect} from 'react-redux';
 import Logger from 'js-logger'
 import {NeoLookup} from './NeoLookup'
-import { neoLookupLinks, neoLookupResponse, neoLookupIsFetching } from '../../selectors';
+import { neoLookupLinks, neoLookupIsFetching } from '../../selectors';
 
 const mapStateToProps = state =>
 {
 	const links = neoLookupLinks(state);
 	const isFetching = neoLookupIsFetching(state);
-
+	
 	return {isFetching,links};
 }
 

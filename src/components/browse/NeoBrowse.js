@@ -34,20 +34,26 @@ function NeoBrowse({neos,links,page,onSelectId,isFetching,onLinkApi}) {
 
 	const neotable = (
 		<table>
-			<tr>
-				<th>Absolute magnitude h</th>
-				<th>Designation</th>
-				<th>is potentially hazardous asteroid</th>
-				<th>Is sentry object</th>
-				<th>Name</th>
-				<th>Nasa jpl url</th>
-				<th>NEO reference id</th>
-			</tr>
-			{neotablerows}
+			<caption><b>NEAR EARTH OBJECTS</b></caption>
+			<thead>
+				<tr>
+					<th>Absolute magnitude h</th>
+					<th>Designation</th>
+					<th>is potentially hazardous asteroid</th>
+					<th>Is sentry object</th>
+					<th>Name</th>
+					<th>Nasa jpl url</th>
+					<th>NEO reference id</th>
+				</tr>
+			</thead>
+			<tbody>
+				{neotablerows}
+			</tbody>
 		</table>);
 
 	return (
 		<div className='NeoBrowse'>
+			<h1>Near Earth Object Browse</h1>
 			{linkselement}
 			{detailselement}
 			{neotable}

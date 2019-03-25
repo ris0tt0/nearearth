@@ -1,26 +1,37 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {bool,shape,string} from 'prop-types';
 import CloseApproachData from './CloseApproachDataContainer';
 import EstimatedDiameter from './EstimatedDiameterContainer';
 import OrbitialData from './OrbitialDataContainer';
 import ResponseData from './ResponseDataContainer';
+import Logger from 'js-logger';
 
 function NeoLookup({isFetching,links}) {
-	if(isFetching) return <div>loading lookup</div>;
+	if(!links.self) return <div></div>
+	if(isFetching) return <div>Loading</div>;
 
 	return (
 		<div className='NeoLookup'>
 			<h1>Near Earth Object Lookup</h1>
-			<ResponseData />
-			<EstimatedDiameter />
-			<OrbitialData />
-			<CloseApproachData />
+			<div className='NeoLookup__Content'>
+				<div className='NeoLookup__Panel'>
+					<ResponseData />
+					<EstimatedDiameter />
+				</div>
+				<OrbitialData />
+				<CloseApproachData />
+			</div>
 		</div>
 	)
 }
 
 NeoLookup.propTypes = {
-	isFetching:PropTypes.bool.isRequired,
+	isFetching:bool.isRequired,
+	links:shape({
+		self:string.isRequired,
+		next:string,
+		prev:string,
+	}).isRequired,
 }	
 
 export {NeoLookup}

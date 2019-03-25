@@ -10,13 +10,12 @@ import { fetchNEOLookup, fetchNEOBrowse, fetchNEOFeed } from './actions';
 
 Logger.useDefaults();
 
-store.dispatch(fetchNEOLookup('3542519'));
+// store.dispatch(fetchNEOLookup('3542519'));
 store.dispatch(fetchNEOBrowse());
 
-const start = new Date('2015-09-07');
-const end = new Date('2015-09-14');
-
-store.dispatch(fetchNEOFeed(start,end));
+// auto load today.
+const d = new Date();
+store.dispatch(fetchNEOFeed(d,d));
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 

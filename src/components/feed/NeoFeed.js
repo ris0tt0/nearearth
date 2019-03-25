@@ -12,13 +12,15 @@ function createneotable(neos,onSelectId)
 			<td>{item.is_potentially_hazardous_asteroid ? <b>true</b> : 'false'}</td>
 			<td>{item.is_sentry_object ? <b>true</b> : 'false'}</td>
 			<td>{item.name}</td>
-			<td><a href={item.nasa_jpl_url}>{item.nasa_jpl_url}</a></td>
+			<td><a href={item.nasa_jpl_url} target='_blank' rel='noopener noreferrer'>{item.nasa_jpl_url}</a></td>
 			<td><button onClick={() => onSelectId(item.neo_reference_id)}>{item.neo_reference_id}</button></td>
 		</tr>
 	));
 
 	const neotable = (
 		<table>
+			<caption><b>NEAR EARCH OBJECTS</b></caption>
+			<thead>
 			<tr>
 				<th>Absolute magnitude h</th>
 				<th>is potentially hazardous asteroid</th>
@@ -27,7 +29,10 @@ function createneotable(neos,onSelectId)
 				<th>Nasa jpl url</th>
 				<th>NEO reference id</th>
 			</tr>
-			{neotablerows}
+			</thead>
+			<tbody>
+				{neotablerows}
+			</tbody>
 		</table>
 	);
 
@@ -51,13 +56,13 @@ function NeoFeed({links,neo,isFetching,onSelectId,date,onDateChange,onLinkApi}) 
 	const l = <div><button onClick={() => onLinkApi(links.prev)}>PREV</button><button onClick={() => onLinkApi(links.next)}>NEXT</button></div>
 	return (
 		<div className='NeoFeed'>
-			<h1>NeoFeed</h1>
+			<h1>Near Earth Object Feed</h1>
 			<DatePicker 
 				onChange={onDateChange}
 				selected={date}
 			/>
 			{l}
-			{neotables}
+			<div>{neotables}</div>
 		</div>
 	)
 }

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 function ResponseData({response}) {
 	return (
 		<div className='ResponseData'>
+			<h1>Object Data</h1>
 			<span className='ResponseData__item'><b className='ResponseData__title'>name: </b><span className='ResponseData__data'>{response.name}</span></span>
 			<br />
 			<span className='ResponseData__item'><b className='ResponseData__title'>absolute magnitude h: </b><span className='ResponseData__data'>{response.absolute_magnitude_h}</span></span>
@@ -16,7 +17,7 @@ function ResponseData({response}) {
 			<br />
 			<span className='ResponseData__item'><b className='ResponseData__title'>is sentry object: </b><span className='ResponseData__data'>{response.is_sentry_object ? 'true' : 'false'}</span></span>
 			<br />
-			<span className='ResponseData__item'><b className='ResponseData__title'>nasa jpl url: </b><span className='ResponseData__data'>{response.nasa_jpl_url}</span></span>
+			<span className='ResponseData__item'><b className='ResponseData__title'>NASA JPL url: </b><span className='ResponseData__data'><a href={response.nasa_jpl_url} target='_blank' rel='noopener noreferrer'>{response.nasa_jpl_url}</a></span></span>
 			<br />
 			<span className='ResponseData__item'><b className='ResponseData__title'>neo reference id: </b><span className='ResponseData__data'>{response.neo_reference_id}</span></span>
 			<br />
