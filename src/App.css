@@ -170,7 +170,12 @@ table td
 	background: whitesmoke;
 	padding:10px;
 }
-
+.NeoBrowse__tablecontainer
+{
+	border-color: lightgray;
+	border-width: 1px;
+	border-style: solid;
+}
 .NeoBrowse__details
 {
 	/* border-color: lightgoldenrodyellow;
@@ -200,8 +205,8 @@ table td
 {
 	/* border-color: lightseagreen;
 	border-width: 1px;
-	border-style: solid;
-	 */
+	border-style: solid; */
+	
 	/* display: flex;
 	flex-wrap: wrap; */
 	/* -webkit-box-shadow: 5px 5px 15px 5px #000000; 
@@ -219,4 +224,139 @@ table td
 .NeoLookup__Panel
 {
 	width:48%;
+}
+
+.pagination_break
+{
+	background: lightgray;
+}
+
+.pagination_active
+{
+	/* border-color: indigo;
+	border-width: 1px;
+	border-style: solid; */
+	
+	color: white;
+	background: lightslategrey
+}
+
+.pagination_page
+{
+	/* border-color: rebeccapurple;
+	border-width: 1px;
+	border-style: solid; */
+
+	/* color: rebeccapurple; */
+	/* background: white; */
+
+
+}
+
+.pagination_container
+{
+	/* border-color: red;
+	border-width: 1px;
+	border-style: solid; */
+	
+	list-style-type: none;
+	font-size: 70%;
+
+	/* background: white; */
+}
+
+.pagination_container ul
+{
+	display: inline-block;
+	padding: 5px;
+}
+
+.pagination_container li
+{
+	border-color: lightgray;
+	border-width: 1px;
+	border-style: solid;
+	display: inline-block;
+	
+	padding: 5px;
+}
+
+.pagination_pagelink
+{
+	/* border-color: red;
+	border-width: 1px;
+	border-style: solid;
+
+	background: red; */
+
+}
+
+.pagination_actvelink
+{
+	/* border-color: lightsalmon;
+	border-width: 1px;
+	border-style: solid; */
+
+	/* background: lightsalmon; */
+}
+
+.pagination_previous
+{
+	/* border-color: lightgreen;
+	border-width: 1px;
+	border-style: solid; */
+
+	/* background: lightgreen; */
+
+	background: white;
+}
+
+.pagination_previouslink
+{
+	/* border-color: darkgoldenrod;
+	border-width: 1px;
+	border-style: solid; */
+
+	/* color: red; */
+
+	/* background: darkgoldenrod; */
+}
+
+.pagination_nextlink
+{
+	/* border-color: darkmagenta;
+	border-width: 1px;
+	border-style: solid; */
+	/* color: red; */
+	/* background: white; */
+	/* background: darkmagenta; */
+}
+
+.pagination_disabled
+{
+	/* border-color: darkolivegreen;
+	border-width: 1px;
+	border-style: solid; */
+	color: lightgray;
+	background: white;
+	/* background: darkolivegreen; */
+}
+
+.pagination_next
+{
+	/* border-color: darkgreen;
+	border-width: 1px;
+	border-style: solid; */
+	/* background: darkgreen; */
+
+	background: white;
+}
+
+.pagination_page
+{
+	/* border-color: darkcyan;
+	border-width: 1px;
+	border-style: solid; */
+
+	/* background:  darkcyan; */
 }

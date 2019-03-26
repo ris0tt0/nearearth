@@ -38,6 +38,8 @@ function createneotable(neos,onSelectId)
 
 	return neotable;
 }
+
+
 function neotable(title,neos,onSelectId)
 {
 	const neotable = createneotable(neos,onSelectId);
