@@ -3,48 +3,44 @@ import ReactPaginate from 'react-paginate'
 import {string,number,func,bool,arrayOf,shape} from 'prop-types';
 import Logger from 'js-logger';
 
-function getPagination(starting,total,onLinkApi)
-{
-	return (
-					<ReactPaginate
-						initialPage={starting}
-						pageCount={total}
-						pageRangeDisplayed={9}
-						marginPagesDisplayed={2}
-						previousLabel={'PREVIOUS'}
-						nextLabel={'NEXT'}
-						disableInitialCallback={true}
-						// breakLabel={'...'}
-						breakClassName={'pagination_break'}
-						onPageChange={e => onLinkApi(e.selected)}
-						// The classname of the pagination container.
-						containerClassName={'pagination_container'}
-						// The classname for the active page.
-						activeClassName={'pagination_active'}
-						// The classname on tag li of each page element.
-						pageClassName={'pagination_page'}
-						// The classname on tag li of the next button.
-						nextClassName={'pagination_next'}
-						// The classname for disabled previous and next buttons.
-						disabledClassName={'pagination_disabled'}
-						// The classname on tag a of the next button.
-						nextLinkClassName={'pagination_nextlink'}
-						// The classname on tag a of the previous button.
-						previousLinkClassName={'pagination_previouslink'}
-						//  The classname on tag li of the previous button.
-						previousClassName={'pagination_previous'}
-						// The classname on the active tag a.
-						activeLinkClassName={'pagination_activelink'}
-						// The classname on tag a of each page element.
-						pageLinkClassName={'pagination_pagelink'}
-					/>
+const getPagination = (starting,total,onLinkApi) => (
+	<ReactPaginate
+		initialPage={starting}
+		pageCount={total}
+		pageRangeDisplayed={9}
+		marginPagesDisplayed={2}
+		previousLabel={'PREVIOUS'}
+		nextLabel={'NEXT'}
+		disableInitialCallback={true}
+		// breakLabel={'...'}
+		breakClassName={'pagination_break'}
+		onPageChange={e => onLinkApi(e.selected)}
+		// The classname of the pagination container.
+		containerClassName={'pagination_container'}
+		// The classname for the active page.
+		activeClassName={'pagination_active'}
+		// The classname on tag li of each page element.
+		pageClassName={'pagination_page'}
+		// The classname on tag li of the next button.
+		nextClassName={'pagination_next'}
+		// The classname for disabled previous and next buttons.
+		disabledClassName={'pagination_disabled'}
+		// The classname on tag a of the next button.
+		nextLinkClassName={'pagination_nextlink'}
+		// The classname on tag a of the previous button.
+		previousLinkClassName={'pagination_previouslink'}
+		//  The classname on tag li of the previous button.
+		previousClassName={'pagination_previous'}
+		// The classname on the active tag a.
+		activeLinkClassName={'pagination_activelink'}
+		// The classname on tag a of each page element.
+		pageLinkClassName={'pagination_pagelink'}
+	/>
 	);
-}
 
-function getapiLinkForPage(url, pageNumber)
-{
-	return url.replace(/page=\d*/,`page=${pageNumber}`);
-}
+const getapiLinkForPage = (url, pageNumber) => url.replace(/page=\d*/,`page=${pageNumber}`);
+
+const linser = (url,onLinkApi) => pageNumber => onLinkApi(getapiLinkForPage(url,pageNumber));
 
 function NeoBrowse({neos,links,page,onSelectId,isFetching,onLinkApi}) {
 
@@ -84,14 +80,12 @@ function NeoBrowse({neos,links,page,onSelectId,isFetching,onLinkApi}) {
 			</tbody>
 		</table>);
 
-	const onPagination = pageNumber => onLinkApi(getapiLinkForPage(links.self,pageNumber));
-	
 	return (
 		<div className='NeoBrowse'>
 			<h1>Near Earth Object Browse</h1>
-			{getPagination(page.number,page.total_pages,onPagination)}
+			{getPagination(page.number,page.total_pages,linser(links.self,onLinkApi))}
 			<div className='NeoBrowse__tablecontainer'>{neotable}</div>
-			{getPagination(page.number,page.total_pages,onPagination)}
+			{getPagination(page.number,page.total_pages,linser(links.self,onLinkApi))}
 		</div>
 	);
 }
