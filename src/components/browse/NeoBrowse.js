@@ -40,7 +40,7 @@ const getPagination = (starting,total,onLinkApi) => (
 
 const getapiLinkForPage = (url, pageNumber) => url.replace(/page=\d*/,`page=${pageNumber}`);
 
-const linser = (url,onLinkApi) => pageNumber => onLinkApi(getapiLinkForPage(url,pageNumber));
+const createLinkHandler = (url,onLinkApi) => pageNumber => onLinkApi(getapiLinkForPage(url,pageNumber));
 
 function NeoBrowse({neos,links,page,onSelectId,isFetching,onLinkApi}) {
 
@@ -83,9 +83,9 @@ function NeoBrowse({neos,links,page,onSelectId,isFetching,onLinkApi}) {
 	return (
 		<div className='NeoBrowse'>
 			<h1>Near Earth Object Browse</h1>
-			{getPagination(page.number,page.total_pages,linser(links.self,onLinkApi))}
+			{getPagination(page.number,page.total_pages,createLinkHandler(links.self,onLinkApi))}
 			<div className='NeoBrowse__tablecontainer'>{neotable}</div>
-			{getPagination(page.number,page.total_pages,linser(links.self,onLinkApi))}
+			{getPagination(page.number,page.total_pages,createLinkHandler(links.self,onLinkApi))}
 		</div>
 	);
 }
