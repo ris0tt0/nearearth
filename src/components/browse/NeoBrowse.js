@@ -83,9 +83,9 @@ function NeoBrowse({neos,links,page,onSelectId,isFetching,onLinkApi}) {
 	return (
 		<div className='NeoBrowse'>
 			<h1>Near Earth Object Browse</h1>
-			{getPagination(page.number,page.total_pages,createLinkHandler(links.self,onLinkApi))}
+			<div className='NeoBrowse__pagination'>{getPagination(page.number,page.total_pages,createLinkHandler(links.self,onLinkApi))}</div>
 			<div className='NeoBrowse__tablecontainer'>{neotable}</div>
-			{getPagination(page.number,page.total_pages,createLinkHandler(links.self,onLinkApi))}
+			<div className='NeoBrowse__pagination'>{getPagination(page.number,page.total_pages,createLinkHandler(links.self,onLinkApi))}</div>
 		</div>
 	);
 }

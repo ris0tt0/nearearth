@@ -176,6 +176,13 @@ table td
 	border-width: 1px;
 	border-style: solid;
 }
+.NeoBrowse__pagination
+{
+	/* border-color: red;
+	border-width: 1px;
+	border-style: solid; */
+	/* align-items: center */
+}
 .NeoBrowse__details
 {
 	/* border-color: lightgoldenrodyellow;
@@ -262,12 +269,15 @@ table td
 	list-style-type: none;
 	font-size: 70%;
 
+	/* align-items: flex-end; */
 	/* background: white; */
+
+	display: inline-block;
 }
 
 .pagination_container ul
 {
-	display: inline-block;
+	display: inherit;
 	padding: 5px;
 }
 
@@ -276,7 +286,8 @@ table td
 	border-color: lightgray;
 	border-width: 1px;
 	border-style: solid;
-	display: inline-block;
+	display: inherit;
+	/* display: inline-block; */
 	
 	padding: 5px;
 }

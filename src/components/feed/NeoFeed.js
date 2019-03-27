@@ -43,9 +43,10 @@ function createneotable(neos,onSelectId)
 function neotable(title,neos,onSelectId)
 {
 	const neotable = createneotable(neos,onSelectId);
-
+	Logger.info(title);
+	Logger.info(new Date(title));
 	return (
-	<div><h1>{title}</h1>{neotable}</div>
+	<div key={title}><h1>{title}</h1>{neotable}</div>
 	);
 }
 
