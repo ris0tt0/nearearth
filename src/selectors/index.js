@@ -1,26 +1,12 @@
 import { createSelector } from 'reselect';
 
-function getNeoFeed(state) {
-  return state.neoFeed;
-}
-function getNeoBrowse(state) {
-  return state.neoBrowse;
-}
-function getNeoLookup(state) {
-  return state.neoLookup;
-}
-function getIsFetchingFeed(state) {
-  return state.isFetchingFeed;
-}
-function getIsFetchingLookup(state) {
-  return state.isFetchingLookup;
-}
-function getIsFetchingBrowse(state) {
-  return state.isFetchingBrowse;
-}
-function getNeoFeedDate(state) {
-  return state.neoFeedDate;
-}
+const getNeoFeed = (state) => state.jneo.neoFeed;
+const getNeoBrowse = (state) => state.jneo.neoBrowse;
+const getNeoLookup = (state) => state.jneo.neoLookup;
+const getIsFetchingFeed = (state) => state.jneo.isFetchingFeed;
+const getIsFetchingLookup = (state) => state.jneo.isFetchingLookup;
+const getIsFetchingBrowse = (state) => state.jneo.isFetchingBrowse;
+const getNeoFeedDate = (state) => state.jneo.neoFeedDate;
 
 /**
  * API status while waiting for call to complete.

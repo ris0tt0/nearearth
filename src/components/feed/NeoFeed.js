@@ -1,10 +1,22 @@
-import Logger from 'js-logger';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 import DatePicker from 'react-datepicker';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  dateNeoFeed,
+  fetchLinkNeoFeed,
+  fetchNEOFeed,
+  fetchNEOLookup,
+} from '../../actions';
+import {
+  neoFeedDate,
+  neoFeedIsFetching,
+  neoFeedLinks,
+  neoFeedNearEarthObjects,
+} from '../../selectors';
 // import 'react-datepicker/dist/react-datepicker.css';
 
-function createneotable(neos, onSelectId) {
+function CreateNeoTable({ neos, onSelectId }) {
   const neotablerows = neos.map((item, index) => (
     <tr key={index}>
       <td>{item.absolute_magnitude_h}</td>
@@ -24,7 +36,7 @@ function createneotable(neos, onSelectId) {
     </tr>
   ));
 
-  const neotable = (
+  return (
     <table>
       <caption>
         <b>NEAR EARCH OBJECTS</b>
@@ -42,74 +54,90 @@ function createneotable(neos, onSelectId) {
       <tbody>{neotablerows}</tbody>
     </table>
   );
-
-  return neotable;
 }
 
-function neotable(title, neos, onSelectId) {
-  const neotable = createneotable(neos, onSelectId);
-  Logger.info(title);
-  Logger.info(new Date(title));
+CreateNeoTable.propTypes = {
+  neos: PropTypes.array,
+  onSelectId: PropTypes.func,
+};
+
+function NeoTable({ title, neos, onSelectId }) {
   return (
     <div key={title}>
       <h1>{title}</h1>
-      {neotable}
+      <CreateNeoTable neos={neos} onSelectId={onSelectId} />
     </div>
   );
 }
 
-function NeoFeed({
-  links,
-  neo,
-  isFetching,
-  onSelectId,
-  date,
-  onDateChange,
-  onLinkApi,
-}) {
-  if (isFetching) return <div>loading</div>;
+NeoTable.propTypes = {
+  title: PropTypes.string,
+  neos: PropTypes.array,
+  onSelectId: PropTypes.func,
+};
 
-  const neotables = Object.entries(neo).map((entry) =>
-    neotable(entry[0], entry[1], onSelectId)
+function NeoFeed() {
+  const dispatch = useDispatch();
+
+  const links = useSelector(neoFeedLinks);
+  const neo = useSelector(neoFeedNearEarthObjects);
+  const isFetching = useSelector(neoFeedIsFetching);
+  const date = useSelector(neoFeedDate);
+
+  const onLinkApi = useCallback(
+    (url) => dispatch(fetchLinkNeoFeed(url)),
+    [dispatch]
   );
-  const l = (
-    <div>
-      <button onClick={() => onLinkApi(links.prev)}>PREV</button>
-      <button onClick={() => onLinkApi(links.next)}>NEXT</button>
-    </div>
+  // api call to get more info in this specific astroid
+  const onSelectId = useCallback(
+    (id) => dispatch(fetchNEOLookup(id)),
+    [dispatch]
   );
+  // load new feed data for the date.
+  const onDateChange = useCallback(
+    (date) => {
+      dispatch(dateNeoFeed(date));
+      dispatch(fetchNEOFeed(date));
+    },
+    [dispatch]
+  );
+
+  if (isFetching)
+    return (
+      <div className="flex items-center justify-center flex-1 w-full h-full">
+        loading
+      </div>
+    );
+
+  const neotables = Object.entries(neo).map((entry, index) => (
+    <NeoTable
+      key={index}
+      title={entry[0]}
+      neos={entry[1]}
+      onSelectId={onSelectId}
+    />
+  ));
   return (
-    <div className="NeoFeed">
+    <div className="flex flex-col w-full h-full">
       <h1>Near Earth Object Feed</h1>
       <DatePicker onChange={onDateChange} selected={date} />
-      {l}
+      <div className="flex w-full border border-red-400 rounded justify-evenly">
+        <button
+          className="p-1 m-1 border border-gray-400 rounded"
+          onClick={() => onLinkApi(links.prev)}
+        >
+          PREV
+        </button>
+        <button
+          className="p-1 m-1 border border-gray-400 rounded"
+          onClick={() => onLinkApi(links.next)}
+        >
+          NEXT
+        </button>
+      </div>
       <div>{neotables}</div>
     </div>
   );
 }
-
-NeoFeed.propTypes = {
-  onLinkApi: PropTypes.func.isRequired,
-  onSelectId: PropTypes.func.isRequired,
-  // object of arrays of Near Earth Object
-  neo: PropTypes.objectOf(
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        absolute_magnitude_h: PropTypes.number.isRequired,
-        id: PropTypes.string.isRequired,
-        is_potentially_hazardous_asteroid: PropTypes.bool.isRequired,
-        is_sentry_object: PropTypes.bool.isRequired,
-        name: PropTypes.string.isRequired,
-        nasa_jpl_url: PropTypes.string.isRequired,
-        neo_reference_id: PropTypes.string.isRequired,
-      })
-    )
-  ).isRequired,
-  links: PropTypes.shape({
-    self: PropTypes.string.isRequired,
-    next: PropTypes.string,
-    prev: PropTypes.string,
-  }).isRequired,
-};
 
 export { NeoFeed };
