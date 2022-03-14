@@ -1,126 +1,199 @@
 import { normalize, schema } from 'normalizr';
-import {getNasaApiKey, formatDateForNasaApi} from '../utils';
-import Logger from 'js-logger'
-import { 
-	REQUEST_NEO_FEED,
-	REQUEST_ERROR_NEO_FEED,
-	RECIEVE_NEO_FEED,
-	DATE_NEO_FEED,
-	REQUEST_NEO_LOOKUP,
-	REQUEST_ERROR_NEO_LOOKUP,
-	RECIEVE_NEO_LOOKUP,
-	REQUEST_NEO_BROWSE,
-	REQUEST_ERROR_NEO_BROWSE,
-	RECIEVE_NEO_BROWSE,
- } from './ActionTypes';
+import { getNasaApiKey, formatDateForNasaApi } from '../utils';
+import Logger from 'js-logger';
+import {
+  REQUEST_NEO_FEED,
+  REQUEST_ERROR_NEO_FEED,
+  RECIEVE_NEO_FEED,
+  DATE_NEO_FEED,
+  REQUEST_NEO_LOOKUP,
+  REQUEST_ERROR_NEO_LOOKUP,
+  RECIEVE_NEO_LOOKUP,
+  REQUEST_NEO_BROWSE,
+  REQUEST_ERROR_NEO_BROWSE,
+  RECIEVE_NEO_BROWSE,
+} from './ActionTypes';
 
 /**
- * Neo - Feed 
+ * Neo - Feed
  * Retrieve a list of Asteroids based on their closest approach date to Earth.
  * GET https://api.nasa.gov/neo/rest/v1/feed?start_date=START_DATE&end_date=END_DATE&api_key=API_KEY
  */
-export function requestNEOFeed(isFetching){
-	return {
-		type:REQUEST_NEO_FEED,
-		payload:isFetching,
-	};
+export function requestNEOFeed(isFetching) {
+  return {
+    type: REQUEST_NEO_FEED,
+    payload: isFetching,
+  };
 }
 
-export function recieveNEOFeed(data){
-	return{
-		type:RECIEVE_NEO_FEED,
-		payload:data,
-	}
+export function recieveNEOFeed(data) {
+  return {
+    type: RECIEVE_NEO_FEED,
+    payload: data,
+  };
 }
 
-export function requestErrorNEOFeed(error)
-{
-	return {
-		type:REQUEST_ERROR_NEO_FEED,
-		payload:error,
-	}
+export function requestErrorNEOFeed(error) {
+  return {
+    type: REQUEST_ERROR_NEO_FEED,
+    payload: error,
+  };
 }
 
-export function dateNeoFeed(date)
-{
-	return{
-		type:DATE_NEO_FEED,
-		payload:date,
-	}
+export function dateNeoFeed(date) {
+  return {
+    type: DATE_NEO_FEED,
+    payload: date,
+  };
 }
 
-export function fetchLinkNeoFeed(linkApiUrl)
-{
-	return fetchNEOFeed(null,null,linkApiUrl);
+export function fetchLinkNeoFeed(linkApiUrl) {
+  return fetchNEOFeed(null, null, linkApiUrl);
 }
 
-export function fetchNEOFeed(startDate,endDate,linkApiUrl)
-{
-	return (dispatch,getState) =>
-	{
-		dispatch(requestNEOFeed(true));
+export function fetchNEOFeed(startDate, endDate, linkApiUrl) {
+  return (dispatch, getState) => {
+    dispatch(requestNEOFeed(true));
 
-		const apiKey = getNasaApiKey();
-		const formattedStart = formatDateForNasaApi(startDate);
-		const formattedEnd = formatDateForNasaApi( endDate ? endDate : startDate);
+    const apiKey = getNasaApiKey();
+    const formattedStart = formatDateForNasaApi(startDate);
+    const formattedEnd = formatDateForNasaApi(endDate ? endDate : startDate);
 
-		const url = linkApiUrl ? linkApiUrl : `https://api.nasa.gov/neo/rest/v1/feed?start_date=${formattedStart}&end_date=${formattedEnd}&api_key=${apiKey}`;
+    const url = linkApiUrl
+      ? linkApiUrl
+      : `https://api.nasa.gov/neo/rest/v1/feed?start_date=${formattedStart}&end_date=${formattedEnd}&api_key=${apiKey}`;
 
-		return fetch(url)
-		.then( response => response.json(), error => dispatch(requestErrorNEOFeed(error)) )
-		.then( json => {
+    return fetch(url)
+      .then(
+        (response) => response.json(),
+        (error) => dispatch(requestErrorNEOFeed(error))
+      )
+      .then((json) => {
+        // if(json)
+        Logger.info(json);
 
-			// if(json)
-			Logger.info(json);
+        const links = new schema.Entity(
+          'links',
+          {},
+          { idAttribute: (obj) => `${obj.self}id` }
+        );
+        const miss_distance = new schema.Entity(
+          'miss_distance',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.astronomical}+${obj.kilometers}+${obj.lunar}+${obj.miles}id`,
+          }
+        );
+        const relative_velocity = new schema.Entity(
+          'relative_velocity',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.kilometers_per_hour}+${obj.kilometers_per_second}+${obj.miles_per_hour}id`,
+          }
+        );
+        const close_approach_data = new schema.Entity(
+          'close_approach_data',
+          { miss_distance, relative_velocity },
+          {
+            idAttribute: (obj) =>
+              `${obj.epoch_date_close_approach}+${obj.close_approach_date}id`,
+          }
+        );
+        const feet = new schema.Entity(
+          'feet',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
+          }
+        );
+        const kilometers = new schema.Entity(
+          'kilometers',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
+          }
+        );
+        const meters = new schema.Entity(
+          'meters',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
+          }
+        );
+        const miles = new schema.Entity(
+          'miles',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
+          }
+        );
+        const estimated_diameter = new schema.Entity(
+          'estimated_diameter',
+          { feet, kilometers, meters, miles },
+          {
+            idAttribute: (obj) =>
+              `${obj.feet.estimated_diameter_max}+${obj.meters.estimated_diameter_max}+${obj.miles.estimated_diameter_max}id`,
+          }
+        );
+        const near_earth_objects = new schema.Entity(
+          'near_earth_objects',
+          {
+            estimated_diameter,
+            links,
+            close_approach_data: [close_approach_data],
+          },
+          { idAttribute: (obj) => `${obj.id}id` }
+        );
+        const near_earth_objectsvalues = new schema.Values([
+          near_earth_objects,
+        ]);
+        const mySchema = new schema.Entity(
+          'response',
+          { links, near_earth_objects: near_earth_objectsvalues },
+          { idAttribute: (obj) => `${obj}Id` }
+        );
+        const data = normalize(json, mySchema);
 
-			const links = new schema.Entity('links',{},{idAttribute:obj => `${obj.self}id`});
-			const miss_distance = new schema.Entity('miss_distance',{},{idAttribute:obj => `${obj.astronomical}+${obj.kilometers}+${obj.lunar}+${obj.miles}id`});
-			const relative_velocity = new schema.Entity('relative_velocity',{},{idAttribute:obj => `${obj.kilometers_per_hour}+${obj.kilometers_per_second}+${obj.miles_per_hour}id`});
-			const close_approach_data = new schema.Entity('close_approach_data',{miss_distance,relative_velocity},{idAttribute:obj => `${obj.epoch_date_close_approach}+${obj.close_approach_date}id`});
-			const feet = new schema.Entity('feet',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
-			const kilometers = new schema.Entity('kilometers',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
-			const meters = new schema.Entity('meters',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
-			const miles = new schema.Entity('miles',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
-			const estimated_diameter = new schema.Entity('estimated_diameter',{feet,kilometers,meters,miles},{idAttribute:obj=>`${obj.feet.estimated_diameter_max}+${obj.meters.estimated_diameter_max}+${obj.miles.estimated_diameter_max}id`});
-			const near_earth_objects = new schema.Entity('near_earth_objects',{estimated_diameter,links,close_approach_data:[close_approach_data]},{idAttribute:obj => `${obj.id}id`});
-			const near_earth_objectsvalues = new schema.Values([near_earth_objects]);
-			const mySchema = new schema.Entity('response',{links,near_earth_objects:near_earth_objectsvalues},{idAttribute:obj => `${obj}Id`});
-			const data = normalize(json,mySchema);
+        // Logger.info(data);
 
-			// Logger.info(data);
-
-			dispatch(recieveNEOFeed(data));
-			dispatch(requestNEOFeed(false));
-		});
-	}
+        dispatch(recieveNEOFeed(data));
+        dispatch(requestNEOFeed(false));
+      });
+  };
 }
 
- /**
-	* Neo - Lookup
-	*	Lookup a specific Asteroid based on its NASA JPL small body (SPK-ID) ID 
-	*	GET https://api.nasa.gov/neo/rest/v1/neo/3542519?api_key=DEMO_KEY
-  */
- export function requestNEOLookup(isFetching){
-	return {
-		type:REQUEST_NEO_LOOKUP,
-		payload:isFetching,
-	};
+/**
+ * Neo - Lookup
+ *	Lookup a specific Asteroid based on its NASA JPL small body (SPK-ID) ID
+ *	GET https://api.nasa.gov/neo/rest/v1/neo/3542519?api_key=DEMO_KEY
+ */
+export function requestNEOLookup(isFetching) {
+  return {
+    type: REQUEST_NEO_LOOKUP,
+    payload: isFetching,
+  };
 }
 
-export function requestErrorNEOLookup(error){
-	return{
-		type:REQUEST_ERROR_NEO_LOOKUP,
-		payload:error,
-	}
+export function requestErrorNEOLookup(error) {
+  return {
+    type: REQUEST_ERROR_NEO_LOOKUP,
+    payload: error,
+  };
 }
 
-export function recieveNEOLookup(data){
-	// Logger.info('recieveNEOLookup');
-	// Logger.info(data);
-	return{
-		type:RECIEVE_NEO_LOOKUP,
-		payload:data,
-	}
+export function recieveNEOLookup(data) {
+  // Logger.info('recieveNEOLookup');
+  // Logger.info(data);
+  return {
+    type: RECIEVE_NEO_LOOKUP,
+    payload: data,
+  };
 }
 
 /**
@@ -202,109 +275,271 @@ export function recieveNEOLookup(data){
 				}
  */
 
-export function fetchNEOLookup(spkId)
-{
-	return (dispatch,getState) =>
-	{
-		dispatch(requestNEOLookup(true));
-		const apiKey = getNasaApiKey();
+export function fetchNEOLookup(spkId) {
+  return (dispatch, getState) => {
+    dispatch(requestNEOLookup(true));
+    const apiKey = getNasaApiKey();
 
-		return fetch(`https://api.nasa.gov/neo/rest/v1/neo/${spkId}?api_key=${apiKey}`)
-		.then( response => response.json(), error => dispatch(requestErrorNEOLookup(error)) )
-		.then( json => {
-			
-			const miss_distance = new schema.Entity('miss_distance',{},{idAttribute:obj => `${obj.lunar}+${obj.miles}id`});
-			const relative_velocity = new schema.Entity('relative_velocity',{},{idAttribute:obj => `${obj.kilometers_per_hour}+${obj.kilometers_per_second}+${obj.miles_per_hour}id`});
-			const close_approach_data = new schema.Entity('close_approach_data',{miss_distance,relative_velocity},{idAttribute:obj => `${obj.epoch_date_close_approach}+${obj.close_approach_date}id`});
+    return fetch(
+      `https://api.nasa.gov/neo/rest/v1/neo/${spkId}?api_key=${apiKey}`
+    )
+      .then(
+        (response) => response.json(),
+        (error) => dispatch(requestErrorNEOLookup(error))
+      )
+      .then((json) => {
+        const miss_distance = new schema.Entity(
+          'miss_distance',
+          {},
+          { idAttribute: (obj) => `${obj.lunar}+${obj.miles}id` }
+        );
+        const relative_velocity = new schema.Entity(
+          'relative_velocity',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.kilometers_per_hour}+${obj.kilometers_per_second}+${obj.miles_per_hour}id`,
+          }
+        );
+        const close_approach_data = new schema.Entity(
+          'close_approach_data',
+          { miss_distance, relative_velocity },
+          {
+            idAttribute: (obj) =>
+              `${obj.epoch_date_close_approach}+${obj.close_approach_date}id`,
+          }
+        );
 
-			const orbit_class = new schema.Entity('orbit_class',{},{idAttribute:obj=>`${obj.orbit_class_range}id`});
-			const orbital_data = new schema.Entity('orbital_data',{orbit_class},{idAttribute:obj => `${obj.aphelion_distance}+${obj.perihelion_distance}id`});
-			const links = new schema.Entity('links',{},{idAttribute:obj => `${obj.self}id`});
-			
-			const feet = new schema.Entity('feet',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
-			const kilometers = new schema.Entity('kilometers',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
-			const meters = new schema.Entity('meters',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
-			const miles = new schema.Entity('miles',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
-			const estimated_diameter = new schema.Entity('estimated_diameter',{feet,kilometers,meters,miles},{idAttribute:obj=>`${obj}id`});
-			
-			const mySchema = new schema.Entity('response',{close_approach_data:[close_approach_data],orbital_data,links,estimated_diameter});
-			const data = normalize(json,mySchema);
+        const orbit_class = new schema.Entity(
+          'orbit_class',
+          {},
+          { idAttribute: (obj) => `${obj.orbit_class_range}id` }
+        );
+        const orbital_data = new schema.Entity(
+          'orbital_data',
+          { orbit_class },
+          {
+            idAttribute: (obj) =>
+              `${obj.aphelion_distance}+${obj.perihelion_distance}id`,
+          }
+        );
+        const links = new schema.Entity(
+          'links',
+          {},
+          { idAttribute: (obj) => `${obj.self}id` }
+        );
 
-			dispatch(recieveNEOLookup(data));
-			dispatch(requestNEOLookup(false));
-		});
-	}
+        const feet = new schema.Entity(
+          'feet',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
+          }
+        );
+        const kilometers = new schema.Entity(
+          'kilometers',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
+          }
+        );
+        const meters = new schema.Entity(
+          'meters',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
+          }
+        );
+        const miles = new schema.Entity(
+          'miles',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
+          }
+        );
+        const estimated_diameter = new schema.Entity(
+          'estimated_diameter',
+          { feet, kilometers, meters, miles },
+          { idAttribute: (obj) => `${obj}id` }
+        );
+
+        const mySchema = new schema.Entity('response', {
+          close_approach_data: [close_approach_data],
+          orbital_data,
+          links,
+          estimated_diameter,
+        });
+        const data = normalize(json, mySchema);
+
+        dispatch(recieveNEOLookup(data));
+        dispatch(requestNEOLookup(false));
+      });
+  };
 }
 
 /**
- * Neo - Browse 
- * Browse the overall Asteroid data-set 
+ * Neo - Browse
+ * Browse the overall Asteroid data-set
  * GET https://api.nasa.gov/neo/rest/v1/neo/browse/
  */
-export function requestNEOBrowse(isFetching){
-	return {
-		type:REQUEST_NEO_BROWSE,
-		payload:isFetching,
-	};
+export function requestNEOBrowse(isFetching) {
+  return {
+    type: REQUEST_NEO_BROWSE,
+    payload: isFetching,
+  };
 }
 
-export function requestErrorNEOBrowse(error){
-	return {
-		type:REQUEST_ERROR_NEO_BROWSE,
-		payload:error,
-	}
+export function requestErrorNEOBrowse(error) {
+  return {
+    type: REQUEST_ERROR_NEO_BROWSE,
+    payload: error,
+  };
 }
 
-export function recieveNEOBrowse(data){
-	return{
-		type:RECIEVE_NEO_BROWSE,
-		payload:data,
-	}
+export function recieveNEOBrowse(data) {
+  return {
+    type: RECIEVE_NEO_BROWSE,
+    payload: data,
+  };
 }
 
-export function fetchLinkNEOBrowse(apiLink)
-{
-	return fetchNEOBrowse(apiLink);
+export function fetchLinkNEOBrowse(apiLink) {
+  return fetchNEOBrowse(apiLink);
 }
 
-export function fetchNEOBrowse(apiLink)
-{
-	return (dispatch,getState) =>
-	{
-		dispatch(requestNEOBrowse(true));
+export function fetchNEOBrowse(apiLink) {
+  return (dispatch, getState) => {
+    dispatch(requestNEOBrowse(true));
 
-		const apiKey = getNasaApiKey();
-		const url = apiLink ? apiLink : `https://api.nasa.gov/neo/rest/v1/neo/browse/?api_key=${apiKey}`;
+    const apiKey = getNasaApiKey();
+    const url = apiLink
+      ? apiLink
+      : `https://api.nasa.gov/neo/rest/v1/neo/browse/?api_key=${apiKey}`;
 
-		return fetch(url)
-		.then( response => response.json(), error => dispatch(requestErrorNEOBrowse(error)) )
-		.then( json => {
-			// Logger.info(json);
+    return fetch(url)
+      .then(
+        (response) => response.json(),
+        (error) => dispatch(requestErrorNEOBrowse(error))
+      )
+      .then((json) => {
+        // Logger.info(json);
 
-			const links = new schema.Entity('links',{},{idAttribute:obj => `${obj.self}id`});
-			const page = new schema.Entity('page',{},{idAttribute:obj => `${obj.number}+${obj.size}+${obj.total_elements}+${obj.total_pages}id`});
+        const links = new schema.Entity(
+          'links',
+          {},
+          { idAttribute: (obj) => `${obj.self}id` }
+        );
+        const page = new schema.Entity(
+          'page',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.number}+${obj.size}+${obj.total_elements}+${obj.total_pages}id`,
+          }
+        );
 
-			const miss_distance = new schema.Entity('miss_distance',{},{idAttribute:obj => `${obj.astronomical}+${obj.kilometers}+${obj.lunar}+${obj.miles}id`});
-			const relative_velocity = new schema.Entity('relative_velocity',{},{idAttribute:obj => `${obj.kilometers_per_hour}+${obj.kilometers_per_second}+${obj.miles_per_hour}id`});
-			const close_approach_data = new schema.Entity('close_approach_data',{miss_distance,relative_velocity},{idAttribute:obj => `${obj.epoch_date_close_approach}+${obj.close_approach_date}id`});
-			
-			const feet = new schema.Entity('feet',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
-			const kilometers = new schema.Entity('kilometers',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
-			const meters = new schema.Entity('meters',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
-			const miles = new schema.Entity('miles',{},{idAttribute:obj => `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`});
+        const miss_distance = new schema.Entity(
+          'miss_distance',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.astronomical}+${obj.kilometers}+${obj.lunar}+${obj.miles}id`,
+          }
+        );
+        const relative_velocity = new schema.Entity(
+          'relative_velocity',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.kilometers_per_hour}+${obj.kilometers_per_second}+${obj.miles_per_hour}id`,
+          }
+        );
+        const close_approach_data = new schema.Entity(
+          'close_approach_data',
+          { miss_distance, relative_velocity },
+          {
+            idAttribute: (obj) =>
+              `${obj.epoch_date_close_approach}+${obj.close_approach_date}id`,
+          }
+        );
 
-			const estimated_diameter = new schema.Entity('estimated_diameter',{feet,kilometers,meters,miles},{idAttribute:obj => `${obj.feet.estimated_diameter_max}id`});
+        const feet = new schema.Entity(
+          'feet',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
+          }
+        );
+        const kilometers = new schema.Entity(
+          'kilometers',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
+          }
+        );
+        const meters = new schema.Entity(
+          'meters',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
+          }
+        );
+        const miles = new schema.Entity(
+          'miles',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
+          }
+        );
 
-			const orbit_class = new schema.Entity('orbit_class',{},{idAttribute:obj => `${obj.orbit_class_description}+${obj.orbit_class_range}+${obj.orbit_class_type}id`})
-			const orbital_data = new schema.Entity('orbital_data',{orbit_class},{idAttribute:obj => `${obj.mean_anomaly}+${obj.mean_motion}id`});
-			const near_earth_objects = new schema.Entity('near_earth_objects',{links,orbital_data,estimated_diameter,close_approach_data:[close_approach_data]},{idAttribute:obj => `${obj.designation}id`});
-			const mySchema = new schema.Entity('response',{near_earth_objects:[near_earth_objects],links,page},{idAttribute:obj => `${obj}id`});
-			const data = normalize(json,mySchema);
+        const estimated_diameter = new schema.Entity(
+          'estimated_diameter',
+          { feet, kilometers, meters, miles },
+          { idAttribute: (obj) => `${obj.feet.estimated_diameter_max}id` }
+        );
 
-			// Logger.info(data);
+        const orbit_class = new schema.Entity(
+          'orbit_class',
+          {},
+          {
+            idAttribute: (obj) =>
+              `${obj.orbit_class_description}+${obj.orbit_class_range}+${obj.orbit_class_type}id`,
+          }
+        );
+        const orbital_data = new schema.Entity(
+          'orbital_data',
+          { orbit_class },
+          { idAttribute: (obj) => `${obj.mean_anomaly}+${obj.mean_motion}id` }
+        );
+        const near_earth_objects = new schema.Entity(
+          'near_earth_objects',
+          {
+            links,
+            orbital_data,
+            estimated_diameter,
+            close_approach_data: [close_approach_data],
+          },
+          { idAttribute: (obj) => `${obj.designation}id` }
+        );
+        const mySchema = new schema.Entity(
+          'response',
+          { near_earth_objects: [near_earth_objects], links, page },
+          { idAttribute: (obj) => `${obj}id` }
+        );
+        const data = normalize(json, mySchema);
 
-			dispatch(recieveNEOBrowse(data));
-			dispatch(requestNEOBrowse(false));
-		});
-	}
+        // Logger.info(data);
+
+        dispatch(recieveNEOBrowse(data));
+        dispatch(requestNEOBrowse(false));
+      });
+  };
 }

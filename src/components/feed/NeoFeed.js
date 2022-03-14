@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import Logger from 'js-logger';
+import PropTypes from 'prop-types';
+import React from 'react';
 import DatePicker from 'react-datepicker';
 // import 'react-datepicker/dist/react-datepicker.css';
 

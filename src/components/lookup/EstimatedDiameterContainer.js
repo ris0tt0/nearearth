@@ -1,14 +1,11 @@
-import {connect} from 'react-redux';
-import Logger from 'js-logger';
+import { connect } from 'react-redux';
 import { neoLookupEstimatedDiameter } from '../../selectors';
 import { EstimatedDiameter } from './EstimatedDiameter';
 
-const mapStateToProps = state =>
-{
-	const estimateDiameter = neoLookupEstimatedDiameter(state);
+const mapStateToProps = (state) => {
+  const estimateDiameter = neoLookupEstimatedDiameter(state);
 
-	return {...estimateDiameter};
-
+  return { ...estimateDiameter };
 };
 
 const CloseApproachDataContaier = connect(mapStateToProps)(EstimatedDiameter);

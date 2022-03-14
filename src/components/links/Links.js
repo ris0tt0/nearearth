@@ -1,17 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
 
-function Links({styleClassName}) {
-	return (
-		<div className={styleClassName}>
-			hello Links
-		</div>
-	)
+function Links({ styleClassName }) {
+  return <div className={styleClassName}>hello Links</div>;
 }
 
-Links.propTypes = {
+Links.propTypes = {};
 
-}
-
-export default Links
-
+export default Links;

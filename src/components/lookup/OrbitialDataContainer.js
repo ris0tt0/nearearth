@@ -1,13 +1,11 @@
-import {connect} from 'react-redux';
-import Logger from 'js-logger';
-import { OrbitialData } from './OrbitialData';
+import { connect } from 'react-redux';
 import { neoLookupOrbitalData } from '../../selectors';
+import { OrbitialData } from './OrbitialData';
 
-const mapStateToProps = state =>
-{
-	const orbitialData = {...neoLookupOrbitalData(state)};
+const mapStateToProps = (state) => {
+  const orbitialData = { ...neoLookupOrbitalData(state) };
 
-	return {orbitialData}
+  return { orbitialData };
 };
 
 const OrbitalDataContainer = connect(mapStateToProps)(OrbitialData);

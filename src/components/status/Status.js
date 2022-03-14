@@ -1,17 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
 
 function Status(props) {
-	return (
-		<div>
-			
-		</div>
-	)
+  return <div></div>;
 }
 
-Status.propTypes = {
+Status.propTypes = {};
 
-}
-
-export {Status}
-
+export { Status };
