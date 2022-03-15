@@ -14,11 +14,12 @@ import {
   neoFeedLinks,
   neoFeedNearEarthObjects,
 } from '../../selectors';
+import Logger from 'js-logger';
 // import 'react-datepicker/dist/react-datepicker.css';
 
 function CreateNeoTable({ neos, onSelectId }) {
   const neotablerows = neos.map((item, index) => (
-    <tr key={index}>
+    <tr key={index} className="p-1 m-1 border border-yellow-300 rounded">
       <td>{item.absolute_magnitude_h}</td>
       <td>{item.is_potentially_hazardous_asteroid ? <b>true</b> : 'false'}</td>
       <td>{item.is_sentry_object ? <b>true</b> : 'false'}</td>
@@ -29,7 +30,10 @@ function CreateNeoTable({ neos, onSelectId }) {
         </a>
       </td>
       <td>
-        <button onClick={() => onSelectId(item.neo_reference_id)}>
+        <button
+          className="p-1 m-1 border border-gray-400 rounded"
+          onClick={() => onSelectId(item.neo_reference_id)}
+        >
           {item.neo_reference_id}
         </button>
       </td>
@@ -37,7 +41,7 @@ function CreateNeoTable({ neos, onSelectId }) {
   ));
 
   return (
-    <table>
+    <table className="p-1 m-1 border rounded border-cyan-400">
       <caption>
         <b>NEAR EARCH OBJECTS</b>
       </caption>
@@ -63,8 +67,8 @@ CreateNeoTable.propTypes = {
 
 function NeoTable({ title, neos, onSelectId }) {
   return (
-    <div key={title}>
-      <h1>{title}</h1>
+    <div key={title} className="p-1 m-1 border border-green-400 rounded">
+      <h1>title:{title}</h1>
       <CreateNeoTable neos={neos} onSelectId={onSelectId} />
     </div>
   );
@@ -109,6 +113,8 @@ function NeoFeed() {
       </div>
     );
 
+  Logger.info('NeoFeed::neo', neo);
+
   const neotables = Object.entries(neo).map((entry, index) => (
     <NeoTable
       key={index}
@@ -135,7 +141,7 @@ function NeoFeed() {
           NEXT
         </button>
       </div>
-      <div>{neotables}</div>
+      <div className="p-1 m-1 border rounded border-slate-400">{neotables}</div>
     </div>
   );
 }

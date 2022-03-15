@@ -1,18 +1,17 @@
 import { normalize, schema } from 'normalizr';
 import { getNasaApiKey, formatDateForNasaApi } from '../utils';
 import Logger from 'js-logger';
-import {
-  REQUEST_NEO_FEED,
-  REQUEST_ERROR_NEO_FEED,
-  RECIEVE_NEO_FEED,
-  DATE_NEO_FEED,
-  REQUEST_NEO_LOOKUP,
-  REQUEST_ERROR_NEO_LOOKUP,
-  RECIEVE_NEO_LOOKUP,
-  REQUEST_NEO_BROWSE,
-  REQUEST_ERROR_NEO_BROWSE,
-  RECIEVE_NEO_BROWSE,
-} from './ActionTypes';
+
+export const REQUEST_NEO_FEED = 'request neo feed';
+export const REQUEST_ERROR_NEO_FEED = 'request error neo feed';
+export const RECIEVE_NEO_FEED = 'recieve neo feed';
+export const DATE_NEO_FEED = 'date neo feed';
+export const REQUEST_NEO_LOOKUP = 'request neo lookup';
+export const REQUEST_ERROR_NEO_LOOKUP = 'request error neo lookup';
+export const RECIEVE_NEO_LOOKUP = 'recieve neo lookup';
+export const REQUEST_NEO_BROWSE = 'request neo browse';
+export const REQUEST_ERROR_NEO_BROWSE = 'request error neo browse';
+export const RECIEVE_NEO_BROWSE = 'recieve neo browse';
 
 /**
  * Neo - Feed
@@ -52,7 +51,7 @@ export function fetchLinkNeoFeed(linkApiUrl) {
 }
 
 export function fetchNEOFeed(startDate, endDate, linkApiUrl) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(requestNEOFeed(true));
 
     const apiKey = getNasaApiKey();
@@ -276,7 +275,7 @@ export function recieveNEOLookup(data) {
  */
 
 export function fetchNEOLookup(spkId) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(requestNEOLookup(true));
     const apiKey = getNasaApiKey();
 
@@ -412,7 +411,7 @@ export function fetchLinkNEOBrowse(apiLink) {
 }
 
 export function fetchNEOBrowse(apiLink) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(requestNEOBrowse(true));
 
     const apiKey = getNasaApiKey();

@@ -8,7 +8,7 @@ import {
   REQUEST_NEO_BROWSE,
   REQUEST_NEO_FEED,
   REQUEST_NEO_LOOKUP,
-} from '../actions/ActionTypes';
+} from '../actions';
 
 const jneo = produce(
   (draft, action) => {
