@@ -1,5 +1,7 @@
 import { normalize, schema } from 'normalizr';
 
+const objectId = (obj) => `${Object.entries(obj).join('-')}-id`;
+
 export const normalizeNeoBrowse = (json) => {
   const links = new schema.Entity(
     'links',
@@ -113,74 +115,34 @@ export const normalizeNeoBrowse = (json) => {
 };
 
 export const normalizeNeoFeed = (json) => {
-  const links = new schema.Entity(
-    'links',
-    {},
-    { idAttribute: (obj) => `${obj.self}id` }
-  );
+  const links = new schema.Entity('links', {}, { idAttribute: objectId });
   const miss_distance = new schema.Entity(
     'miss_distance',
     {},
-    {
-      idAttribute: (obj) =>
-        `${obj.astronomical}+${obj.kilometers}+${obj.lunar}+${obj.miles}id`,
-    }
+    { idAttribute: objectId }
   );
   const relative_velocity = new schema.Entity(
     'relative_velocity',
     {},
-    {
-      idAttribute: (obj) =>
-        `${obj.kilometers_per_hour}+${obj.kilometers_per_second}+${obj.miles_per_hour}id`,
-    }
+    { idAttribute: objectId }
   );
   const close_approach_data = new schema.Entity(
     'close_approach_data',
     { miss_distance, relative_velocity },
-    {
-      idAttribute: (obj) =>
-        `${obj.epoch_date_close_approach}+${obj.close_approach_date}id`,
-    }
+    { idAttribute: objectId }
   );
-  const feet = new schema.Entity(
-    'feet',
-    {},
-    {
-      idAttribute: (obj) =>
-        `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
-    }
-  );
+  const feet = new schema.Entity('feet', {}, { idAttribute: objectId });
   const kilometers = new schema.Entity(
     'kilometers',
     {},
-    {
-      idAttribute: (obj) =>
-        `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
-    }
+    { idAttribute: objectId }
   );
-  const meters = new schema.Entity(
-    'meters',
-    {},
-    {
-      idAttribute: (obj) =>
-        `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
-    }
-  );
-  const miles = new schema.Entity(
-    'miles',
-    {},
-    {
-      idAttribute: (obj) =>
-        `${obj.estimated_diameter_max}+${obj.estimated_diameter_min}id`,
-    }
-  );
+  const meters = new schema.Entity('meters', {}, { idAttribute: objectId });
+  const miles = new schema.Entity('miles', {}, { idAttribute: objectId });
   const estimated_diameter = new schema.Entity(
     'estimated_diameter',
     { feet, kilometers, meters, miles },
-    {
-      idAttribute: (obj) =>
-        `${obj.feet.estimated_diameter_max}+${obj.meters.estimated_diameter_max}+${obj.miles.estimated_diameter_max}id`,
-    }
+    { idAttribute: objectId }
   );
   const near_earth_objects = new schema.Entity(
     'near_earth_objects',
@@ -189,13 +151,13 @@ export const normalizeNeoFeed = (json) => {
       links,
       close_approach_data: [close_approach_data],
     },
-    { idAttribute: (obj) => `${obj.id}id` }
+    { idAttribute: objectId }
   );
   const near_earth_objectsvalues = new schema.Values([near_earth_objects]);
   const mySchema = new schema.Entity(
     'response',
     { links, near_earth_objects: near_earth_objectsvalues },
-    { idAttribute: (obj) => `${obj}Id` }
+    { idAttribute: () => 'neoFeedId' }
   );
   const data = normalize(json, mySchema);
 
