@@ -3,6 +3,9 @@ import Logger from 'js-logger';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useCommands } from '../../hooks';
+import { neoFeedLinks } from '../../selectors';
 import { ID, URL } from './const';
 import { useNeoFeed } from './hooks';
 
@@ -61,7 +64,7 @@ FeedGridItem.propTypes = {
   label: PropTypes.string,
 };
 
-const FeedHeader = ({ date }) => {
+const FeedHeader = ({ date, onNext, onPrev }) => {
   const [dateLabel, setDateLabel] = useState('');
 
   useEffect(() => {
@@ -73,26 +76,19 @@ const FeedHeader = ({ date }) => {
     }
   }, [date]);
 
-  const handlePrev = useCallback(() => {
-    Logger.info('handle preview');
-  }, []);
-  const handleNext = useCallback(() => {
-    Logger.info('handle next');
-  }, []);
-
   return (
-    <div className="p-2 m-2 border rounded  border-amber-200">
+    <div className="p-2 m-2 border rounded border-amber-200">
       <div>{dateLabel}</div>
       <div className="flex">
         <button
           className="flex justify-center w-1/2 p-1 m-2 border rounded border-slate-400 hover:border-slate-300 bg-slate-900 hover:bg-slate-800"
-          onClick={handlePrev}
+          onClick={onPrev}
         >
           prev
         </button>
         <button
           className="flex justify-center w-1/2 p-1 m-2 border rounded border-slate-400 hover:border-slate-300 bg-slate-900 hover:bg-slate-800"
-          onClick={handleNext}
+          onClick={onNext}
         >
           next
         </button>
@@ -103,6 +99,8 @@ const FeedHeader = ({ date }) => {
 
 FeedHeader.propTypes = {
   date: PropTypes.object,
+  onNext: PropTypes.func,
+  onPrev: PropTypes.func,
 };
 
 const Feed = ({ children }) => {
@@ -126,7 +124,10 @@ Feed.propTypes = {
 };
 
 const NeoFeed = () => {
+  const [isFeedLoading, setIsFeedLoading] = useState(false);
+  const links = useSelector(neoFeedLinks);
   const neoFeedList = useNeoFeed();
+  const commands = useCommands();
 
   const feedItems = useMemo(() => {
     return neoFeedList[0]?.list?.map(({ data, type }, index) => {
@@ -140,9 +141,29 @@ const NeoFeed = () => {
     return neoFeedList[0]?.day;
   }, [neoFeedList]);
 
+  const handleNext = useCallback(() => {
+    setIsFeedLoading(true);
+    commands.feedUrl(links.next).finally(() => setIsFeedLoading(false));
+  }, [commands, links]);
+
+  const handlePrev = useCallback(() => {
+    setIsFeedLoading(true);
+    commands.feedUrl(links.prev).finally(() => setIsFeedLoading(false));
+  }, [commands, links]);
+
   return (
     <div className="flex flex-col items-center justify-center flex-1 w-full h-full border rounded border-slate-400 ">
-      <FeedHeader date={feedDate} />
+      {isFeedLoading && (
+        <>
+          <div
+            className="inline-block w-8 h-8 border-4 rounded-full spinner-border animate-spin"
+            role="status"
+          >
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </>
+      )}
+      <FeedHeader date={feedDate} onNext={handleNext} onPrev={handlePrev} />
       <Feed>{feedItems}</Feed>
     </div>
   );
