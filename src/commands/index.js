@@ -6,7 +6,7 @@ class Commands {
   static instance = null;
 
   static getInstance(dispatch) {
-    Logger.info('Commands::getInstance');
+    Logger.info('👀 Commands::getInstance');
     if (Commands.instance === null) {
       Commands.instance = new Commands();
     }
@@ -38,8 +38,4 @@ class Commands {
   }
 }
 
-export const createCommands = (dispatch) => {
-  // commands.init(dispatch);
-  // return commands;
-  return Commands.getInstance(dispatch);
-};
+export const createCommands = (dispatch) => Commands.getInstance(dispatch);

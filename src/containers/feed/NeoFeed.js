@@ -64,12 +64,12 @@ FeedGridItem.propTypes = {
   label: PropTypes.string,
 };
 
-const FeedHeader = ({ date, onNext, onPrev }) => {
+const FeedHeader = ({ date, onNext, onPrev, isLoading }) => {
   const [dateLabel, setDateLabel] = useState('');
 
   useEffect(() => {
     if (date?.toString) {
-      const value = moment().format('dddd, MMMM Do YYYY, h:mm:ss a');
+      const value = moment(date).format('dddd, MMMM Do YYYY');
       Logger.info('values::', value);
 
       setDateLabel(value);
@@ -77,16 +77,27 @@ const FeedHeader = ({ date, onNext, onPrev }) => {
   }, [date]);
 
   return (
-    <div className="p-2 m-2 border rounded border-amber-200">
-      <div>{dateLabel}</div>
+    <div className="flex flex-col items-center justify-center p-2 m-2 border rounded border-amber-200">
+      {isLoading ? (
+        <div
+          className="inline-block w-5 h-5 border-4 rounded-full spinner-border animate-spin"
+          role="status"
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      ) : (
+        <div>{dateLabel}</div>
+      )}
       <div className="flex">
         <button
+          disabled={isLoading}
           className="flex justify-center w-1/2 p-1 m-2 border rounded border-slate-400 hover:border-slate-300 bg-slate-900 hover:bg-slate-800"
           onClick={onPrev}
         >
           prev
         </button>
         <button
+          disabled={isLoading}
           className="flex justify-center w-1/2 p-1 m-2 border rounded border-slate-400 hover:border-slate-300 bg-slate-900 hover:bg-slate-800"
           onClick={onNext}
         >
@@ -101,6 +112,7 @@ FeedHeader.propTypes = {
   date: PropTypes.object,
   onNext: PropTypes.func,
   onPrev: PropTypes.func,
+  isLoading: PropTypes.bool,
 };
 
 const Feed = ({ children }) => {
@@ -153,17 +165,14 @@ const NeoFeed = () => {
 
   return (
     <div className="flex flex-col items-center justify-center flex-1 w-full h-full border rounded border-slate-400 ">
-      {isFeedLoading && (
-        <>
-          <div
-            className="inline-block w-8 h-8 border-4 rounded-full spinner-border animate-spin"
-            role="status"
-          >
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </>
-      )}
-      <FeedHeader date={feedDate} onNext={handleNext} onPrev={handlePrev} />
+      <div className="flex items-center">
+        <FeedHeader
+          date={feedDate}
+          onNext={handleNext}
+          onPrev={handlePrev}
+          isLoading={isFeedLoading}
+        />
+      </div>
       <Feed>{feedItems}</Feed>
     </div>
   );
