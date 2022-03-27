@@ -22,7 +22,10 @@ class Commands {
     Logger.info('Commands::ctor');
 
     this.dispatch = null;
+
     this.feedUrl = this.feedUrl.bind(this);
+    this.feedNasaUrl = this.feedNasaUrl.bind(this);
+    this.feedItemId = this.feedItemId.bind(this);
   }
 
   init(dispatch) {
@@ -35,6 +38,14 @@ class Commands {
   feedUrl(url) {
     Logger.info('Commands::feedUrl', this.dispatch);
     return this.dispatch(fetchLinkNeoFeed(url));
+  }
+
+  feedNasaUrl(url) {
+    Logger.info('Commands::feedNasaUrl', url);
+  }
+
+  feedItemId(id) {
+    Logger.info('Commands::feedItemId', id);
   }
 }
 
