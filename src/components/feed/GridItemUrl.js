@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { PhotographIcon } from '@heroicons/react/solid';
 
-const FeedGridItemUrl = ({ onUrl }) => {
+const GridItemUrl = ({ onUrl }) => {
   return (
     <div className="flex items-center justify-center border rounded border-slate-700">
       <button
@@ -15,8 +15,8 @@ const FeedGridItemUrl = ({ onUrl }) => {
   );
 };
 
-FeedGridItemUrl.propTypes = {
+GridItemUrl.propTypes = {
   onUrl: PropTypes.func,
 };
 
-export default memo(FeedGridItemUrl);
+export default memo(GridItemUrl);

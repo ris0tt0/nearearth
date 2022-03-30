@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import Logger from 'js-logger';
 
-const FeedHeader = ({ date, onNext, onPrev, isLoading }) => {
+const GridHeader = ({ date, onNext, onPrev, isLoading }) => {
   const [dateLabel, setDateLabel] = useState('');
 
   useEffect(() => {
@@ -47,11 +47,11 @@ const FeedHeader = ({ date, onNext, onPrev, isLoading }) => {
   );
 };
 
-FeedHeader.propTypes = {
+GridHeader.propTypes = {
   date: PropTypes.object,
   onNext: PropTypes.func,
   onPrev: PropTypes.func,
   isLoading: PropTypes.bool,
 };
 
-export default memo(FeedHeader);
+export default memo(GridHeader);

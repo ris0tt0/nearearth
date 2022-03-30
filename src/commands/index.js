@@ -42,10 +42,14 @@ class Commands {
 
   feedNasaUrl(url) {
     Logger.info('Commands::feedNasaUrl', url);
+
+    return Promise.resolve();
   }
 
   feedItemId(id) {
     Logger.info('Commands::feedItemId', id);
+
+    return Promise.resolve();
   }
 }
 

@@ -2,7 +2,7 @@ import { IdentificationIcon } from '@heroicons/react/solid';
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
-const FeedGridItemId = ({ onId }) => {
+const GridItemId = ({ onId }) => {
   return (
     <div className="flex items-center justify-center border rounded border-slate-700">
       <button
@@ -15,8 +15,8 @@ const FeedGridItemId = ({ onId }) => {
     </div>
   );
 };
-FeedGridItemId.propTypes = {
+GridItemId.propTypes = {
   onId: PropTypes.func,
 };
 
-export default memo(FeedGridItemId);
+export default memo(GridItemId);

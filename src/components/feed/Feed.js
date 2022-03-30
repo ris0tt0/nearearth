@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const headerClass = 'p-4 border border-red-400 rounded text-xs';
 
-const Feed = ({ children }) => {
+const GridFeed = ({ children }) => {
   return (
     <div className="grid grid-cols-6 gap-3 p-5 border rounded justify-items-stretch border-cyan-200">
       <div className="p-4 text-xs border border-red-400 rounded">
@@ -19,8 +19,8 @@ const Feed = ({ children }) => {
   );
 };
 
-Feed.propTypes = {
+GridFeed.propTypes = {
   children: PropTypes.array,
 };
 
-export default memo(Feed);
+export default memo(GridFeed);

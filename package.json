@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "start": "webpack serve --config config/webpack.dev.js",
-    "lint": "eslint ./src",
+    "lint": "eslint ./src/**/*.js",
     "build": "webpack --config config/webpack.prod.js",
-    "build:dev": "webpack --config config/webpack.dev.js"
+    "build:dev": "webpack --config config/webpack.dev.js",
+    "test": "jest --env=jsdom",
+    "test:watch": "jest --watch --env=jsdom"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
@@ -24,6 +26,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.3",
     "html-webpack-plugin": "^5.5.0",
+    "jest": "^27.5.1",
     "mini-css-extract-plugin": "^2.5.3",
     "postcss-loader": "^6.2.1",
     "prettier": "^2.5.1",
