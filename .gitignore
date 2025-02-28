@@ -2,7 +2,9 @@
 
 # dependencies
 /node_modules
+/dist
 /.pnp
+.yarn/*
 .pnp.js
 
 # testing
