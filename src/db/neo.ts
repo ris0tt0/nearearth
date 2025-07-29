@@ -26,6 +26,7 @@ export class NeoDbImpl implements NeoDb {
 
         db.createObjectStore('neo', { keyPath: 'id' });
         db.createObjectStore('browse', { keyPath: 'id' });
+        db.createObjectStore('date', { keyPath: 'id' });
       };
     });
 
@@ -97,6 +98,49 @@ export class NeoDbImpl implements NeoDb {
         if (this.db) {
           const transaction = this.db.transaction(['browse'], 'readwrite');
           const objectStore = transaction.objectStore('browse');
+          const request = objectStore.add(browse);
+          request.onsuccess = (e) => {
+            resolve();
+          };
+          request.onerror = (e) => {
+            reject(e);
+          };
+        } else {
+          reject('database not init');
+        }
+      } else {
+        reject('database not init');
+      }
+    });
+
+    return retVal;
+  }
+
+  getNeoDate(id: string) {
+    const retVal = new Promise<any | null>((resolve, reject) => {
+      if (this.db) {
+        const transaction = this.db.transaction(['date'], 'readonly');
+        const objectStore = transaction.objectStore('date');
+        const request = objectStore.get(id);
+        request.onsuccess = (e) => {
+          resolve(request.result ?? null);
+        };
+        request.onerror = (e) => {
+          reject(e);
+        };
+      } else {
+        reject('database not init');
+      }
+    });
+
+    return retVal;
+  }
+  setNeoDate(browse: any) {
+    const retVal = new Promise<void>((resolve, reject) => {
+      if (this.db) {
+        if (this.db) {
+          const transaction = this.db.transaction(['date'], 'readwrite');
+          const objectStore = transaction.objectStore('date');
           const request = objectStore.add(browse);
           request.onsuccess = (e) => {
             resolve();

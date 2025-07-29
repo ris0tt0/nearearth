@@ -1,11 +1,9 @@
 import React, { FC } from 'react';
-import { Outlet, useParams } from 'react-router-dom';
-import { NeoParams } from '..';
+import { Outlet } from 'react-router-dom';
 
 export const NeoRoute: FC = () => {
   return (
     <div>
-      <div>neo</div>
       <Outlet />
     </div>
   );

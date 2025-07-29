@@ -37,6 +37,14 @@ const neoBrowseLoader = async (args: any) => {
   return browse;
 };
 
+const neoFeedLoader = async (args: any) => {
+  Logger.info('neoFeedLoader', args);
+  const commands = NeoCommandsImpl.getInstance();
+  const date = await commands.requestNeoDate(args.params.neoDate);
+
+  return date;
+};
+
 export type NeoParams = {
   neoId: string | undefined;
 };
@@ -89,7 +97,12 @@ const router = createBrowserRouter([
         Component: FeedRoute,
         children: [
           { index: true, Component: FeedAboutRoute },
-          { path: ':neoDate', Component: FeedDetailsRoute },
+          {
+            path: ':neoDate',
+            Component: FeedDetailsRoute,
+            HydrateFallback: LoadingFull,
+            loader: neoFeedLoader,
+          },
         ],
       },
       { path: 'about', Component: AboutRoute },

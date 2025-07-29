@@ -1,3 +1,4 @@
+import Logger from 'js-logger';
 import { NeoCommands } from '.';
 import { NeoApi } from '../api';
 import { NeoApiImpl } from '../api/neo';
@@ -63,6 +64,23 @@ export class NeoCommandsImpl implements NeoCommands {
     const data = { ...request.data, id };
 
     await this.db.setBrowse(data);
+
+    return data;
+  }
+
+  async requestNeoDate(date: string) {
+    const id = date;
+    const neoDate = await this.db.getNeoDate(id);
+
+    if (neoDate) {
+      return neoDate;
+    }
+
+    const request = await this.api.getNeoFeed(date, date);
+    const data = { ...request.data, id };
+
+    await this.db.setNeoDate(data);
+    Logger.info('requestNeoDate', data);
 
     return data;
   }
