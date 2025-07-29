@@ -48,4 +48,22 @@ export class NeoCommandsImpl implements NeoCommands {
 
     return request.data;
   }
+
+  async requestNeoBrowse(page: number, size: number) {
+    const id = `browse${page}${size}`;
+
+    const browse = await this.db.getBrowse(id);
+
+    if (browse) {
+      return browse;
+    }
+
+    const request = await this.api.getNeoBrowse(page, size);
+
+    const data = { ...request.data, id };
+
+    await this.db.setBrowse(data);
+
+    return data;
+  }
 }

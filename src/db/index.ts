@@ -83,4 +83,7 @@ export type NearEarthObject = {
 export interface NeoDb extends Initable {
   getNeo(id: string): Promise<NearEarthObject | null>;
   setNeo(neo: NearEarthObject): Promise<void>;
+
+  getBrowse(id: string): Promise<any | null>;
+  setBrowse(browse: any): Promise<void>;
 }

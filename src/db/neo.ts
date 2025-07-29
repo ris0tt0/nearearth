@@ -24,7 +24,8 @@ export class NeoDbImpl implements NeoDb {
       request.onupgradeneeded = () => {
         const db = request.result;
 
-        const objectStore = db.createObjectStore('neo', { keyPath: 'id' });
+        db.createObjectStore('neo', { keyPath: 'id' });
+        db.createObjectStore('browse', { keyPath: 'id' });
       };
     });
 
@@ -50,7 +51,7 @@ export class NeoDbImpl implements NeoDb {
 
     return retVal;
   }
-  async setNeo(neo: NearEarthObject) {
+  setNeo(neo: NearEarthObject) {
     Logger.info('NeoDbImpl::setNeo', neo);
     const retVal = new Promise<void>((resolve, reject) => {
       if (this.db) {
@@ -63,6 +64,49 @@ export class NeoDbImpl implements NeoDb {
         request.onerror = (e) => {
           reject(e);
         };
+      } else {
+        reject('database not init');
+      }
+    });
+
+    return retVal;
+  }
+
+  getBrowse(id: string) {
+    const retVal = new Promise<any | null>((resolve, reject) => {
+      if (this.db) {
+        const transaction = this.db.transaction(['browse'], 'readonly');
+        const objectStore = transaction.objectStore('browse');
+        const request = objectStore.get(id);
+        request.onsuccess = (e) => {
+          resolve(request.result ?? null);
+        };
+        request.onerror = (e) => {
+          reject(e);
+        };
+      } else {
+        reject('database not init');
+      }
+    });
+
+    return retVal;
+  }
+  setBrowse(browse: any) {
+    const retVal = new Promise<void>((resolve, reject) => {
+      if (this.db) {
+        if (this.db) {
+          const transaction = this.db.transaction(['browse'], 'readwrite');
+          const objectStore = transaction.objectStore('browse');
+          const request = objectStore.add(browse);
+          request.onsuccess = (e) => {
+            resolve();
+          };
+          request.onerror = (e) => {
+            reject(e);
+          };
+        } else {
+          reject('database not init');
+        }
       } else {
         reject('database not init');
       }

@@ -41,4 +41,11 @@ export class NeoApiImpl implements NeoApi {
     });
     return request;
   }
+  async getNeoBrowse(page: number, size: number) {
+    const request = await this.axios.get('neo/browse', {
+      params: { page, size },
+    });
+
+    return request;
+  }
 }

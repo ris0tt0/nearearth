@@ -12,4 +12,6 @@ export interface NeoApi extends Initable {
    * @param endDate Ending date for asteroid search
    */
   getNeoFeed(startDate: string, endDate?: string): Promise<any>;
+
+  getNeoBrowse(page: number, size: number): Promise<any>;
 }
