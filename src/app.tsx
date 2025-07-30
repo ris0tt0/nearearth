@@ -1,3 +1,5 @@
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import Logger from 'js-logger';
 import React, { FC } from 'react';
 import { MUIProvider } from './providers/mui';
@@ -7,8 +9,9 @@ export const Application: FC = () => {
   Logger.info('Appplicatoin');
   return (
     <MUIProvider>
-      <div>welcome to the neo applications</div>
-      <Routes />
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Routes />
+      </LocalizationProvider>
     </MUIProvider>
   );
 };
