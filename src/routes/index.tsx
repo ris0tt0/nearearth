@@ -64,6 +64,10 @@ const router = createBrowserRouter([
     children: [
       { index: true, Component: AboutRoute },
       {
+        path: 'about',
+        Component: AboutRoute,
+      },
+      {
         path: 'browse',
         Component: BrowseRoute,
         children: [

@@ -5,7 +5,7 @@ export const NavLinkStyled = styled(Link)(
   ({ theme }) =>
     `
     color: inherit;
-    :hover {
+    &:hover {
       text-decoration: none;
       color: ${theme.palette.text.secondary};
     }
