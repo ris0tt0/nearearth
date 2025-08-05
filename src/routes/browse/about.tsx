@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { NavLinkStyled } from '../../components/styled';
 
 export const BrowseAboutRoute: FC = () => {
   return (
@@ -30,12 +31,12 @@ export const BrowseAboutRoute: FC = () => {
       <h3>State Management</h3>
       <ul>
         <li>
-          Fetched data is stored in Redux, providing centralized access to
+          Fetched data is stored in IndexedDB, providing centralized access to
           asteroid information across the app.
         </li>
         <li>
           Loading, error handling, and pagination state are also managed via
-          Redux, ensuring smooth transitions between pages.
+          IndexedDB, ensuring smooth transitions between pages.
         </li>
       </ul>
       <h3>Caching for Performance</h3>
@@ -51,10 +52,11 @@ export const BrowseAboutRoute: FC = () => {
       </ul>
       <h3>Why Start at Page 1?</h3>
       <p>
-        Starting at page 1 ensures that users see the most recently updated
-        asteroid data first, and gives them a consistent entry point into the
-        dataset. As users navigate forward, they gain access to the full scope
-        of historical data stored in NASA’s NEO tracking system.
+        Starting at <NavLinkStyled to="1">page 1</NavLinkStyled> ensures that
+        users see the most recently updated asteroid data first, and gives them
+        a consistent entry point into the dataset. As users navigate forward,
+        they gain access to the full scope of historical data stored in NASA’s
+        NEO tracking system.
       </p>
     </div>
   );

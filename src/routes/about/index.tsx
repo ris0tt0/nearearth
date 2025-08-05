@@ -31,7 +31,7 @@ export const AboutRoute: FC = () => {
       <ul>
         <li>Daily and historical data about near-Earth asteroids</li>
         <li>Local caching of asteroid data for offline browsing</li>
-        <li>Redux-powered state management for a predictable data flow</li>
+        <li>IndexedDB-powered state management for a predictable data flow</li>
         <li>
           Responsive design and efficient data handling through asynchronous API
           calls
