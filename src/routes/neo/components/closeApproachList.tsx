@@ -42,21 +42,25 @@ const CloseItemContainer = styled('div')`
   justify-content: center;
 `;
 
+const CloseApproachDataListRow: FC<{ cad: CloseApproachData }> = ({ cad }) => {
+  return (
+    <>
+      <CloseItemContainer>{cad.close_approach_date}</CloseItemContainer>
+      <CloseItemContainer>{cad.orbiting_body}</CloseItemContainer>
+      <CloseItemContainer>{cad.miss_distance.astronomical}</CloseItemContainer>
+      <CloseItemContainer>
+        {cad.relative_velocity.kilometers_per_hour}
+      </CloseItemContainer>
+    </>
+  );
+};
+
 export const CloseApproachDataList: FC<{ cad: CloseApproachData[] }> = ({
   cad,
 }) => {
   const items = cad.map((data) => {
     return (
-      <>
-        <CloseItemContainer>{data.close_approach_date}</CloseItemContainer>
-        <CloseItemContainer>{data.orbiting_body}</CloseItemContainer>
-        <CloseItemContainer>
-          {data.miss_distance.astronomical}
-        </CloseItemContainer>
-        <CloseItemContainer>
-          {data.relative_velocity.kilometers_per_hour}
-        </CloseItemContainer>
-      </>
+      <CloseApproachDataListRow key={data.close_approach_date} cad={data} />
     );
   });
 

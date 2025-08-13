@@ -1,10 +1,53 @@
+import { Paper } from '@mui/material';
 import React, { FC } from 'react';
 
 export const FeedAboutRoute: FC = () => {
   return (
     <div>
-      <p>the feed</p>
-      please choose a date, and then choose select
+      <h1>Near Earth Object (NEO) Feed Viewer</h1>
+      <p>
+        A ReactJS application that uses NASA’s Near Earth Object Web Service
+        (NeoWs) Feed endpoint to allow users to select a date and view asteroids
+        detected on that date. Users can click on any NEO in the results list to
+        view detailed information via the NEO ID route.
+      </p>
+      <h2>About</h2>
+      <p>
+        This project provides an interactive interface for exploring NASA’s NEO
+        feed data.
+      </p>
+      <p>The application features:</p>
+      <ul>
+        <li>A date picker to choose a specific day of interest.</li>
+        <li>
+          A Select button to trigger the fetch of asteroid data for the chosen
+          date.
+        </li>
+        <li>
+          A list of NEO links returned from NASA’s feed, each clickable to view
+          detailed data for that asteroid.
+        </li>
+        <li>Routing to the NEO ID details page using React Router.</li>
+      </ul>
+      <h2>How It Works</h2>
+      <ol>
+        <li>User selects a date using the date picker. Clicking</li>
+        <li>
+          the Select button triggers a request to NASA’s NEO feed endpoint:
+          <br />
+          <Paper>
+            <code>
+              https://api.nasa.gov/neo/rest/v1/feed?start_date=YYYY-MM-DD&end_date=YYYY-MM-DD&api_key=YOUR_API_KEY
+            </code>
+          </Paper>
+        </li>
+        <li>The API returns a list of NEOs detected for that date.</li>
+        <li>The results are displayed as clickable links.</li>{' '}
+        <li>
+          Clicking a NEO link navigates to the /neo/:id route, where a detailed
+          view is rendered using the NEO lookup endpoint.
+        </li>
+      </ol>
     </div>
   );
 };
