@@ -39,9 +39,8 @@ export const NeoAboutRoute: FC = () => {
       <h3>How It Works</h3>
       <ol>
         <li>
-          The page is accessed through a route such as:
-          <code>/neo/:id</code>
-          where :id is the SPK-ID of the asteroid.
+          The page is accessed through a route such as: <code>/neo/:id</code>{' '}
+          where <code>:id</code> is the SPK-ID of the asteroid.
         </li>
         <li>
           The app sends a request to NASA's NEO lookup endpoint:{' '}
@@ -49,10 +48,7 @@ export const NeoAboutRoute: FC = () => {
             https://api.nasa.gov/neo/rest/v1/neo/&#123;SPK-ID&#125;?api_key=YOUR_API_KEY
           </code>
         </li>
-        <li>
-          Axios fetches the data, which is then stored in state (or Redux, if
-          implemented).
-        </li>
+        <li>Axios fetches the data, which is then stored in IndexedDB.</li>
         <li>The page renders all relevant details, often grouped into:</li>
         <ul>
           <li>Basic Information (name, NASA JPL URL)</li>
