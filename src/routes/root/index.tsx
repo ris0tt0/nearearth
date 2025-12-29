@@ -26,9 +26,6 @@ const OutletHeaderContainer = styled('menu')`
 
 const OutletContainer = styled(Container)(
   ({ theme }) => `
-
-    border: 1px solid red;
-
     header {
       background: ${theme.palette.primary.main};
       color: ${theme.palette.primary.contrastText};
