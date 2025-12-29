@@ -3,7 +3,22 @@ import React, { FC, PropsWithChildren } from 'react';
 
 const MUIProvider: FC<PropsWithChildren> = ({ children }) => {
   const theme = createTheme({
-    palette: { mode: 'dark' },
+    colorSchemes: {
+      light: {
+        palette: {
+          background: {
+            paper: '#ffffff',
+          },
+        },
+      },
+      dark: {
+        palette: {
+          background: {
+            paper: '#1a1a1a',
+          },
+        },
+      },
+    },
   });
 
   return (

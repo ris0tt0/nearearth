@@ -6,9 +6,7 @@ const LoaderContainer = styled('div')`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100vh;
-
-  border: 1px red solid;
+  height: 70vh;
 `;
 
 export const LoadingFull: FC = () => (

@@ -1,16 +1,23 @@
 import React, { FC } from 'react';
+import { AboutMain } from '../../styled';
+import { NavLinkStyled } from '../../components/styled';
 
 export const NeoAboutRoute: FC = () => {
   return (
-    <div>
-      <h1>Near Earth Object (NEO) Detail Viewer</h1>
+    <AboutMain>
+      <h2>Near Earth Object (NEO) Detail Viewer</h2>
       <p>
         A ReactJS application page that displays detailed information for a
-        specific Near Earth Object (NEO) by querying NASA’s NeoWs Lookup
+        specific Near Earth Object (NEO) by querying NASA's NeoWs Lookup
         Endpoint. The NEO is identified by its SPK-ID, a unique identifier
         assigned by NASA.
       </p>
-      <h2>About</h2>
+      <p>
+        You can view these details by either{' '}
+        <NavLinkStyled to={`/browse`}>browsing</NavLinkStyled>. or looking at
+        the <NavLinkStyled to={`/feed`}>feed</NavLinkStyled>.
+      </p>
+      <h3>About</h3>
       <p>
         This page is part of a larger application for browsing and exploring
         Near Earth Objects. It allows users to:
@@ -29,7 +36,7 @@ export const NeoAboutRoute: FC = () => {
         </ul>
         <li>Navigate back to the NEO list or feed page.</li>
       </ul>
-      <h2>How It Works</h2>
+      <h3>How It Works</h3>
       <ol>
         <li>
           The page is accessed through a route such as:
@@ -37,7 +44,7 @@ export const NeoAboutRoute: FC = () => {
           where :id is the SPK-ID of the asteroid.
         </li>
         <li>
-          The app sends a request to NASA’s NEO lookup endpoint:
+          The app sends a request to NASA's NEO lookup endpoint:
           <code>
             https://api.nasa.gov/neo/rest/v1/neo/&#123;SPK-ID&#125;?api_key=YOUR_API_KEY
           </code>
@@ -59,6 +66,6 @@ export const NeoAboutRoute: FC = () => {
           <li>Links to related NASA JPL pages</li>
         </ul>
       </ol>
-    </div>
+    </AboutMain>
   );
 };

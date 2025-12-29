@@ -1,15 +1,16 @@
 import React, { FC } from 'react';
 import { NavLinkStyled } from '../../components/styled';
+import { AboutMain } from '../../styled';
 
 export const BrowseAboutRoute: FC = () => {
   return (
-    <div>
-      <h2>How It Works: Browsing NASA’s NEO API</h2>
+    <AboutMain>
+      <h2>How It Works: Browsing NASA's NEO API</h2>
       <p>
-        This application starts by querying NASA’s Near Earth Object Web Service
-        (NeoWs) beginning from page 1 of the dataset. The goal is to provide an
-        efficient and user-friendly way to browse through potentially hazardous
-        asteroid data tracked by NASA.
+        This application starts by querying NASA's Near Earth Object Web Service
+        (NeoWs) beginning from <NavLinkStyled to="1">page 1</NavLinkStyled> of
+        the dataset. The goal is to provide an efficient and user-friendly way
+        to browse through potentially hazardous asteroid data tracked by NASA.
       </p>
 
       <h3>Data Fetching</h3>
@@ -55,9 +56,9 @@ export const BrowseAboutRoute: FC = () => {
         Starting at <NavLinkStyled to="1">page 1</NavLinkStyled> ensures that
         users see the most recently updated asteroid data first, and gives them
         a consistent entry point into the dataset. As users navigate forward,
-        they gain access to the full scope of historical data stored in NASA’s
+        they gain access to the full scope of historical data stored in NASA's
         NEO tracking system.
       </p>
-    </div>
+    </AboutMain>
   );
 };

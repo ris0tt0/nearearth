@@ -5,7 +5,7 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const { FederatedTypesPlugin } = require('@module-federation/typescript');
 
 const federationConfig = {
-  name: 'jayapod',
+  name: 'jayneo',
   filename: 'remoteEntry.js',
   shared: {
     '@emotion/react': { singleton: true },
@@ -41,7 +41,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'apod',
+      title: 'near earth objects',
       template: path.resolve(__dirname, 'public/index.html'),
     }),
     new Dotenv({

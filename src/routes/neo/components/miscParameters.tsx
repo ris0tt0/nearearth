@@ -1,65 +1,139 @@
-import { Tooltip } from '@mui/material';
+import { styled, Tooltip } from '@mui/material';
 import React, { FC } from 'react';
-import { NearEarthObjectOrbitalData } from '../../../db';
+import { NearEarthObject, NearEarthObjectOrbitalData } from '../../../db';
 import {
-  ConatinerGridContainer,
-  ConatinerGridHeaderContainer,
-  ConatinerGridItemContainer,
+  ContainerGridContainer,
+  ContainerGridItemContainer,
   ElementParam,
   OrbitParamsContainer,
 } from './styled';
+import { GridTwoColumnLoader } from '../../../loaders';
+import Logger from 'js-logger';
+import { NavLinkStyled } from '../../../components/styled';
+
+const HazardContainer = styled('div')(
+  ({ theme }) => `
+    display: flex;
+    width: 100%;
+    
+    .hazard {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      background: ${theme.palette.warning.dark};
+      color: ${theme.palette.warning.contrastText};
+    }
+
+    .not-hazard {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+    }`,
+);
 
 export const MiscellaneousParameters: FC<{
-  data: NearEarthObjectOrbitalData;
-}> = ({ data }) => {
+  loading: boolean;
+  data?: NearEarthObject;
+}> = ({ loading, data }) => {
+  Logger.info('miscellaneous data', data);
   return (
     <OrbitParamsContainer>
-      <ConatinerGridContainer>
-        <ConatinerGridHeaderContainer>
-          Miscellaneous
-        </ConatinerGridHeaderContainer>
-        <ConatinerGridItemContainer>
-          <Tooltip
-            title="number of observations (all types) used in fit"
-            placement="top"
-          >
-            <ElementParam># obs. used (total)</ElementParam>
-          </Tooltip>
-        </ConatinerGridItemContainer>
-        <ConatinerGridItemContainer>
-          {data.observations_used}
-        </ConatinerGridItemContainer>
-        <ConatinerGridItemContainer>
-          <Tooltip title="number of days spanned by data-arc" placement="top">
-            <ElementParam>data-arc span</ElementParam>
-          </Tooltip>
-        </ConatinerGridItemContainer>
-        <ConatinerGridItemContainer>
-          {data.data_arc_in_days} days
-        </ConatinerGridItemContainer>
-        <ConatinerGridItemContainer>
-          <Tooltip
-            title="date of first observation used in the fit"
-            placement="top"
-          >
-            <ElementParam>first obs. used</ElementParam>
-          </Tooltip>
-        </ConatinerGridItemContainer>
-        <ConatinerGridItemContainer>
-          {data.first_observation_date}
-        </ConatinerGridItemContainer>
-        <ConatinerGridItemContainer>
-          <Tooltip
-            title="date of last observation used in the fit"
-            placement="top"
-          >
-            <ElementParam>last obs. used</ElementParam>
-          </Tooltip>
-        </ConatinerGridItemContainer>
-        <ConatinerGridItemContainer>
-          {data.last_observation_date}
-        </ConatinerGridItemContainer>
-      </ConatinerGridContainer>
+      <ContainerGridContainer>
+        <h4>Miscellaneous Data</h4>
+        <p>
+          Provides additional reference details such as absolute magnitude,
+          hazard classification, observation history, and links to official NASA
+          resources.
+        </p>
+        {loading ? (
+          <GridTwoColumnLoader />
+        ) : (
+          <>
+            <ContainerGridItemContainer>
+              <Tooltip
+                title="number of observations (all types) used in fit"
+                placement="top"
+              >
+                <ElementParam>Observations (total)</ElementParam>
+              </Tooltip>
+            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>
+              {data?.orbital_data?.observations_used ?? ''}
+            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>
+              <Tooltip
+                title="is potentially hazardous asteroid"
+                placement="top"
+              >
+                <ElementParam>Hazardous</ElementParam>
+              </Tooltip>
+            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>
+              <HazardContainer>
+                {data?.is_potentially_hazardous_asteroid ? (
+                  <div className="hazard">yes</div>
+                ) : (
+                  <div className="not-hazard">no</div>
+                )}
+              </HazardContainer>
+            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>
+              <Tooltip
+                title="absolute magnitude, at 1 au from Sun and observer"
+                placement="top"
+              >
+                <ElementParam>Absolute Magnitude</ElementParam>
+              </Tooltip>
+            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>
+              {data?.absolute_magnitude_h ?? ''}
+            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>
+              <Tooltip
+                title="number of days spanned by data-arc"
+                placement="top"
+              >
+                <ElementParam>Data-arc Span</ElementParam>
+              </Tooltip>
+            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>
+              {data?.orbital_data?.data_arc_in_days ?? ''} days
+            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>
+              <Tooltip
+                title="date of first observation used in the fit"
+                placement="top"
+              >
+                <ElementParam>First Obs. Used</ElementParam>
+              </Tooltip>
+            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>
+              {data?.orbital_data?.first_observation_date ?? ''}
+            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>
+              <Tooltip
+                title="date of last observation used in the fit"
+                placement="top"
+              >
+                <ElementParam>Last Obs. Used</ElementParam>
+              </Tooltip>
+            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>
+              {data?.orbital_data?.last_observation_date ?? ''}
+            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>
+              <Tooltip title="nasa jpl resource url" placement="top">
+                <ElementParam>Nasa JPL URL</ElementParam>
+              </Tooltip>
+            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>
+              <NavLinkStyled to={data?.nasa_jpl_url ?? ''} target="_blank">
+                link
+              </NavLinkStyled>
+            </ContainerGridItemContainer>
+          </>
+        )}
+      </ContainerGridContainer>
     </OrbitParamsContainer>
   );
 };

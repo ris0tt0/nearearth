@@ -1,19 +1,24 @@
-import { Paper } from '@mui/material';
 import React, { FC } from 'react';
+import { NavLinkStyled } from '../../components/styled';
+import { AboutMain } from '../../styled';
+import { getCurrentFormattedDate } from '../../utils';
 
 export const FeedAboutRoute: FC = () => {
+  const today = getCurrentFormattedDate();
+
   return (
-    <div>
-      <h1>Near Earth Object (NEO) Feed Viewer</h1>
+    <AboutMain>
+      <h2>Near Earth Object (NEO) Feed Viewer</h2>
       <p>
-        A ReactJS application that uses NASA’s Near Earth Object Web Service
+        A ReactJS application that uses NASA's Near Earth Object Web Service
         (NeoWs) Feed endpoint to allow users to select a date and view asteroids
         detected on that date. Users can click on any NEO in the results list to
-        view detailed information via the NEO ID route.
+        view detailed information via the NEO ID route. Start now with{' '}
+        <NavLinkStyled to={`/feed/${today}`}>today</NavLinkStyled>.
       </p>
-      <h2>About</h2>
+      <h3>About</h3>
       <p>
-        This project provides an interactive interface for exploring NASA’s NEO
+        This project provides an interactive interface for exploring NASA's NEO
         feed data.
       </p>
       <p>The application features:</p>
@@ -24,22 +29,20 @@ export const FeedAboutRoute: FC = () => {
           date.
         </li>
         <li>
-          A list of NEO links returned from NASA’s feed, each clickable to view
+          A list of NEO links returned from NASA's feed, each clickable to view
           detailed data for that asteroid.
         </li>
         <li>Routing to the NEO ID details page using React Router.</li>
       </ul>
-      <h2>How It Works</h2>
+      <h3>How It Works</h3>
       <ol>
         <li>User selects a date using the date picker. Clicking</li>
         <li>
-          the Select button triggers a request to NASA’s NEO feed endpoint:
+          the Select button triggers a request to NASA's NEO feed endpoint:
           <br />
-          <Paper>
-            <code>
-              https://api.nasa.gov/neo/rest/v1/feed?start_date=YYYY-MM-DD&end_date=YYYY-MM-DD&api_key=YOUR_API_KEY
-            </code>
-          </Paper>
+          <code>
+            https://api.nasa.gov/neo/rest/v1/feed?start_date=YYYY-MM-DD&end_date=YYYY-MM-DD&api_key=YOUR_API_KEY
+          </code>
         </li>
         <li>The API returns a list of NEOs detected for that date.</li>
         <li>The results are displayed as clickable links.</li>{' '}
@@ -48,6 +51,6 @@ export const FeedAboutRoute: FC = () => {
           view is rendered using the NEO lookup endpoint.
         </li>
       </ol>
-    </div>
+    </AboutMain>
   );
 };

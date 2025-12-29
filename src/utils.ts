@@ -7,7 +7,7 @@ export const formatFeedDate = (date: Date) => {
   return result;
 };
 
-export const getCurentFormattedDate = () => {
+export const getCurrentFormattedDate = () => {
   const date = new Date();
 
   const result = formatFeedDate(date);

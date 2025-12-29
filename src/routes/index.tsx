@@ -1,8 +1,6 @@
-import Logger from 'js-logger';
 import React, { FC } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { NeoCommandsImpl } from '../commands/neo';
-import { LoadingFull } from '../components/loading';
 import { AboutRoute } from './about';
 import { BrowseRoute } from './browse';
 import { BrowseAboutRoute } from './browse/about';
@@ -14,15 +12,9 @@ import { NeoRoute } from './neo';
 import { NeoAboutRoute } from './neo/about';
 import { NeoDetailRoute } from './neo/detail';
 import { RootRoute } from './root';
-
-/*
-LoaderFunction<Context>: ((args: LoaderFunctionArgs<Context>, handlerCtx?: unknown) => unknown) & {
-    hydrate?: boolean;
-}
-*/
+import { LoadingFull } from '../components/loading';
 
 const neoLoader = async (args: any) => {
-  Logger.info('neoloader', args);
   const commands = NeoCommandsImpl.getInstance();
   const neo = await commands.requestNeo(args.params.neoId);
 
@@ -30,15 +22,13 @@ const neoLoader = async (args: any) => {
 };
 
 const neoBrowseLoader = async (args: any) => {
-  Logger.info('neoBrwoseloader', args);
   const commands = NeoCommandsImpl.getInstance();
-  const browse = await commands.requestNeoBrowse(args.params.pageId, 20);
+  const browse = await commands.requestNeoBrowse(args.params.pageId, 40);
 
   return browse;
 };
 
 const neoFeedLoader = async (args: any) => {
-  Logger.info('neoFeedLoader', args);
   const commands = NeoCommandsImpl.getInstance();
   const date = await commands.requestNeoDate(args.params.neoDate);
 
@@ -53,7 +43,7 @@ export type NeoDateParams = {
   neoDate: string | undefined;
 };
 
-export type BrowseParams = {
+export type NeoBrowseParams = {
   pageId: string | undefined;
 };
 
@@ -78,8 +68,6 @@ const router = createBrowserRouter([
           {
             path: ':pageId',
             Component: BrowseDetailsRoute,
-            HydrateFallback: LoadingFull,
-            loader: neoBrowseLoader,
           },
         ],
       },
@@ -90,8 +78,6 @@ const router = createBrowserRouter([
           { index: true, Component: NeoAboutRoute },
           {
             path: ':neoId',
-            HydrateFallback: LoadingFull,
-            loader: neoLoader,
             Component: NeoDetailRoute,
           },
         ],
@@ -104,8 +90,6 @@ const router = createBrowserRouter([
           {
             path: ':neoDate',
             Component: FeedDetailsRoute,
-            HydrateFallback: LoadingFull,
-            loader: neoFeedLoader,
           },
         ],
       },
@@ -114,8 +98,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-const Routes: FC = () => {
-  return <RouterProvider router={router} />;
-};
+const Routes: FC = () => <RouterProvider router={router} />;
 
 export { Routes };

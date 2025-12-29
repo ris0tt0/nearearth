@@ -13,7 +13,7 @@ export const NavLinkStyled = styled(Link)(
 );
 
 export const UnorderedListStyled = styled('ul')`
-  border: 1px red solid;
+  background: ${({ theme }) => theme.palette.background.paper};
 `;
 export const UnorderedListItemStyled = styled('li')`
   list-style: none;

@@ -1,37 +1,106 @@
+import { styled } from '@mui/material';
 import { format } from 'date-fns';
-import Logger from 'js-logger';
-import React, { FC } from 'react';
-import { useLoaderData } from 'react-router-dom';
-import { FeedRequest, NearEarthObject } from '../../db';
-import { BrowseDetailsPageList } from '../browse/detail';
+import React, { FC, Fragment, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { NeoDateParams } from '..';
+import { NavLinkStyled } from '../../components/styled';
+import { FeedRequest } from '../../db';
+import { useCommands } from '../../hooks/useCommands';
+import { GridFourColumnLoader } from '../../loaders';
 
-export const FeedDeoTitle: FC<{ date: string }> = ({ date }) => {
-  const append = `${date}T00:00:00`;
+const FeedSection = styled('section')(
+  ({ theme }) => `
+    display: grid;
+    background: ${theme.palette.background.paper};
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: auto;
+    padding-bottom: 1rem;
 
-  const result2 = format(append, 'LLLL do yyyy');
+    h3 {
+      display: flex;
+      color: ${theme.palette.secondary.light};
+      justify-content: center;
+    }
 
-  return result2 ?? null;
-};
+    .hazard {
+      display: flex;
+      justify-content: center;
+      background: ${theme.palette.warning.dark};
+      color: ${theme.palette.warning.contrastText};
+    }
 
-export const FeedNeo: FC<{ neos: Record<string, NearEarthObject[]> }> = ({
-  neos,
-}) => {
-  const items = Object.entries(neos).map(([title, neoList]) => {
-    return (
-      <div key={title}>
-        <FeedDeoTitle date={title} />
-        <BrowseDetailsPageList neos={neoList} />
-      </div>
-    );
-  });
+    .not-hazard {
+      display: flex;
+      justify-content: center;
+    }
+`,
+);
 
-  return <div>{items}</div>;
-};
+const FeedItem = styled('div')`
+  display: flex;
+  justify-content: center;
+`;
+
+const FeedItemDate = styled('div')`
+  padding-left: 2rem;
+`;
 
 export const FeedDetailsRoute: FC = () => {
-  const data = useLoaderData<FeedRequest>();
+  const commands = useCommands();
+  const { neoDate } = useParams<NeoDateParams>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [neoData, setNeoData] = useState<FeedRequest | null>(null);
 
-  Logger.info('FeedDetailsRoute', data);
+  useEffect(() => {
+    if (neoDate) {
+      setIsLoading(true);
+      commands
+        .requestNeoDate(neoDate)
+        .then((dateDate) => {
+          setNeoData(dateDate);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [neoDate]);
 
-  return <FeedNeo neos={data.near_earth_objects} />;
+  if (!neoData || isLoading) return <GridFourColumnLoader />;
+
+  const items = Object.entries(neoData.near_earth_objects).map(
+    ([title, neos]) => {
+      const result = neos.map((neo) => {
+        const epoc = neo.close_approach_data[0].epoch_date_close_approach;
+        const dateformat = new Date(epoc);
+        const result = format(dateformat, 'LLL do h:mm bbb');
+
+        return (
+          <Fragment key={neo.id}>
+            <FeedItem>
+              <NavLinkStyled to={`/neo/${neo.id}`}>{neo.id}</NavLinkStyled>
+            </FeedItem>
+            <FeedItem>{neo.name}</FeedItem>
+            <FeedItemDate>{result}</FeedItemDate>
+            {neo.is_potentially_hazardous_asteroid ? (
+              <div className="hazard">yes</div>
+            ) : (
+              <div className="not-hazard">no</div>
+            )}
+          </Fragment>
+        );
+      });
+
+      return result;
+    },
+  );
+
+  return (
+    <FeedSection>
+      <h3>NEO ID</h3>
+      <h3>Name</h3>
+      <h3>Approach Date</h3>
+      <h3>Potentially Hazardous</h3>
+      {items}
+    </FeedSection>
+  );
 };

@@ -1,17 +1,18 @@
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
-import Logger from 'js-logger';
 import React, { FC } from 'react';
 import { MUIProvider } from './providers/mui';
 import { Routes } from './routes';
+import { CommandsProvider } from './providers/commands';
 
 export const Application: FC = () => {
-  Logger.info('Appplicatoin');
   return (
     <MUIProvider>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Routes />
-      </LocalizationProvider>
+      <CommandsProvider>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Routes />
+        </LocalizationProvider>
+      </CommandsProvider>
     </MUIProvider>
   );
 };

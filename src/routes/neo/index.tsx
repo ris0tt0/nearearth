@@ -1,10 +1,14 @@
 import React, { FC } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigation } from 'react-router-dom';
+import { LoadingFull } from '../../components/loading';
 
 export const NeoRoute: FC = () => {
-  return (
-    <div>
-      <Outlet />
-    </div>
-  );
+  const navigation = useNavigation();
+  const isNavigating = navigation.location && navigation.state === 'loading';
+
+  if (isNavigating) {
+    return <LoadingFull />;
+  }
+
+  return <Outlet />;
 };
