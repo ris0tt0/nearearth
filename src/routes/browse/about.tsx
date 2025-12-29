@@ -20,8 +20,11 @@ export const BrowseAboutRoute: FC = () => {
         </li>
         <li>
           It begins by requesting data from page 1 using the browse endpoint
-          (e.g.,
-          https://api.nasa.gov/neo/rest/v1/neo/browse?page=1&api_key=DEMO_KEY).
+          (e.g.,{' '}
+          <code>
+            https://api.nasa.gov/neo/rest/v1/neo/browse?page=1&api_key=DEMO_KEY
+          </code>
+          ).
         </li>
         <li>
           Pagination is handled by following the links.next field in the API

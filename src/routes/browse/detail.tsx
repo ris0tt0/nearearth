@@ -64,7 +64,7 @@ export const BrowseGrid: FC<{ loading: boolean; neos?: NearEarthObject[] }> = ({
 
   return (
     <FeedBrowseContainer>
-      <FeedBrowseHeader>NEO ID</FeedBrowseHeader>
+      <FeedBrowseHeader>SPK-ID</FeedBrowseHeader>
       <FeedBrowseHeader>Name</FeedBrowseHeader>
       <FeedBrowseHeader>First Observation</FeedBrowseHeader>
       <FeedBrowseHeader>Last Observation</FeedBrowseHeader>

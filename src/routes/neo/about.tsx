@@ -44,7 +44,7 @@ export const NeoAboutRoute: FC = () => {
           where :id is the SPK-ID of the asteroid.
         </li>
         <li>
-          The app sends a request to NASA's NEO lookup endpoint:
+          The app sends a request to NASA's NEO lookup endpoint:{' '}
           <code>
             https://api.nasa.gov/neo/rest/v1/neo/&#123;SPK-ID&#125;?api_key=YOUR_API_KEY
           </code>

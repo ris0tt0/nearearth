@@ -13,7 +13,7 @@ export const FeedAboutRoute: FC = () => {
         A ReactJS application that uses NASA's Near Earth Object Web Service
         (NeoWs) Feed endpoint to allow users to select a date and view asteroids
         detected on that date. Users can click on any NEO in the results list to
-        view detailed information via the NEO ID route. Start now with{' '}
+        view detailed information via the SPK-ID route. Start now with{' '}
         <NavLinkStyled to={`/feed/${today}`}>today</NavLinkStyled>.
       </p>
       <h3>About</h3>
@@ -32,7 +32,7 @@ export const FeedAboutRoute: FC = () => {
           A list of NEO links returned from NASA's feed, each clickable to view
           detailed data for that asteroid.
         </li>
-        <li>Routing to the NEO ID details page using React Router.</li>
+        <li>Routing to the SPK-ID details page using React Router.</li>
       </ul>
       <h3>How It Works</h3>
       <ol>

@@ -96,7 +96,7 @@ export const FeedDetailsRoute: FC = () => {
 
   return (
     <FeedSection>
-      <h3>NEO ID</h3>
+      <h3>SPK-ID</h3>
       <h3>Name</h3>
       <h3>Approach Date</h3>
       <h3>Potentially Hazardous</h3>

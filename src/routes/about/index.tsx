@@ -9,7 +9,7 @@ export const AboutRoute: FC = () => {
         This project is a ReactJS web application that integrates with NASA's
         Open API for Near Earth Objects (NEO). The goal of the application is to
         provide users with insightful and up-to-date information about asteroids
-        and other near-Earth objects tracked by NASA.
+        and other Near-Earth objects tracked by NASA.
       </p>
       <h3>Key Technologies Used</h3>
       <ul>
@@ -28,7 +28,7 @@ export const AboutRoute: FC = () => {
       </ul>
       <h3>Features</h3>
       <ul>
-        <li>Daily and historical data about near-Earth asteroids</li>
+        <li>Daily and historical data about Near-Earth asteroids</li>
         <li>Local caching of asteroid data for offline browsing</li>
         <li>
           Responsive design and efficient data handling through asynchronous API
@@ -39,8 +39,8 @@ export const AboutRoute: FC = () => {
       <p>
         This project was created to explore and demonstrate how real-world data
         from open APIs like NASA's can be visualized and persisted in a modern
-        web application. By combining Zustand and IndexedDB, the app achieves
-        both scalability and durability for a smooth user experience.
+        web application. By using IndexedDB, the app achieves both scalability
+        and durability for a smooth user experience.
       </p>
     </AboutMain>
   );

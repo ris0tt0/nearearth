@@ -60,8 +60,8 @@ export const NeoDetailRoute: FC = () => {
         <Box sx={{ height: 600 }}>
           <h2>Error loading the Near Earth Object</h2>
           <p>
-            This is usually because the neo id is not correct or not found in
-            the NEO Lookup.
+            This is usually because the SPK-ID is not correct and/or not found
+            in the NEO Lookup.
           </p>
         </Box>
       </ContainerStyled>
@@ -98,21 +98,23 @@ export const NeoDetailRoute: FC = () => {
       </Box>
       <p>
         The central NEO Detail page presents a comprehensive view of an
-        asteroid's trajectory and physical characteristics. Orbit Parameters
-        describe the object's path around the Sun, including orbital elements
-        such as eccentricity, semi-major axis, inclination, and orbital period,
-        which together define the shape and behavior of the asteroid's orbit.
-        Miscellaneous Data provides additional reference information, including
-        absolute magnitude, potentially hazardous status, observation dates, and
-        links to official NASA JPL resources. The Close Approach Data section
+        asteroid's trajectory and physical characteristics.{' '}
+        <strong>Orbit Parameters</strong> describe the object's path around the
+        Sun, including orbital elements such as eccentricity, semi-major axis,
+        inclination, and orbital period, which together define the shape and
+        behavior of the asteroid's orbit. <strong>Miscellaneous Data</strong>{' '}
+        provides additional reference information, including absolute magnitude,
+        potentially hazardous status, observation dates, and links to official
+        NASA JPL resources. The <strong>Close Approach Data</strong> section
         lists recorded encounters to the planets, moon, and the largest few
         main-belt asteroids, allowing users to analyze how near the object has
-        come over time. This section includes two selectable radio groups: Miss
-        Distance, which can be viewed in astronomical units, kilometers, lunar
-        distances, or miles; and Relative Velocity, which can be displayed in
-        kilometers per hour, kilometers per second, or miles per hour. These
-        unit toggles allow users to interpret approach data in the format most
-        meaningful to them.
+        come over time. This section includes two selectable radio groups:{' '}
+        <strong>Miss Distance</strong>, which can be viewed in astronomical
+        units, kilometers, lunar distances, or miles; and{' '}
+        <strong>Relative Velocity</strong>, which can be displayed in kilometers
+        per hour, kilometers per second, or miles per hour. These unit toggles
+        allow users to interpret approach data in the format most meaningful to
+        them.
       </p>
       <NeoParamsContainer>
         <NeoOrbitParameters loading={isLoading} data={neoData?.orbital_data} />
