@@ -149,7 +149,11 @@ cd nearearth
 2.  Install dependencies:
 
 ```bash
-yarn install
+# Install dependencies (Yarn PnP)
+yarn
+
+# Enable VSCode support for Yarn PnP(optional)
+yarn dlx @yarnpkg/sdks vscode
 ```
 
 3.  Create a .env file with your [NASA API key:](https://api.nasa.gov/)
