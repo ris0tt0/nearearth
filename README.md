@@ -152,9 +152,7 @@ cd nearearth
 yarn install
 ```
 
-3.  Create a .env file with your NASA API key:
-
-[You can get your api key from nasa.gov](https://api.nasa.gov/)
+3.  Create a .env file with your [NASA API key:](https://api.nasa.gov/)
 
 ```ini
 NASA_API_KEY=your_api_key_here
