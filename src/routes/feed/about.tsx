@@ -36,9 +36,10 @@ export const FeedAboutRoute: FC = () => {
       </ul>
       <h3>How It Works</h3>
       <ol>
-        <li>User selects a date using the date picker. Clicking</li>
+        <li>User selects a date using the date picker.</li>
         <li>
-          the Select button triggers a request to NASA's NEO feed endpoint:
+          Clicking the Select button triggers a request to NASA's NEO feed
+          endpoint:
           <br />
           <code>
             https://api.nasa.gov/neo/rest/v1/feed?start_date=YYYY-MM-DD&end_date=YYYY-MM-DD&api_key=YOUR_API_KEY
@@ -47,8 +48,8 @@ export const FeedAboutRoute: FC = () => {
         <li>The API returns a list of NEOs detected for that date.</li>
         <li>The results are displayed as clickable links.</li>{' '}
         <li>
-          Clicking a NEO link navigates to the /neo/:id route, where a detailed
-          view is rendered using the NEO lookup endpoint.
+          Clicking a NEO link navigates to the <code>/neo/:id</code> route,
+          where a detailed view is rendered using the NEO lookup endpoint.
         </li>
       </ol>
     </AboutMain>

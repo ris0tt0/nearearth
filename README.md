@@ -3,6 +3,8 @@
 A ReactJS application built on NASA’s [Near Earth Object Web Service (NeoWs)](https://api.nasa.gov/)
 that allows users to explore asteroid data through multiple views, including the NEO Feed, NEO Browse, detailed SPK-ID pages, and a basic About section.
 
+🔗 A working version is hosted [here](https://neo.jrgee.com/)
+
 ## Overview
 
 This application provides several ways to explore NASA’s Near Earth Object data:
