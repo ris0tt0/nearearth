@@ -1,4 +1,5 @@
 import { Container, styled } from '@mui/material';
+import { padding } from '@mui/system';
 import React, { FC } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 
@@ -20,39 +21,48 @@ export const LinkStyled = styled(Link)`
   color: inherit;
 `;
 
-const OutletHeaderContainer = styled('menu')`
-  padding: 0 1rem;
-`;
+const OutletHeaderContainer = styled('nav')(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    padding: '0 0',
+  },
+  [theme.breakpoints.up('sm')]: {
+    padding: '0 1rem',
+  },
+}));
 
-const OutletContainer = styled(Container)(
-  ({ theme }) => `
-    header {
-      background: ${theme.palette.primary.main};
-      color: ${theme.palette.primary.contrastText};
-      position: sticky;
-      display: flex;
-      align-items: center;
-      width: 100%;
-      top: 0;
-      z-index: 10;
-      gap: 1rem;
-      padding: 0 .5rem;
-    }
+const OutletContainer = styled(Container)(({ theme }) => ({
+  header: {
+    background: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    position: 'sticky',
+    display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+    },
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: '1rem',
+    },
 
-    footer {
-      display: flex;
-      background: ${theme.palette.primary.main};
-      color: ${theme.palette.primary.contrastText};
-      flex-direction: column;
-      gap: 1rem;
-      padding: 1rem 0.5rem;
-  }
-`,
-);
+    width: '100%',
+    top: 0,
+    zIndex: 10,
+    padding: '0 0.5rem',
+  },
+  footer: {
+    display: 'flex',
+    background: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    flexDirection: 'column',
+    gap: '1rem',
+    padding: '1rem 0.5rem',
+  },
+}));
 
 export const RootRoute: FC = () => {
   return (
-    <OutletContainer maxWidth="md">
+    <OutletContainer maxWidth="lg">
       <header>
         <h1>Near Earth Objects</h1>
         <OutletHeaderContainer>

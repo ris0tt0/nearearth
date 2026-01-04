@@ -1,7 +1,6 @@
 import Logger from 'js-logger';
 import React, { lazy } from 'react';
 import { createRoot } from 'react-dom/client';
-import { NeoCommandsImpl } from './commands/neo';
 
 const App = lazy(() => import('./app'));
 
@@ -12,11 +11,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 if (node) {
-  NeoCommandsImpl.getInstance()
-    .init()
-    .then(() => {
-      const root = createRoot(node);
+  const root = createRoot(node);
 
-      root.render(<App />);
-    });
+  root.render(<App />);
 }

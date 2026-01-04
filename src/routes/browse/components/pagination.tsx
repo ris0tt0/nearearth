@@ -1,5 +1,11 @@
-import { Pagination, Skeleton, styled } from '@mui/material';
-import React, { FC } from 'react';
+import {
+  Pagination,
+  Skeleton,
+  styled,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
+import React, { FC, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const BrowseControlsContainer = styled('nav')`
@@ -16,9 +22,14 @@ export const BrowseControls: FC<{
   total: number;
 }> = ({ loading, page, total }) => {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const small = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) =>
-    navigate(`/browse/${value.toString()}`);
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<unknown>, value: number) =>
+      navigate(`/browse/${value.toString()}`),
+    [],
+  );
 
   return (
     <BrowseControlsContainer>
@@ -27,6 +38,7 @@ export const BrowseControls: FC<{
       ) : (
         <Pagination
           disabled={loading}
+          size={small ? 'small' : 'medium'}
           count={total}
           page={page}
           boundaryCount={2}

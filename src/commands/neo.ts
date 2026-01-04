@@ -30,6 +30,8 @@ export class NeoCommandsImpl implements NeoCommands {
   }
 
   async init() {
+    if (this.isInit) return;
+
     await this.db.init();
     await this.api.init();
 

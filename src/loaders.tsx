@@ -1,4 +1,10 @@
-import { Skeleton, styled, Typography } from '@mui/material';
+import {
+  Skeleton,
+  styled,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import React, { FC } from 'react';
 
 const GridFourColumnSection = styled('section')(
@@ -27,7 +33,12 @@ const GridHeader: FC = () => (
   </Typography>
 );
 
-const GridItem: FC = () => <Skeleton sx={{ margin: '0 3rem' }} />;
+const GridItem: FC = () => {
+  const theme = useTheme();
+  const small = useMediaQuery(theme.breakpoints.down('sm'));
+
+  return <Skeleton sx={{ margin: small ? '0 0.5rem' : '0 3rem' }} />;
+};
 
 export const GridTwoColumnLoader: FC = () => {
   return (

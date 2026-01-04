@@ -25,10 +25,13 @@ const ContainerStyled = styled('main')(
 `,
 );
 
-const NeoParamsContainer = styled('div')`
-  display: flex;
-  width: 100%;
-`;
+const NeoParamsContainer = styled('div')(({ theme }) => ({
+  display: 'flex',
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'column',
+  },
+  width: '100%',
+}));
 
 export const NeoDetailRoute: FC = () => {
   const commands = useCommands();
@@ -88,7 +91,7 @@ export const NeoDetailRoute: FC = () => {
         <Box
           sx={{ display: 'flex', marginLeft: '1rem', alignItems: 'baseline' }}
         >
-          <h3>SPKID:</h3>
+          <h3>SPK-ID:</h3>
           {isLoading ? (
             <Skeleton width={100} />
           ) : (

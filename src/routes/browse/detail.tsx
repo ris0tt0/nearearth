@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { styled, useMediaQuery, useTheme } from '@mui/material';
 import React, { FC, Fragment, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { NeoBrowseParams } from '..';
@@ -7,17 +7,22 @@ import { NearEarthObject } from '../../db';
 import { useCommands } from '../../hooks/useCommands';
 import { GridFourColumnLoader } from '../../loaders';
 import { BrowseControls } from './components/pagination';
+import { format } from 'date-fns';
 
-const FeedBrowseContainer = styled('section')(
-  ({ theme }) => `
-  display: grid;
-  background: ${theme.palette.background.paper};
-  width: 100%;
-  padding-bottom: 1rem;
-  grid-template-columns: 25% 25% 25% 25%;
-  grid-template-rows: auto;
-`,
-);
+const FeedBrowseContainer = styled('section')(({ theme }) => ({
+  display: 'grid',
+  background: theme.palette.background.paper,
+  width: '100%',
+  paddingBottom: '1rem',
+
+  [theme.breakpoints.down('sm')]: {
+    gridTemplateColumns: '33% 33% 33%',
+  },
+  [theme.breakpoints.up('sm')]: {
+    gridTemplateColumns: '25% 25% 25% 25%',
+  },
+  gridTemplateRows: 'auto',
+}));
 
 const FeedBrowseHeader = styled('h3')(
   ({ theme }) => `
@@ -36,9 +41,32 @@ export const BrowseGrid: FC<{ loading: boolean; neos?: NearEarthObject[] }> = ({
   loading,
   neos,
 }) => {
+  const theme = useTheme();
+  const small = useMediaQuery(theme.breakpoints.down('sm'));
+  const medium = useMediaQuery(theme.breakpoints.down('md'));
+
   const items = useMemo(() => {
     const items =
       neos?.map((neo) => {
+        const firstObservation = new Date(
+          neo.orbital_data?.first_observation_date,
+        );
+        const lastObservation = new Date(
+          neo.orbital_data?.last_observation_date,
+        );
+
+        const first = small
+          ? format(firstObservation, 'M/d/y')
+          : medium
+            ? format(firstObservation, 'LLL do y')
+            : format(firstObservation, 'LLL do y h:mm bbb');
+
+        const last = small
+          ? format(lastObservation, 'M/d/y')
+          : medium
+            ? format(lastObservation, 'LLL do y')
+            : format(lastObservation, 'LLL do y h:mm bbb');
+
         return (
           <Fragment key={neo.id}>
             <FeedBrowseItem>
@@ -46,28 +74,24 @@ export const BrowseGrid: FC<{ loading: boolean; neos?: NearEarthObject[] }> = ({
                 {neo.neo_reference_id}
               </NavLinkStyled>
             </FeedBrowseItem>
-            <FeedBrowseItem>{neo.name}</FeedBrowseItem>
-            <FeedBrowseItem>
-              {neo.orbital_data?.first_observation_date}
-            </FeedBrowseItem>
-            <FeedBrowseItem>
-              {neo.orbital_data?.last_observation_date}
-            </FeedBrowseItem>
+            {small ? null : <FeedBrowseItem>{neo.name}</FeedBrowseItem>}
+            <FeedBrowseItem>{first}</FeedBrowseItem>
+            <FeedBrowseItem>{last}</FeedBrowseItem>
           </Fragment>
         );
       }) ?? [];
 
     return items;
-  }, [neos]);
+  }, [neos, small, medium]);
 
   if (loading) return <GridFourColumnLoader />;
 
   return (
     <FeedBrowseContainer>
       <FeedBrowseHeader>SPK-ID</FeedBrowseHeader>
-      <FeedBrowseHeader>Name</FeedBrowseHeader>
-      <FeedBrowseHeader>First Observation</FeedBrowseHeader>
-      <FeedBrowseHeader>Last Observation</FeedBrowseHeader>
+      {small ? null : <FeedBrowseHeader>Name</FeedBrowseHeader>}
+      <FeedBrowseHeader>First {medium ? '' : 'Observation'}</FeedBrowseHeader>
+      <FeedBrowseHeader>Last {medium ? '' : 'Observation'}</FeedBrowseHeader>
       {items}
     </FeedBrowseContainer>
   );

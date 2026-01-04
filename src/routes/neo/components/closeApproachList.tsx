@@ -7,10 +7,13 @@ import {
   RadioGroup,
   styled,
   Tooltip,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import React, { FC, Fragment, useCallback, useState } from 'react';
 import { CloseApproachData } from '../../../db';
 import { GridFourColumnLoader } from '../../../loaders';
+import Logger from 'js-logger';
 
 const CloseScrollerContainer = styled('div')`
   display: flex;
@@ -58,29 +61,69 @@ const CloseItemContainer = styled('div')`
   justify-content: center;
 `;
 
-const distanceValue = (data: CloseApproachData, key: string) => {
+const distanceValue = (
+  data: CloseApproachData,
+  key: string,
+  // find better solution
+  small: boolean,
+  medium: boolean,
+) => {
+  const astro = parseFloat(data.miss_distance.astronomical);
+  const kilo = parseFloat(data.miss_distance.kilometers);
+  const lunar = parseFloat(data.miss_distance.lunar);
+  const miles = parseFloat(data.miss_distance.miles);
+
   switch (key) {
     case 'astronomical':
-      return data.miss_distance.astronomical;
+      if (small) return astro.toPrecision(2);
+      if (medium) return astro.toPrecision(5);
+
+      return astro;
     case 'kilometers':
-      return data.miss_distance.kilometers;
+      if (small) return kilo.toPrecision(2);
+      if (medium) return kilo.toPrecision(5);
+
+      return kilo;
     case 'lunar':
-      return data.miss_distance.lunar;
+      if (small) return lunar.toPrecision(2);
+      if (medium) return lunar.toPrecision(5);
+
+      return lunar;
     case 'miles':
-      return data.miss_distance.miles;
+      if (small) return miles.toPrecision(2);
+      if (medium) return miles.toPrecision(5);
+
+      return miles;
     default:
       return '';
   }
 };
 
-const velocityValue = (data: CloseApproachData, key: string) => {
+const velocityValue = (
+  data: CloseApproachData,
+  key: string,
+  small: boolean,
+  medium: boolean,
+) => {
+  const kmhr = parseFloat(data.relative_velocity.kilometers_per_hour);
+  const kmsec = parseFloat(data.relative_velocity.kilometers_per_second);
+  const mhr = parseFloat(data.relative_velocity.miles_per_hour);
   switch (key) {
     case 'kilometers_per_hour':
-      return data.relative_velocity.kilometers_per_hour;
+      if (small) return kmhr.toPrecision(2);
+      if (medium) return kmhr.toPrecision(5);
+
+      return kmhr;
     case 'kilometers_per_second':
-      return data.relative_velocity.kilometers_per_second;
+      if (small) return kmsec.toPrecision(2);
+      if (medium) return kmsec.toPrecision(5);
+
+      return kmsec;
     case 'miles_per_hour':
-      return data.relative_velocity.miles_per_hour;
+      if (small) return mhr.toPrecision(2);
+      if (medium) return mhr.toPrecision(5);
+
+      return mhr;
     default:
       return '';
   }
@@ -92,6 +135,9 @@ export const CloseApproachDataList: FC<{
 }> = ({ loading, cad }) => {
   const [distance, setDistance] = useState('astronomical');
   const [velocity, setVelocity] = useState('kilometers_per_hour');
+  const theme = useTheme();
+  const small = useMediaQuery(theme.breakpoints.down('sm'));
+  const medium = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleDistance = useCallback((_: any, value: string) => {
     setDistance(value);
@@ -107,10 +153,10 @@ export const CloseApproachDataList: FC<{
           <CloseItemContainer>{data.close_approach_date}</CloseItemContainer>
           <CloseItemContainer>{data.orbiting_body}</CloseItemContainer>
           <CloseItemContainer>
-            {distanceValue(data, distance)}
+            {distanceValue(data, distance, small, medium)}
           </CloseItemContainer>
           <CloseItemContainer>
-            {velocityValue(data, velocity)}
+            {velocityValue(data, velocity, small, medium)}
           </CloseItemContainer>
         </Fragment>
       );
@@ -140,7 +186,7 @@ export const CloseApproachDataList: FC<{
             name="miss-distance-radio-buttons-group"
             value={distance}
             onChange={handleDistance}
-            row
+            row={medium ? false : true}
           >
             <FormControlLabel
               value="astronomical"
@@ -173,7 +219,7 @@ export const CloseApproachDataList: FC<{
             name="relative-velocity-radio-buttons-group"
             value={velocity}
             onChange={handleVelocity}
-            row
+            row={medium ? false : true}
           >
             <FormControlLabel
               value="kilometers_per_hour"
@@ -199,7 +245,9 @@ export const CloseApproachDataList: FC<{
         <>
           <CloseApproachGridContainer>
             <Tooltip title="date and time approach" placement="top">
-              <CloseHeaderItemContainer>Approach Date</CloseHeaderItemContainer>
+              <CloseHeaderItemContainer>
+                {small ? '' : 'Approach '}Date
+              </CloseHeaderItemContainer>
             </Tooltip>
             <Tooltip
               title="close approach body name(planet or other significant solor-system body. All values are with respect to this body"
@@ -211,14 +259,16 @@ export const CloseApproachDataList: FC<{
               title="the most likely close-approach distance(body center to NEO center)"
               placement="top"
             >
-              <CloseHeaderItemContainer>Miss Distance</CloseHeaderItemContainer>
+              <CloseHeaderItemContainer>
+                {small ? '' : 'Miss '}Distance
+              </CloseHeaderItemContainer>
             </Tooltip>
             <Tooltip
               title="object velocity relative to Body at close approach"
               placement="top"
             >
               <CloseHeaderItemContainer>
-                Relative Velocity
+                {small ? '' : 'Relative '}Velocity
               </CloseHeaderItemContainer>
             </Tooltip>
           </CloseApproachGridContainer>
