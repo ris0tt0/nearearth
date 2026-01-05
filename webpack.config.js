@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const { FederatedTypesPlugin } = require('@module-federation/typescript');
@@ -43,6 +44,17 @@ const config = {
     new HtmlWebpackPlugin({
       title: 'near earth objects',
       template: path.resolve(__dirname, 'public/index.html'),
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'public/**/*'),
+          context: './public',
+          globOptions: {
+            ignore: ['**/index.html'],
+          },
+        },
+      ],
     }),
     new Dotenv({
       path: path.resolve(__dirname, '.env'),

@@ -10,10 +10,10 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
+import { format } from 'date-fns';
 import React, { FC, Fragment, useCallback, useState } from 'react';
 import { CloseApproachData } from '../../../db';
 import { GridFourColumnLoader } from '../../../loaders';
-import Logger from 'js-logger';
 
 const CloseScrollerContainer = styled('div')`
   display: flex;
@@ -148,9 +148,15 @@ export const CloseApproachDataList: FC<{
 
   const items =
     cad?.map((data) => {
+      const close = new Date(data.close_approach_date ?? 0);
+      const closeDate = medium
+        ? small
+          ? format(close, 'M/d/Y')
+          : format(close, 'M/d/Y h:mm bbb')
+        : format(close, 'LLL do Y h:mm bbb');
       return (
         <Fragment key={`${data.close_approach_date}-${data.orbiting_body}`}>
-          <CloseItemContainer>{data.close_approach_date}</CloseItemContainer>
+          <CloseItemContainer>{closeDate}</CloseItemContainer>
           <CloseItemContainer>{data.orbiting_body}</CloseItemContainer>
           <CloseItemContainer>
             {distanceValue(data, distance, small, medium)}

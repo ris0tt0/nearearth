@@ -42,10 +42,6 @@ const FeedItem = styled('div')`
   justify-content: center;
 `;
 
-const FeedItemDate = styled('div')`
-  padding-left: 2rem;
-`;
-
 export const FeedDetailsRoute: FC = () => {
   const commands = useCommands();
   const { neoDate } = useParams<NeoDateParams>();
@@ -73,8 +69,9 @@ export const FeedDetailsRoute: FC = () => {
 
   const items = Object.entries(neoData.near_earth_objects).map(([_, neos]) => {
     const result = neos.map((neo) => {
-      const epoc = neo.close_approach_data[0].epoch_date_close_approach;
-      const dateformat = new Date(epoc);
+      const dateformat = new Date(
+        neo.close_approach_data[0].epoch_date_close_approach,
+      );
       const itemDate = medium
         ? format(dateformat, 'M/d h:mm bbb')
         : format(dateformat, 'LLL do h:mm bbb');
@@ -85,7 +82,7 @@ export const FeedDetailsRoute: FC = () => {
             <NavLinkStyled to={`/neo/${neo.id}`}>{neo.id}</NavLinkStyled>
           </FeedItem>
           {small ? null : <FeedItem>{neo.name}</FeedItem>}
-          <FeedItemDate>{itemDate}</FeedItemDate>
+          <FeedItem>{itemDate}</FeedItem>
           {neo.is_potentially_hazardous_asteroid ? (
             <div className="hazard">yes</div>
           ) : (

@@ -1,4 +1,4 @@
-import { styled, Tooltip } from '@mui/material';
+import { styled, Tooltip, useMediaQuery, useTheme } from '@mui/material';
 import React, { FC } from 'react';
 import { NearEarthObject, NearEarthObjectOrbitalData } from '../../../db';
 import {
@@ -10,6 +10,7 @@ import {
 import { GridTwoColumnLoader } from '../../../loaders';
 import Logger from 'js-logger';
 import { NavLinkStyled } from '../../../components/styled';
+import { format } from 'date-fns';
 
 const HazardContainer = styled('div')(
   ({ theme }) => `
@@ -35,7 +36,24 @@ export const MiscellaneousParameters: FC<{
   loading: boolean;
   data?: NearEarthObject;
 }> = ({ loading, data }) => {
-  Logger.info('miscellaneous data', data);
+  const theme = useTheme();
+  const small = useMediaQuery(theme.breakpoints.down('sm'));
+  const medium = useMediaQuery(theme.breakpoints.down('md'));
+
+  const firstObservation = new Date(
+    data?.orbital_data?.first_observation_date ?? 0,
+  );
+  const firstDate = medium
+    ? format(firstObservation, 'M/d/Y h:mm bbb')
+    : format(firstObservation, 'LLL do Y h:mm bbb');
+
+  const lastObservation = new Date(
+    data?.orbital_data?.last_observation_date ?? 0,
+  );
+  const lastDate = medium
+    ? format(lastObservation, 'M/d/Y h:mm bbb')
+    : format(lastObservation, 'LLL do Y h:mm bbb');
+
   return (
     <OrbitParamsContainer>
       <ContainerGridContainer>
@@ -107,9 +125,7 @@ export const MiscellaneousParameters: FC<{
                 <ElementParam>First Obs. Used</ElementParam>
               </Tooltip>
             </ContainerGridItemContainer>
-            <ContainerGridItemContainer>
-              {data?.orbital_data?.first_observation_date ?? ''}
-            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>{firstDate}</ContainerGridItemContainer>
             <ContainerGridItemContainer>
               <Tooltip
                 title="date of last observation used in the fit"
@@ -118,9 +134,7 @@ export const MiscellaneousParameters: FC<{
                 <ElementParam>Last Obs. Used</ElementParam>
               </Tooltip>
             </ContainerGridItemContainer>
-            <ContainerGridItemContainer>
-              {data?.orbital_data?.last_observation_date ?? ''}
-            </ContainerGridItemContainer>
+            <ContainerGridItemContainer>{lastDate}</ContainerGridItemContainer>
             <ContainerGridItemContainer>
               <Tooltip title="nasa jpl resource url" placement="top">
                 <ElementParam>Nasa JPL URL</ElementParam>

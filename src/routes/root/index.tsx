@@ -6,7 +6,6 @@ import { Link, NavLink, Outlet } from 'react-router-dom';
 const MenuLinkStyled = styled(NavLink)`
   text-decoration: none;
   color: inherit;
-  padding: 0.5rem;
 
   &.active {
     font-weight: bold;
@@ -22,11 +21,15 @@ export const LinkStyled = styled(Link)`
 `;
 
 const OutletHeaderContainer = styled('nav')(({ theme }) => ({
+  display: 'flex',
   [theme.breakpoints.down('sm')]: {
     padding: '0 0',
+    gap: '0.5rem',
+    marginBottom: '0.5rem',
   },
   [theme.breakpoints.up('sm')]: {
     padding: '0 1rem',
+    gap: '0.5rem',
   },
 }));
 
